@@ -1,0 +1,395 @@
+<h2>Personal</h2>
+<div class="progress-spinner" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<p-tabMenu styleClass="mb-5" [activeItem]="ventanaActivaAux" [model]="listaMenu"></p-tabMenu>
+<div class="card" *ngIf="ventanaActiva == 'Anfitriones'">
+    <div class="col-12 md:col-12 h-full">
+        <button pTooltip="Agregar nuevo anfitrión" pButton pRipple type="button" icon="pi pi-plus"
+            class="p-button-rounded p-button mr-2 mb-2" (click)="modalAgregarAnfitrion()"></button>
+        <button (click)="exportExcelAnfitriones()" pButton pRipple label="Exportar a excel" icon="pi pi-file-excel"
+            class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <p-table #dt id="tabla-anfitrion" [value]="listaAnfitriones" responsiveLayout="scroll" [paginator]="true"
+            [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['nombres','apellidos','telefono','username']"
+            [loading]="cargandoDatos">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Buscar anfitrión" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nombre completo </th>
+                    <th>Teléfono </th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-anfitrion let-columns="columns">
+                <tr class="body-row" [ngClass]="{
+                    'body-row-blue':anfitrion.fk_anfitrion == null,
+                    'body-row':anfitrion.fk_anfitrion != null
+                  }">
+                    <td>
+                        <p style="font-weight:bold;" class="centrar-texto">{{anfitrion.nombres}} {{anfitrion.apellidos}}
+                        </p>
+                    </td>
+                    <td>
+                        <p class="centrar-texto">{{anfitrion.telefono}}</p>
+                    </td>
+                    <td>
+                        <p class="centrar-texto">{{anfitrion.correo}}</p>
+                    </td>
+                    <td>
+                        <span class="botones-acciones">
+                            <button [disabled]="anfitrion.fk_anfitrion == null && anfitrion.id != obtenerUsuario().id"
+                                pTooltip="Editar anfitrión" pButton pRipple type="button" icon="pi pi-pencil"
+                                class="p-button-rounded p-button-blue mr-2 mb-2"
+                                (click)="modalEditarAnfitrion(anfitrion)"></button>
+                            <button [disabled]="anfitrion.fk_anfitrion == null && anfitrion.id != obtenerUsuario().id"
+                                pTooltip="Eliminar anfitrión" pButton pRipple type="button" icon="pi pi-trash"
+                                class="p-button-rounded p-button-danger mr-2 mb-2"
+                                (click)="eliminarAnfitrion($event,anfitrion.id)"></button>
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7" style="text-align: center;">
+                        No se encontraron anfitriones.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-dialog [header]="tituloModal" [(visible)]="mostrarModalAnfitrion" modal="modal" showEffect="fade"
+            [style]="{width: '35vw'}" [breakpoints]="{'960px': '75vw'}" (onHide)="onHideAnfitrion($event)">
+            <form [formGroup]="formularioAnfitrion">
+                <div class="card p-fluid">
+                    <div style="display: flex;flex-direction: column;" class="p-formgrid grid">
+                        <div class="field col" *ngIf="tituloModal === 'Editar anfitrión'">
+                            <span class="p-float-label centrar" style="margin-bottom: 20px">
+                                <img *ngIf="anfitrionSeleccionado.imagen != null" class="imagen" src="{{apiUrl + anfitrionSeleccionado.imagen}}" alt="">
+                                <img *ngIf="anfitrionSeleccionado.imagen === null" class="imagen" src="assets/images/ventu.png" alt="">
+                            </span>
+                        </div>
+                        <div style="display:flex">
+                            <div class="field col-6">
+                                <span class="p-float-label">
+                                    <input formControlName="nombres" type="text" pInputText>
+                                    <label for="float-input">Nombres</label>
+                                </span>
+                            </div>
+                            <div class="field col-6">
+                                <span class="p-float-label">
+                                    <input formControlName="apellidos" type="text" pInputText>
+                                    <label for="float-input">Apellidos</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="telefono" type="tel" pInputText>
+                                <label for="float-input">Teléfono</label>
+                            </span>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="email" type="email" pInputText>
+                                <label for="float-input">Email</label>
+                            </span>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="contrasena" type="password" pInputText
+                                    (keypress)="evitarEspacios($event)">
+                                <label for="float-input">Contraseña</label>
+                            </span>
+                        </div>
+                        <div class="field col"
+                            [hidden]="!(anfitrionSeleccionado.id == obtenerUsuario().id && anfitrionSeleccionado.fk_anfitrion == null && obtenerUsuario().fk_anfitrion == null && tituloModal == 'Editar anfitrión')">
+                            <span class="p-float-label">
+                                <p-fileUpload #fileUpload name="imagen[]" multiple="false" accept="image/*"
+                                    maxFileSize="10000000" cancelLabel="Cancelar" chooseLabel="Escoger"
+                                    [showUploadButton]="false" invalidFileSizeMessageSummary="Tamaño de imagen inválido"
+                                    invalidFileSizeMessageDetail="El tamaño máximo de carga es de 10 MB." fileLimit="1"
+                                    invalidFileLimitMessageDetail="Número máximo de archivos excedido"
+                                    invalidFileLimitMessageSummary="El límite es 1 como máximo">
+                                    <ng-template pTemplate="content" let-files>
+                                        <div style="color: #868C9B">Imagen del anfitrión</div>
+                                    </ng-template>
+                                </p-fileUpload>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <ng-template pTemplate="footer">
+                <button pButton icon="pi pi-times" (click)="mostrarModalAnfitrion=false" label="Cancelar"
+                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                <button *ngIf="tituloModal == 'Agregar anfitrión'" [disabled]="!formularioAnfitrion.valid"
+                    (click)="guardarAnfitrion()" pButton icon="pi pi-save" label="Guardar"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button *ngIf="tituloModal == 'Editar anfitrión'"
+                    [disabled]="!formularioAnfitrion.valid || fileUpload.files.length > 1" pButton icon="pi pi-save"
+                    label="Guardar" (click)="editarAnfitrion()"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+            </ng-template>
+        </p-dialog>
+
+    </div>
+</div>
+<div class="card" *ngIf="ventanaActiva == 'Guardias'">
+    <div class="col-12 md:col-12 h-full">
+        <button pTooltip="Agregar nuevo guardia" pButton pRipple type="button" icon="pi pi-plus"
+            class="p-button-rounded p-button mr-2 mb-2" (click)="modalAgregarGuardia()"></button>
+        <button (click)="exportExcelGuardias()" pButton pRipple label="Exportar a excel" icon="pi pi-file-excel"
+            class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <p-table #dt id="tabla-guardia" [value]="listaGuardias" responsiveLayout="scroll" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['nombres','apellidos','telefono','username']"
+            [loading]="cargandoDatos">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Buscar guardia" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nombre completo </th>
+                    <th>Teléfono </th>
+                    <th>Usuario</th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-guardia let-columns="columns">
+                <tr class="body-row">
+                    <td>
+                        <p style="font-weight:bold;" class="centrar-texto">{{guardia.nombres}} {{guardia.apellidos}}
+                        </p>
+                    </td>
+                    <td>
+                        <p class="centrar-texto">{{guardia.telefono}}</p>
+                    </td>
+                    <td>
+                        <p class="centrar-texto">{{guardia.username}}</p>
+                    </td>
+                    <td>
+                        <span class="botones-acciones">
+                            <button pTooltip="Editar guardia" pButton pRipple type="button" icon="pi pi-pencil"
+                                class="p-button-rounded p-button-blue mr-2 mb-2"
+                                (click)="modalEditarGuardia(guardia)"></button>
+                            <button pTooltip="Eliminar guardia" pButton pRipple type="button" icon="pi pi-trash"
+                                class="p-button-rounded p-button-danger mr-2 mb-2"
+                                (click)="eliminarGuardia($event,guardia.id)"></button>
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7" style="text-align: center;">
+                        No se encontraron guardias.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-dialog [header]="tituloModal" [(visible)]="mostrarModalGuardia" modal="modal" showEffect="fade"
+            [style]="{width: '35vw'}" [breakpoints]="{'960px': '75vw'}">
+            <form [formGroup]="formularioGuardia">
+                <div class="card p-fluid">
+                    <div style="display: flex;flex-direction: column;" class="p-formgrid grid">
+                        <div class="field col"
+                            *ngIf="tituloModal === 'Editar guardia'">
+                            <span class="p-float-label centrar" style="margin-bottom: 20px">
+                                <img *ngIf="guardiaSeleccionado.imagen != null" class="imagen" src="{{apiUrl + guardiaSeleccionado.imagen}}" alt="">
+                                <img *ngIf="guardiaSeleccionado.imagen === null" class="imagen" src="assets/images/ventu.png" alt="">
+                            </span>
+                        </div>
+                        <div style="display:flex">
+                            <div class="field col-6">
+                                <span class="p-float-label">
+                                    <input formControlName="nombres" type="text" pInputText>
+                                    <label for="float-input">Nombres</label>
+                                </span>
+                            </div>
+                            <div class="field col-6">
+                                <span class="p-float-label">
+                                    <input formControlName="apellidos" type="text" pInputText>
+                                    <label for="float-input">Apellidos</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="telefono" type="tel" pInputText>
+                                <label for="float-input">Teléfono</label>
+                            </span>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="usuario" type="text" pInputText>
+                                <label for="float-input">Usuario</label>
+                            </span>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="contrasena" type="password" pInputText
+                                    (keypress)="evitarEspacios($event)">
+                                <label for="float-input">Contraseña</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <ng-template pTemplate="footer">
+                <button pButton icon="pi pi-times" (click)="mostrarModalGuardia=false" label="Cancelar"
+                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                <button *ngIf="tituloModal == 'Agregar guardia'" [disabled]="!formularioGuardia.valid"
+                    (click)="guardarGuardia()" pButton icon="pi pi-save" label="Guardar"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button *ngIf="tituloModal == 'Editar guardia'" [disabled]="!formularioGuardia.valid" pButton
+                    icon="pi pi-save" label="Guardar" (click)="editarGuardia()"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+            </ng-template>
+        </p-dialog>
+
+    </div>
+</div>
+<div class="card" *ngIf="ventanaActiva == 'Relacionadores'">
+    <div class="col-12 md:col-12 h-full">
+        <button pTooltip="Agregar nuevo relacionador" pButton pRipple type="button" icon="pi pi-plus"
+            class="p-button-rounded p-button mr-2 mb-2" (click)="modalAgregarRelacionador()"></button>
+        <button (click)="exportExcelRelacionadores()" pButton pRipple label="Exportar a excel" icon="pi pi-file-excel"
+            class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <p-table #dt id="tabla-relacionador" [value]="listaRelacionadores" responsiveLayout="scroll" [paginator]="true"
+            [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['nombres','apellidos','telefono','username']"
+            [loading]="cargandoDatos">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Buscar relacionador" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nombre completo </th>
+                    <th>Teléfono </th>
+                    <th>Usuario</th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-relacionador let-columns="columns">
+                <tr class="body-row">
+                    <td>
+                        <p style="font-weight:bold;" class="centrar-texto">{{relacionador.nombres}}
+                            {{relacionador.apellidos}}
+                        </p>
+                    </td>
+                    <td>
+                        <p class="centrar-texto">{{relacionador.telefono}}</p>
+                    </td>
+                    <td>
+                        <p class="centrar-texto">{{relacionador.username}}</p>
+                    </td>
+                    <td>
+                        <span class="botones-acciones">
+                            <button pTooltip="Editar relacionador" pButton pRipple type="button" icon="pi pi-pencil"
+                                class="p-button-rounded p-button-blue mr-2 mb-2"
+                                (click)="modalEditarRelacionador(relacionador)"></button>
+                            <button pTooltip="Eliminar relacionador" pButton pRipple type="button" icon="pi pi-trash"
+                                class="p-button-rounded p-button-danger mr-2 mb-2"
+                                (click)="eliminarRelacionador($event,relacionador.id)"></button>
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7" style="text-align: center;">
+                        No se encontraron relacionadores.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-dialog [header]="tituloModal" [(visible)]="mostrarModalRelacionador" modal="modal" showEffect="fade"
+            [style]="{width: '35vw'}" [breakpoints]="{'960px': '75vw'}">
+            <form [formGroup]="formularioRelacionador">
+                <div class="card p-fluid">
+                    <div style="display: flex;flex-direction: column;" class="p-formgrid grid">
+                        <div class="field col"
+                            *ngIf="tituloModal === 'Editar relacionador'">
+                            <span class="p-float-label centrar" style="margin-bottom: 20px">
+                                <img *ngIf="relacionadorSeleccionado.imagen != null" class="imagen" src="{{apiUrl + relacionadorSeleccionado.imagen}}" alt="">
+                                <img *ngif="relacionadorSeleccionado.imagen === null" class="imagen" src="assets/images/ventu.png" alt="">
+
+                            </span>
+                        </div>
+                        <div style="display:flex">
+                            <div class="field col-6">
+                                <span class="p-float-label">
+                                    <input formControlName="nombres" type="text" pInputText>
+                                    <label for="float-input">Nombres</label>
+                                </span>
+                            </div>
+                            <div class="field col-6">
+                                <span class="p-float-label">
+                                    <input formControlName="apellidos" type="text" pInputText>
+                                    <label for="float-input">Apellidos</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="telefono" type="tel" pInputText>
+                                <label for="float-input">Teléfono</label>
+                            </span>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="usuario" type="text" pInputText>
+                                <label for="float-input">Usuario</label>
+                            </span>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="contrasena" type="password" pInputText
+                                    (keypress)="evitarEspacios($event)">
+                                <label for="float-input">Contraseña</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <ng-template pTemplate="footer">
+                <button pButton icon="pi pi-times" (click)="mostrarModalRelacionador=false" label="Cancelar"
+                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                <button *ngIf="tituloModal == 'Agregar relacionador'" [disabled]="!formularioRelacionador.valid"
+                    (click)="guardarRelacionador()" pButton icon="pi pi-save" label="Guardar"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button *ngIf="tituloModal == 'Editar relacionador'" [disabled]="!formularioRelacionador.valid" pButton
+                    icon="pi pi-save" label="Guardar" (click)="editarRelacionador()"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+<p-confirmPopup key="confirmarEliminarAnfitrion"></p-confirmPopup>
+<p-confirmPopup key="confirmarEliminarGuardia"></p-confirmPopup>
+<p-confirmPopup key="confirmarEliminarRelacionador"></p-confirmPopup>

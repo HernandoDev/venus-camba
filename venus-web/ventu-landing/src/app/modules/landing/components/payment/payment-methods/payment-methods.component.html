@@ -1,0 +1,174 @@
+<div class="metodos-pago">
+  <div class="row" *ngIf="evento.plan !== 'Free'">
+    <div class="col-6 col-datos-bancarios">
+      <h2 class="titulo-ultimo-paso">¡Último paso!</h2>
+      <p class="texto">Selecciona tu medio de pago</p>
+      <select class="form-select mb-2 mt-3 ven-input" #selectMetodoPago>
+        <option value="" disabled selected>Medio de pago</option>
+        <option value="QR">QR o transferencia bancaria</option>
+      </select>
+      <div class="row mt-4 datos-banco">
+        <div class="col">
+          <div class="titulos">
+            <p>Banco:</p>
+            <p>Número de cuenta:</p>
+            <p>Moneda:</p>
+            <p>Nombre:</p>
+            <p>NIT:</p>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="valores">
+            <p>Banco Fassil</p>
+            <p>38470153</p>
+            <p class="usd">Bolivianos</p>
+            <p class="usd">Andrey Karim Dueri Handal</p>
+            <p>4297770 LP</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4 datos-banco-responsive">
+        <div class="col-12">
+          <div class="titulos" style="text-align: center;">
+            <p>Banco:</p>
+            <p style="font-weight: bold;">Banco Fassil</p>
+            <p>Número de cuenta:</p>
+            <p style="font-weight: bold;">38470153</p>
+            <p>Moneda:</p>
+            <p class="usd" style="font-weight: bold;">Bolivianos</p>
+            <p>Nombre:</p>
+            <p class="usd" style="font-weight: bold;">Andrey Karim Dueri Handal</p>
+            <p>NIT:</p>
+            <p style="font-weight: bold;">4297770 LP</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col derecha-div col-qr" style="display: flex; align-items: center;">
+      <img src="assets/images/qr2.jpeg" alt="qr" class="image" />
+    </div>
+  </div>
+  <div class="row mt-4" *ngIf="evento.plan !== 'Free'">
+    <p style="color: white" class="info">
+      Una vez realizado tu pago, envía tu comprobante de transferencia o
+      depósito al <a href="https://wa.me/59172101994" target="_blank"
+        style="color: var(--sky-blue); text-decoration: none; cursor: pointer;">+59172101994</a> para
+      validar tu compra inmediatamente. Los datos de tu evento se guardarán por
+      48 horas. Si no se ha recibido el comprobante hasta entonces, el evento se
+      eliminará del sistema.
+    </p>
+  </div>
+
+  <div class="plan mt-4" *ngIf="evento.plan === 'Gold'">
+    <div class="row">
+      <div class="col-3 col-titulos" style="align-self: center">
+        <div style="display: block; border-right: 1px solid gray" class="titulos-planes">
+          <h2 class="titulo-gold">Plan Gold</h2>
+        </div>
+      </div>
+      <div class="col-5 col-beneficios">
+        <div class="beneficios">
+          <div style="display: flex; align-items: center">
+            <i class="fa-solid fa-circle-check icon"
+              style="margin-top: 10px; margin-bottom: 5px; margin-right: 10px; color: white"></i>
+            <p style="margin-top: 10px; margin-bottom: 5px; color: white">
+              Invitados ilimitados
+            </p>
+          </div>
+          <div style="display: flex; align-items: center">
+            <i class="fa-solid fa-circle-check icon" style="color: white; margin-bottom: 5px; margin-right: 10px; "></i>
+            <p style="margin-bottom: 5px; color: white">Guardias ilimitados</p>
+          </div>
+          <div style="display: flex; align-items: center" s>
+            <i class="fa-solid fa-circle-check icon"
+              style="color: white; margin-bottom: 10px; margin-right: 10px; "></i>
+            <p style="margin-bottom: 10px; color: white">
+              Todos los beneficios
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 col-confirmar" style="display: flex; justify-content: flex-end; align-items: center">
+        <button class="btn ven-btn-primary btn-gold" (click)="confirmarPago()">CONFIRMAR</button>
+      </div>
+    </div>
+  </div>
+  <div class="plan2 mt-4" *ngIf="evento.plan === 'Silver'">
+    <div class="row">
+      <div class="col-3 col-titulos" style="align-self: center">
+        <div style="display: block; border-right: 1px solid gray" class="titulos-planes">
+          <h2 class="titulo-silver">Plan Silver</h2>
+        </div>
+      </div>
+      <div class="col-5 col-beneficios">
+        <div class="beneficios">
+          <div style="display: flex; align-items: center">
+            <i class="fa-solid fa-circle-check icon"
+              style="margin-top: 10px; margin-bottom: 5px; margin-right: 10px; color: white"></i>
+            <p style="margin-top: 10px; margin-bottom: 5px; color: white">
+              Hasta 150 invitados
+            </p>
+          </div>
+          <div style="display: flex; align-items: center">
+            <i class="fa-solid fa-circle-check icon" style="color: white; margin-bottom: 5px; margin-right: 10px; "></i>
+            <p style="margin-bottom: 5px; color: white">2 guardias</p>
+          </div>
+          <div style="display: flex; align-items: center" s>
+            <i class="fa-solid fa-circle-check icon"
+              style="color: white; margin-bottom: 10px; margin-right: 10px; "></i>
+            <p style="margin-bottom: 10px; color: white">
+              Todos los beneficios
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 col-confirmar" style="display: flex; justify-content: flex-end; align-items: center">
+        <button class="btn ven-btn-primary" (click)="confirmarPago()">CONFIRMAR</button>
+      </div>
+    </div>
+  </div>
+  <div class="plan3 mt-4" *ngIf="evento.plan === 'Free'">
+    <div class="row">
+      <div class="col-3 col-titulos" style="align-self: center">
+        <div style="display: block; border-right: 1px solid gray" class="titulos-planes">
+          <h2 class="titulo-free">Plan Free</h2>
+        </div>
+      </div>
+      <div class="col-5 col-beneficios">
+        <div class="beneficios">
+          <div style="display: flex; align-items: center">
+            <i class="fa-solid fa-circle-check icon"
+              style="margin-top: 10px; margin-bottom: 5px; margin-right: 10px; color: black"></i>
+            <p style="margin-top: 10px; margin-bottom: 5px; color: black">
+              Hasta 40 invitados
+            </p>
+          </div>
+          <div style="display: flex; align-items: center">
+            <i class="fa-solid fa-circle-check icon" style="color: black; margin-bottom: 5px; margin-right: 10px; "></i>
+            <p style="margin-bottom: 5px; color: black">1 guardia</p>
+          </div>
+          <div style="display: flex; align-items: center" s>
+            <i class="fa-solid fa-circle-check icon"
+              style="color: black; margin-bottom: 10px; margin-right: 10px; "></i>
+            <p style="margin-bottom: 10px; color: black">
+              Beneficios limitados
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 col-confirmar" style="display: flex; justify-content: flex-end; align-items: center">
+        <button class="btn ven-btn-primary" (click)="confirmarPago()">CONFIRMAR</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col mt-3">
+      <span class="texto-contactanos">¿Tienes alguna consulta? - </span>
+      <a class="a-contactanos" href="/#card-contacto" target="_blank">¡Contáctanos!</a>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-fall" [fullScreen]="true">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>

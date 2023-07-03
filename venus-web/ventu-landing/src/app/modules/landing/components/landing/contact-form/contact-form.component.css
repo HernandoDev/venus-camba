@@ -1,0 +1,40 @@
+.row-formulario-contacto {
+  margin-top: 40px;
+  margin-bottom: 25px;
+}
+.card-contacto {
+  width: 90%;
+  margin: auto;
+  background-color: var(--purple-contact);
+  border-radius: var(--card-radius);
+}
+.col-email {
+  padding-left: 0px;
+}
+.col-telefono {
+  padding-right: 6px;
+}
+
+
+
+@media only screen and (max-width: 450px) {
+  .card-contacto {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .card-contacto{
+    width: 95%;
+  }
+  .ven-input{
+    /* font-size: 18px !important; */
+    margin-top: 15px;
+  }
+  .col-telefono{
+    padding-right: 15px;
+  }
+  .btn{
+    padding: 12px 40px !important; 
+  }
+}

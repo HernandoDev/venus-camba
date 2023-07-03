@@ -1,0 +1,988 @@
+<div class="progress-spinner" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<div #qrcodeFake></div>
+<h2>Tu evento</h2>
+
+<div class="card">
+    <div class="row detalle">
+        <div class="col-3">
+            <div>
+                <img class="imagen-evento" [src]="api_url + evento.imagen" alt="evento">
+            </div>
+        </div>
+        <div class="col-9">
+            <!-- ROW NOMBRE Y EDITAR -->
+            <div style="display: flex; justify-content: space-between; align-items: center">
+                <h3>{{evento.nombre}}</h3>
+                <button [disabled]="evento.estado == 'Finalizado'" pTooltip="Editar evento" tooltipPosition="left"
+                    pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded"
+                    (click)="abrirModalEditarEvento(evento)"></button>
+            </div>
+            <!-- ROW DESCRIPCIÓN -->
+            <div>
+                <p class="descripcion">{{evento.descripcion}}</p>
+            </div>
+            <!-- ROW FECHA Y HORA -->
+            <div style="display: flex; margin-bottom: 15px;" class="fechas">
+                <div>
+                    <i style="margin-right: 5px;" class="pi pi-calendar"></i>
+                    <span style="margin-right: 12px;">Inicio:</span>
+                    <span style="font-weight: bold; margin-right: 5px;">{{formatearFecha(evento.fecha_inicio)}} -</span>
+                    <span style="margin-right: 35px;">{{evento.hora_inicio}}</span>
+                </div>
+
+                <div>
+                    <i style="margin-right: 5px;" class="pi pi-calendar"></i>
+                    <span style="margin-right: 12px;">Finalización:</span>
+                    <span style="font-weight: bold; margin-right: 5px;">{{formatearFecha(evento.fecha_fin)}} -</span>
+                    <span>{{evento.hora_fin}}</span>
+                </div>
+            </div>
+            <!-- ROW LUGAR -->
+            <div style="margin-bottom: 15px;">
+                <div>
+                    <i style="margin-right: 5px;" class="pi pi-map-marker"></i>
+                    <span style="font-weight: bold; margin-right: 15px"><a href="{{evento.link_google}}"
+                            rel="noopener noreferrer" target="_blank">{{evento.nombre_lugar}}</a></span>
+                    <span style="color: gray;">{{evento.direccion}}</span>
+                </div>
+            </div>
+            <!-- ROW PRIVACIDAD -->
+            <div style="margin-bottom: 35px;">
+                <div>
+                    <i style="margin-right: 5px;" class="pi pi-lock"></i>
+                    <span>Evento </span>
+                    <span style="text-transform: lowercase;">{{formatearTipoEvento(evento.tipo)}}</span>
+                </div>
+            </div>
+            <!-- ROW BOTONES -->
+            <div style="display: flex; justify-content: space-between; align-items: center;" class="botones">
+                <div>
+                    <span style="margin-right: 15px;" [ngClass]="{
+                        'en-curso':evento.estado == 'En curso',
+                        'finalizado':evento.estado == 'Finalizado',
+                        'pendiente':evento.estado == 'Pendiente'
+                      }">
+                        {{evento.estado}}
+                    </span>
+                    <span [ngClass]="{
+                        'gold':evento.plan.nombre == 'Gold',
+                        'silver':evento.plan.nombre == 'Silver',
+                        'free':evento.plan.nombre == 'Free'
+                      }">
+                        {{evento.plan.nombre}}
+                    </span>
+                </div>
+                <div class="kpis">
+                      <i pTooltip="Categorías disponibles" class="pi pi-star-fill icono-categoria"></i>
+                      <span class="numero-categoria">{{categorias.length}}</span>
+                      <i pTooltip="Número de guardias" class="bi bi-shield-fill icono-categoria"></i>
+                      <span class="numero-categoria">{{guardiasAsignados.length}}</span>
+                      <i class="bi bi-megaphone-fill icono-categoria" pTooltip="Relacionadores asignados"></i>
+                      <span class="numero-categoria">{{relacionadoresAsignados.length}}</span>
+                      <i class="bi bi-people-fill icono-categoria" pTooltip="Cantidad de invitados"></i>
+                      <span class="numero-categoria">{{evento.cantidad_invitados}}</span>
+                  </div>
+                  
+            </div>
+        </div>
+    </div>
+    <p-dialog [header]="tituloModal" [(visible)]="mostrarModalEvento" modal="modal" showEffect="fade"
+        [style]="{width: '35vw'}" [breakpoints]="{'960px': '75vw'}">
+        <form [formGroup]="formularioEvento">
+            <div class="card p-fluid">
+                <div style="display: flex;flex-direction: column;" class="p-formgrid grid">
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="nombre" type="text" pInputText>
+                            <label for="float-input">Nombre</label>
+                        </span>
+                    </div>
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="descripcion" type="text" pInputText>
+                            <label for="float-input">Descripción</label>
+                        </span>
+                    </div>
+                    <div style="display: flex;">
+                        <div class="field col-6">
+                            <span class="p-float-label">
+                                <input formControlName="horaInicio" type="time" pInputText>
+                                <label for="float-input">Hora Inicio</label>
+                            </span>
+                        </div>
+                        <div class="field col-6">
+                            <span class="p-float-label">
+                                <input formControlName="horaFin" type="time" pInputText>
+                                <label for="float-input">Hora Finalización</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="nombreLugar" type="text" pInputText>
+                            <label for="float-input">Nombre Lugar</label>
+                        </span>
+                    </div>
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="linkMaps" type="url" pInputText>
+                            <label for="float-input">Link Maps</label>
+                        </span>
+                    </div>
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="direccion" type="text" pInputText>
+                            <label for="float-input">Dirección</label>
+                        </span>
+                    </div>
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <p-fileUpload #fileUpload name="imagen[]" multiple="false" accept="image/*"
+                                maxFileSize="10000000" cancelLabel="Cancelar" chooseLabel="Escoger"
+                                [showUploadButton]="false" invalidFileSizeMessageSummary="Tamaño de imagen inválido"
+                                invalidFileSizeMessageDetail="El tamaño máximo de carga es de 10 MB." fileLimit="1"
+                                invalidFileLimitMessageSummary="Número máximo de archivos excedido"
+                                invalidFileLimitMessageDetail="El límite es 1 como máximo">
+                                <ng-template pTemplate="content" let-files>
+                                    <div style="color: #868C9B">Imagen del evento</div>
+                                </ng-template>
+                            </p-fileUpload>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <ng-template pTemplate="footer">
+            <button pButton icon="pi pi-times" (click)="mostrarModalEvento=false" label="Cancelar"
+                class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+
+            <button [disabled]="!formularioEvento.valid || fileUpload.files.length > 1" pButton icon="pi pi-save"
+                label="Guardar" class="p-button-rounded p-button-success mr-2 mb-2" (click)="editarEvento()"></button>
+        </ng-template>
+    </p-dialog>
+</div>
+<p-tabMenu  [activeItem]="routeItems[0]" styleClass="mb-5" [model]="routeItems"></p-tabMenu>
+<div *ngIf="ventanaActiva=='Invitados'" class="card">
+
+
+
+
+    <!-- <div class="col-12 md:col-8 h-full">  RESTABLECER ESTA LINEA AL PONER LOS KPIS     -->
+    <div class="col-12 md:col-12 h-full">
+
+        <!-- <button  pButton pRipple type="button" label="" class="p-button-rounded p-button-help mr-2 mb-2"></button>        -->
+        <button [disabled]="evento.estado == 'Finalizado'" (click)="modalExcelImportarInvitados()" pButton pRipple
+            label="Cargar invitados" icon="pi pi-file-excel"
+            class="p-button-rounded p-button-warning mr-2 mb-2"></button>
+        <button (click)="exportExcelInvitados()" pButton pRipple label="Exportar invitados" icon="pi pi-file-excel"
+            class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <button (click)="exportPDFLogActividad()" icon="pi pi-file-pdf" pButton pRipple type="button"
+            label="Exportar actividad" class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+        <button [disabled]="invitados.length<=0 || evento.estado == 'Finalizado'" (click)="abrirQRTodos()" pButton
+            pRipple type="button" label="Enviar QR a todos" icon='pi pi-send'
+            class="p-button-rounded p-button-info mr-2 mb-2"></button>
+        <button style="background: #0F8BFD;border: 1px solid #0F8BFD;" pTooltip="Actualizar datos"
+            (click)="refreshDatosEvento()" pButton pRipple type="button" icon="pi pi-refresh"
+            class="p-button-rounded mr-2 mb-2"></button>
+        <button [disabled]="evento.estado == 'Finalizado'" *ngIf="categorias.length>0 && !validarMaximoInvitados()"
+            pTooltip="Agregar nuevo invitado" (click)="agregarInvitado()" pButton pRipple type="button"
+            icon="pi pi-plus" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <button [disabled]="evento.estado == 'Finalizado'" *ngIf="categorias.length<=0 && !validarMaximoInvitados()"
+            pTooltip="Necesitas una categoría  para crear un invitados"
+            (click)="toastWarning('Necesitas crear una categoría para crear un invitado')" pButton pRipple type="button"
+            icon="pi pi-plus" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <button [disabled]="evento.estado == 'Finalizado'" *ngIf="validarMaximoInvitados()"
+            pTooltip="Límite de invitados alcanzado" (click)="toastWarning('Límite de invitados alcanzado')" pButton
+            pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+
+
+
+        <p-table #dt id="tabla-eventos" [value]="invitados" responsiveLayout="scroll" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['telefono', 'nombres', 'apellidos']"
+            [loading]="cargandoDatos">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Buscar invitado" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+
+                    <th class="aling-center" pSortableColumn="nombres">
+                        <span style="position: relative;left:-23%;">Nombre</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>
+                    <th class="aling-center">Categoría</th>
+                    <th class="aling-center">Whatsapp</th>
+                    <th class="aling-center">Ingresos</th>
+                    <th *ngIf="evento.estado != 'Finalizado'" class="aling-center">Acciones</th>
+                    <th></th>
+
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-invitado let-columns="columns">
+                <tr [ngClass]="{
+                    'ingreso' : invitado.acompanhantes-invitado.ingresos + 1 <= 0, 
+                    'high-rated': invitado.acompanhantes-invitado.ingresos + 1 > 0}
+                    " class="body-row">
+                    <td style="text-align: left!important;">
+                        <!-- <input class="input-table" type="text" pInputText placeholder="Nombre" [value]="invitado.nombres+' '+invitado.apellidos"> -->
+                        <span [pTooltip]="invitado.observaciones" style="position: relative;left: 20%;">
+                            {{invitado.nombres+' '+invitado.apellidos}}
+                        </span>
+                    </td>
+                    <td class="aling-center">
+                        <i [pTooltip]="invitado.CategoriaInvitado.nombre" style="font-size: 25px;"
+                            [ngStyle]="{'color': invitado.CategoriaInvitado.color}" class="pi pi-star-fill"></i>
+                        <!-- [ngClass]="invitado.categoria === '0' ? 'estandar' : invitado.categoria === '1' ? 'vip' : 'super-vip'" -->
+                    </td>
+                    <td class="aling-center">
+                        <!-- <input class="input-table aling-center" type="number" pInputText placeholder="Whatsapp" [value]="invitado.telefono"> -->
+                        {{invitado.telefono}}
+                    </td>
+                    <td class="aling-center">
+                        <i style="color:#636363 ;font-weight: bold;" class="bi bi-people-fill"></i>
+                        {{invitado.ingresos}}/
+                        <!-- <input maxlength="4" style="width: 40px;margin: 0px;padding: 1px;" class="input-table " type="number" pInputText placeholder="" [value]="invitado.acompanhantes+1"> -->
+                        {{invitado.acompanhantes + 1 }}
+                    </td>
+                    <td *ngIf="evento.estado != 'Finalizado'" class="aling-center centrar-flex-iconos">
+                        <button (click)="abrirQR(invitado)" pButton pRipple type="button" icon="pi pi-qrcode"
+                            class="p-button-rounded p-button-info mr-2 mb-2"></button>
+                        <button style="background: #0F8BFD;border: 1px solid #0F8BFD;" pButton pRipple type="button"
+                            icon="pi pi-pencil" class="p-button-rounded p-button-blue mr-2 mb-2"
+                            (click)="modalEditarInvitado(invitado)" pTooltip="Editar datos del invitado"></button>
+                        <!-- <i  (click)="actualizarInvitado(invitado)"pTooltip="Actualizar invitado" style="color: #396A94 ;font-weight: bold;" class="pi pi-refresh"></i> -->
+                        <button pButton pRipple type="button" icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger mr-2 mb-2"
+                            (click)="confirmarEliminar($event,invitado)" pTooltip="Eliminar invitado"></button>
+                        <p-confirmPopup key="confirmarEliminar"></p-confirmPopup>
+                    </td>
+                    <td></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td colspan="7" style="text-align: center;">
+                        No se han encontrado invitados.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+
+
+    <!--    MODAL FLOTANTE INSERTAR INVITADO -->
+    <p-dialog [header]="tituloModal" [(visible)]="displayInsertarExcel" modal="modal" showEffect="fade"
+        [style]="{width: '30vw'}" [breakpoints]="{'960px': '75vw'}">
+        <div>
+            <p>
+                Descarga la plantilla y llena los datos correspondientes según se indica. Todos los campos son
+                obligatorios, excepto las observaciones y WhatsApp del invitado. Por favor, no cambies ni agregues
+                títulos en las columnas de la primera fila. Para hacer la carga totalmente eficiente, te recomendamos
+                vigilar cuidadosamente que los datos de la hoja Excel estén correctos, no existan duplicados y que la
+                información de los invitados se haya ingresado en los campos adecuados. Las extensiones de archivos
+                permitidos son: xls y xlsx.
+            </p>
+            <p>Recuerda que las categorías puestas en el archivo Excel deben estar creadas con anterioridad en el evento
+                y con el mismo nombre.</p>
+            <p>Si quieres utilizar el envío de invitaciones QR individuales, debes llenar el WhatsApp, con el código
+                país (Por ejemplo: 59172112345).</p>
+            <p-fileUpload #uploadExcelInvitados name="myfile[]" multiple="multiple" chooseLabel="Cargar plantilla"
+                (onSelect)="myUploader($event)" (onRemove)="limpiarUpload()" [customUpload]="true" [files]="myfiles"
+                maxFileSize="5000000" accept=".xlsx,.xls" fileLimit="1" [showUploadButton]="false"
+                cancelLabel="Eliminar todo" [showCancelButton]="false">
+            </p-fileUpload>
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton icon="pi pi-times" (click)="displayInsertarExcel=false" label="Cancelar"
+                class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+
+            <a id='descargar_excel' type="button" href="assets/plantillas-excel/plantilla_invitados.xlsx"
+                download='plantilla_invitados.xlsx'>
+                <button pButton icon="pi pi-cloud-download" label="Descargar plantilla"
+                    class="p-button-rounded p-button-info mr-2 mb-2"></button>
+            </a>
+            <button (click)="cargarInvitados()" pButton icon="pi pi-cloud-upload" label="Cargar invitados"
+                class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        </ng-template>
+    </p-dialog>
+
+    <!--  -->
+</div>
+<div *ngIf="ventanaActiva=='Guardias'" class="card">
+    <!-- <div class="col-12 md:col-8 h-full">  RESTABLECER ESTA LINEA AL PONER LOS KPIS     -->
+    <div class="col-12 md:col-12 h-full">
+        <div class="centrar-flex" style="justify-content: flex-start;gap: 5%;">
+            <div>
+
+                <button (click)="exportExcelGuardias()" pButton pRipple label="Exportar guardias"
+                    icon="pi pi-file-excel" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button (click)="irPersonal('Guardias')" pButton pRipple label="Ver guardias"
+                    class="p-button-rounded mr-2 mb-2"></button>
+                <button [disabled]="evento.estado == 'Finalizado'" *ngIf="!asignarGuardiaFlag && guardias.length>0 && guardiasAsignados.length<maximoGuardias"
+                    (click)="asignarGuardiaFlag=true" pTooltip="Asignar nuevo guardia al evento" pButton pRipple
+                    type="button" icon="pi pi-plus" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button *ngIf="!asignarGuardiaFlag && guardias.length<=0 "
+                    pTooltip="No hay mas guardias para asignar al evento" pButton pRipple type="button"
+                    icon="pi pi-plus" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+
+            </div>
+            <div *ngIf="asignarGuardiaFlag" style="display: flex;gap:3%;align-items: center;">
+                <p-autoComplete formControlName="guardia" [(ngModel)]="guardiaSeleccionado"
+                    [suggestions]="guardiasFiltrados" (onSelect)="asignarGuardia($event)"
+                    (completeMethod)="filtrarGuardia($event)" field="nombres" [dropdown]="true"
+                    placeholder="Asignar guardia al evento" [inputStyle]="{'width':'25vw'}">
+                    <ng-template let-guardia pTemplate="item">
+                        <div style="display: flex;justify-content: space-around;align-items: center;">
+                            <div>
+                                {{guardia.nombres }} {{guardia.apellidos }}
+                            </div>
+                            <span style="position: relative;left: 5%;">{{guardia.username }}</span>
+                        </div>
+                    </ng-template>
+                </p-autoComplete>
+                <i (click)="asignarGuardiaFlag=false" pTooltip="Ocultar asignar guardia al evento" style="color:red"
+                    class="pi pi-times icono-categoria"></i>
+            </div>
+        </div>
+
+        <p-table #dt id="tabla-eventos" [value]="guardiasAsignados" responsiveLayout="scroll" [paginator]="true"
+            [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['telefono', 'nombres', 'apellidos','username']"
+            [loading]="cargandoDatos">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto ">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Buscar guardias" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="aling-center" pSortableColumn="nombres">
+                        <span>Nombre</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>
+                    <th class="aling-center" pSortableColumn="telefono">
+                        <span>Teléfono</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>
+                    <th class="aling-center" pSortableColumn="username">
+                        <span>Usuario</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>
+                    <th class="aling-center">Acciones</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-guardia let-columns="columns">
+                <tr class="body-row">
+                    <td>
+                        <span>
+                            {{guardia.nombres+' '+guardia.apellidos}}
+                        </span>
+                    </td>
+                    <td class="aling-center">
+                        {{guardia.telefono}}
+                    </td>
+                    <td class="aling-center">
+                        {{guardia.username}}
+                    </td>
+                    <td class="aling-center centrar-flex-iconos">
+                        <button  [disabled]="evento.estado == 'Finalizado'" pTooltip="Eliminar guardia" pButton pRipple type="button" icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger mr-2 mb-2"
+                            (click)="confirmarEliminarGuardia($event,guardia)"></button>
+                        <p-confirmPopup key="confirmarEliminar"></p-confirmPopup>
+                    </td>
+                    <td></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td colspan="7" style="text-align: center;">
+                        No se han encontrado guardias asignados al evento.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<div *ngIf="ventanaActiva=='Relacionadores'" class="card">
+    <div class="col-12 md:col-12 h-full">
+        <div class="centrar-flex" style="justify-content: flex-start;gap: 5%;">
+            <div>
+
+                <button (click)="exportExcelRelacionadores()" pButton pRipple label="Exportar relacionadores"
+                    icon="pi pi-file-excel" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button (click)="irPersonal('Relacionadores')" pButton pRipple label="Ver relacionadores"
+                    class="p-button-rounded mr-2 mb-2"></button>
+                <button [disabled]="evento.estado == 'Finalizado'"
+                    *ngIf="!asignarGuardiaFlag && relacionadores.length>0" (click)="asignarGuardiaFlag=true"
+                    pTooltip="Asignar nuevo relacionador al evento" pButton pRipple type="button" icon="pi pi-plus"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button *ngIf="!asignarGuardiaFlag && relacionadores.length<=0"
+                    pTooltip="No hay mas relacionadores para asignar al evento" pButton pRipple type="button"
+                    icon="pi pi-plus" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+
+            </div>
+            <div *ngIf="asignarGuardiaFlag" style="display: flex;gap:3%;align-items: center;">
+                <p-autoComplete formControlName="guardia" [(ngModel)]="relacionadorSeleccionado"
+                    [suggestions]="relacionadoresFiltrados" (onSelect)="asignarRelacionador($event)"
+                    (completeMethod)="filtrarRelacionador($event)" field="nombres" [dropdown]="true"
+                    placeholder="Asignar relacionador al evento" [inputStyle]="{'width':'25vw'}">
+                    <ng-template let-guardia pTemplate="item">
+                        <div style="display: flex;justify-content: space-around;align-items: center;">
+                            <div>
+                                {{guardia.nombres }} {{guardia.apellidos }}
+                            </div>
+                            <span style="position: relative;left: 5%;">{{guardia.username }}</span>
+                        </div>
+                    </ng-template>
+                </p-autoComplete>
+                <i (click)="asignarGuardiaFlag=false" pTooltip="Ocultar asignar relacionador al evento"
+                    style="color:red" class="pi pi-times icono-categoria"></i>
+            </div>
+        </div>
+
+        <p-table #dt id="tabla-eventos" [value]="relacionadoresAsignados" responsiveLayout="scroll" [paginator]="true"
+            [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['telefono', 'nombres', 'apellidos','username']"
+            [loading]="cargandoDatos">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto ">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Buscar relacionador" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="aling-center" pSortableColumn="nombres">
+                        <span>Nombre</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>
+                    <th class="aling-center" pSortableColumn="telefono">
+                        <span>Teléfono</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>
+                    <th class="aling-center" pSortableColumn="username">
+                        <span>Usuario</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>
+                    <th class="aling-center" pSortableColumn="invitados">
+                        <span>Invitados</span>
+                        <p-sortIcon></p-sortIcon>
+                    </th>                    
+                    <th class="aling-center">Acciones</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-relacionador let-columns="columns">
+                <tr class="body-row">
+                    <td>
+                        <span>
+                            {{relacionador.nombres+' '+relacionador.apellidos}}
+                        </span>
+                    </td>
+                    <td class="aling-center">
+                        {{relacionador.telefono}}
+                    </td>
+                    <td class="aling-center">
+                        {{relacionador.username}}
+                    </td>
+                    <td class="aling-center">
+                        {{relacionador.contador_acompanhates}}/{{relacionador.contador_limite_invitados}}
+                    </td>
+                    <td class="aling-center centrar-flex-iconos">
+                        <button pTooltip="Ajustar comisiones del relacionador" pButton pRipple type="button"
+                            icon="bi bi-search" class="p-button-rounded mr-2 mb-2"
+                            (click)="modalDetallesRelacionador(relacionador)"></button>
+                        <button  [disabled]="evento.estado == 'Finalizado'" pTooltip="Eliminar relacionador" pButton pRipple type="button" icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger mr-2 mb-2"
+                            (click)="confirmarEliminarRelacionador($event,relacionador)"></button>
+                        <p-confirmPopup key="confirmarEliminar"></p-confirmPopup>
+                    </td>
+                    <td></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td colspan="7" style="text-align: center;">
+                        No se han encontrado relacionadores asignados al evento.
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!--START  MODALES DE RELACIONADORES -->
+    <p-dialog [header]="tituloModal" [(visible)]="displayModalRelacionadores" modal="modal" showEffect="fade"
+        [style]="{width: '70vw'}" [breakpoints]="{'960px': '75vw'}">
+        <ng-template pTemplate="body">
+            <div style="display: flex;flex-direction: column;">
+                <span
+                    style="font-weight: 600;font-size: 20px;line-height: 22px;color: #FFFFFF;">{{editarRelacionador.nombres
+                    +' '+editarRelacionador.apellidos}}</span>
+                <span style="font-size: 14px;line-height: 22px;color: #AEAEAE;">{{editarRelacionador.username}}</span>
+                <span
+                    style="font-weight: 400;font-size: 13px;line-height: 22px;color: #FFFFFF;">{{editarRelacionador.telefono}}</span>
+                <!-- <span style="font-size: 12px;line-height: 22px;color: #AEAEAE;">{{editarRelacionador.correo}}</span> -->
+                <div>
+                    <button
+                        [pTooltip]="'Exportar invitados agregador por '+editarRelacionador.nombres+' '+editarRelacionador.apellidos"
+                        style="float: right;" (click)="exportExcelInvitadosAsignadosRelacionador(editarRelacionador)"
+                        pButton pRipple label="Exportar a excel" icon="pi pi-file-excel"
+                        class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                </div>
+            </div>
+            <div class="margin-top3" id="lista_comisiones">
+                <div style="padding: 6px!important;" *ngFor="let parametro of parametrosRelacionador" class="card p-fluid">
+                    <div  class="p-formgrid grid">
+                        <div style="flex-direction: column;" class="col centrar-flex">
+                            <i [pTooltip]="parametro.CategoriaInvitado.nombre" style="font-size: 50px;"
+                                [ngStyle]="{'color': parametro.CategoriaInvitado.color}" class="pi pi-star-fill"></i>
+                            <span style="margin-top: 3%;">{{parametro.CategoriaInvitado.nombre}}</span>
+                        </div>
+                        <div class=" col">
+                            <label htmlFor="comision_invitado">Comisión por invitado</label>
+                            <div style="justify-content: flex-start!important;" class="centrar-flex">
+                                <span class="font-size-comisiones">$</span>
+                                <input style="width: 50%;" class="transparente font-size-comisiones"
+                                    (focusout)="actualizarParametro($event,parametro)" [(ngModel)]="parametro.comision"
+                                    pInputText type="number" />
+                            </div>
+                        </div>
+                        <div class=" col">
+                            <label htmlFor="cantidad_invitado">Cantidad de invitados</label>
+                            <div style="display: flex;align-items: center;">
+                                <input style="width: 18%;" disabled class="transparente font-size-comisiones"
+                                    [value]="obtenerContadorInvitadosAsignado(parametro.CategoriaInvitado)" pInputText
+                                    type="text" />/
+                                <input style="width: 25%;" class="transparente font-size-comisiones"
+                                    (focusout)="actualizarParametro($event,parametro)"
+                                    [(ngModel)]="parametro.limite_invitados" pInputText type="number" />
+                            </div>
+                        </div>
+                        <div class="field col">
+                            <label htmlFor="comision_total">Comisión total</label>
+                            <input
+                                [value]="'$'+(obtenerContadorInvitadosComisionTotal(parametro.CategoriaInvitado,parametro.comision)| number : '1.2-2')"
+                                disabled class="transparente font-size-comisiones" pInputText type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="card p-fluid transparente">
+                <div style="color:transparent" class="p-formgrid grid">
+                    <div  class="field col centrar-flex">
+                        <i style="font-size: 70px;"
+                                [ngStyle]="{'color': 'transparent'}" class="pi pi-star-fill"></i>
+                    </div>
+                    <div class="field col  texto-blanco">
+                        <h4 htmlFor="comision_invitado">Total</h4>
+                    </div>
+                    <div  class="field col texto-blanco">
+                        <h4 htmlFor="cantidad_invitado"> <span pTooltip="Invitados registrados"> {{totalInvitados}} </span><span style="padding: 5%;"> / </span> <span pTooltip="Límite de invitados totales">{{obtenerTotalMaximoInvitacionesRelacionador()}}</span></h4>
+                    </div>
+                    <div style="width: 10%;" class="field col texto-blanco">
+                        <h4   >${{obtenerComisionTotal()| number : '1.2-2'}}</h4>
+                    </div>
+                </div>
+
+            </div>
+            <div id="tabla-invitados">
+                <p-table #dt id="tabla-eventos" [value]="invitadosAsignadosRelacionador" responsiveLayout="scroll"
+                    [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                    [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['telefono', 'nombres', 'apellidos']"
+                    [loading]="cargandoDatos">
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left ml-auto">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                                    placeholder="Buscar invitado" />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+
+                            <th class="aling-center" pSortableColumn="nombres">
+                                <span style="position: relative;left:-23%;">Nombre</span>
+                                <p-sortIcon></p-sortIcon>
+                            </th>
+                            <th class="aling-center">Categoría</th>
+                            <th class="aling-center">Whatsapp</th>
+                            <th class="aling-center">Acompañantes</th>
+                            <th *ngIf="evento.estado != 'Finalizado'" class="aling-center">Acciones</th>
+                            <th></th>
+
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-invitado let-columns="columns">
+                        <tr [ngClass]="{
+                    'ingreso' : invitado.acompanhantes-invitado.ingresos + 1 <= 0, 
+                    'high-rated': invitado.acompanhantes-invitado.ingresos + 1 > 0}
+                    " class="body-row">
+                            <td style="text-align: left!important;">
+                                <!-- <input class="input-table" type="text" pInputText placeholder="Nombre" [value]="invitado.nombres+' '+invitado.apellidos"> -->
+                                <span [pTooltip]="invitado.observaciones" style="position: relative;left: 20%;">
+                                    {{invitado.nombres+' '+invitado.apellidos}}
+                                </span>
+                            </td>
+                            <td class="aling-center">
+                                <i [pTooltip]="invitado.CategoriaInvitado.nombre" style="font-size: 25px;"
+                                    [ngStyle]="{'color': invitado.CategoriaInvitado.color}" class="pi pi-star-fill"></i>
+                                <!-- [ngClass]="invitado.categoria === '0' ? 'estandar' : invitado.categoria === '1' ? 'vip' : 'super-vip'" -->
+                            </td>
+                            <td class="aling-center">
+                                <!-- <input class="input-table aling-center" type="number" pInputText placeholder="Whatsapp" [value]="invitado.telefono"> -->
+                                {{invitado.telefono}}
+                            </td>
+                            <td class="aling-center">
+                                <i style="color:#636363 ;font-weight: bold;" class="bi bi-people-fill"></i>
+                                {{invitado.ingresos}}/
+                                <!-- <input maxlength="4" style="width: 40px;margin: 0px;padding: 1px;" class="input-table " type="number" pInputText placeholder="" [value]="invitado.acompanhantes+1"> -->
+                                {{invitado.acompanhantes+1}}
+                            </td>
+                            <td *ngIf="evento.estado != 'Finalizado'" class="aling-center centrar-flex-iconos">
+
+                                <button style="background: #0F8BFD;border: 1px solid #0F8BFD;" pButton pRipple
+                                    type="button" icon="pi pi-pencil" class="p-button-rounded p-button-blue mr-2 mb-2"
+                                    (click)="modalEditarInvitado(invitado)"
+                                    pTooltip="Editar datos del invitado"></button>
+                                <!-- <i  (click)="actualizarInvitado(invitado)"pTooltip="Actualizar invitado" style="color: #396A94 ;font-weight: bold;" class="pi pi-refresh"></i> -->
+                                <button pButton pRipple type="button" icon="pi pi-minus"
+                                    class="p-button-rounded p-button-danger mr-2 mb-2"
+                                    (click)="confirmarEliminarAsignacionRelacionador($event,invitado)"
+                                    pTooltip="Eliminar asignación con el relacionador"></button>
+
+                                <button pButton pRipple type="button" icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger mr-2 mb-2"
+                                    (click)="confirmarEliminar($event,invitado)"
+                                    pTooltip="Eliminar invitado del evento"></button>
+                                <p-confirmPopup key="confirmarEliminar"></p-confirmPopup>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td colspan="7" style="text-align: center;">
+                                No se han encontrado invitados asignados al relacionador.
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+        </ng-template>
+        <div>
+
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton icon="" (click)="displayModalRelacionadores=false" label="Cerrar"
+                class="p-button-rounded p-button mr-2 mb-2"></button>
+            <button pTooltip="Actualizar datos" (click)="ActualizarDatosRelacionadorParametros()" pButton pRipple
+                type="button" icon="pi pi-refresh" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+            <!-- label="Actualizar datos"  -->
+        </ng-template>
+    </p-dialog>
+    <!-- END MODALES DE RELACIONADORES -->
+
+</div>
+
+<div *ngIf="ventanaActiva=='Categorias'" class="card">
+    <div class="contenedor-categorias">
+        <div [ngStyle]="{'border-color': valColor}" style="flex-direction: column;border: 1px solid;"
+            class="col-2 md:col-2  card centrar-flex">
+            <h6>Nueva categoría</h6>
+            <i [ngStyle]="{'color': valColor}" class="iconoCategoria pi pi-star-fill"></i>
+            <div style="display: flex;flex-direction: column;margin-top: 10%;" class="p-formgrid grid">
+                <div class="field col">
+                    <span class="p-float-label">
+                        <input style="width: 100%;" [(ngModel)]="nuevaCategoriaNombre" id="float-input" type="text"
+                            pInputText>
+                        <label for="float-input">Nombre categoría</label>
+                    </span>
+                </div>
+                <div class="field col">
+                    <label for="float-input">Color</label>
+                    <p-colorPicker pTooltip="Agregar color a la nueva categoría" [style]="{'margin-left': '5%'}"
+                        [(ngModel)]="valColor"></p-colorPicker>
+
+                </div>
+                <div style="margin-top: -5%;" class=" centrar-flex">
+                    <button [disabled]="nuevaCategoriaNombre==''|| evento.estado == 'Finalizado'"
+                        pTooltip="Agregar nueva categoría" (click)="agregarCategoria()" pButton pRipple type="button"
+                        icon="pi pi-plus" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                </div>
+            </div>
+        </div>
+        <p-divider *ngIf="categorias.length>0" layout="vertical">
+        </p-divider>
+        <div [ngStyle]="{'border-color': categoria.color}" *ngFor="let categoria of categorias"
+            style="flex-direction: column;border: 1px solid;" class="col-2 md:col-2  card centrar-flex">
+            <h6>Editar categoría</h6>
+
+            <i [ngStyle]="{'color': categoria.color}" class="iconoCategoria pi pi-star-fill"></i>
+            <div style="display: flex;flex-direction: column;margin-top: 10%;" class="p-formgrid grid">
+                <div class="field col">
+                    <span class="p-float-label">
+                        <input style="width: 100%;" id="float-input" [(ngModel)]="categoria.nombre" type="text"
+                            [value]="categoria.nombre" pInputText>
+                        <label for="float-input">Nombre categoría</label>
+                    </span>
+                </div>
+                <div class="field col">
+                    <label for="float-input">Color</label>
+                    <p-colorPicker pTooltip="Editar color a la categoría" [style]="{'margin-left': '5%'}"
+                        [(ngModel)]="categoria.color"></p-colorPicker>
+                </div>
+                <div style="margin-top: -5%;" class=" centrar-flex">
+                    <button [disabled]="evento.estado == 'Finalizado'" (click)="editarCategoria(categoria)"
+                        pTooltip="Editar  categoría" pButton pRipple type="button" icon="pi pi-refresh"
+                        class="p-button-rounded mr-2 mb-2"></button>
+                    <button [disabled]="evento.estado == 'Finalizado'"
+                        (click)="confirmarEliminarCategoria($event,categoria)" pTooltip="Eliminar categoría" pButton
+                        pRipple type="button" icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                    <p-confirmPopup key="confirmarEliminarCategoria"></p-confirmPopup>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="ventanaActiva=='KPI'" class="card">
+    <div class="col-12 md:col-12 h-full">
+        <div class="titulo-kpi">
+            <i class="bi bi-speedometer"></i>
+            <h5 style="margin: 0">Indicadores</h5>
+        </div>
+        <div class="contenedor-progressbars">
+            <div class="titulos">
+                <div></div>
+                <div>Asistentes</div>
+                <div>Invitados</div>
+            </div>
+            <div *ngFor="let progress of categorias">
+                <div class="headers">
+                    <div class="nombre-categoria">{{progress.nombre}}</div>
+                    <div style="font-weight: bold">{{progress.asistentes}}</div>
+                    <div  style="font-weight: bold">{{progress.invitados}}</div>
+                </div>
+                <div class="flex-progress" >
+                    <span class="estrella-categoria">
+                        <i [ngStyle]="{'color': progress.color}" class="bi bi-star-fill"></i>
+                    </span>
+                    <div class="progress-bar">
+                        <div class="progress-bar-label" [ngStyle]="{'background-color': progress.color}" [style.width.%]="progress.porcentaje"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="ventanaActiva=='KPI'" class="card">
+    <div class="col-12 md:col-12 h-full">
+    <div class="contenedor-progressbars">
+            <div class="headers">
+                <div>Total</div>
+                <div style="font-weight: bold">{{asistentesTotal}}</div>
+                <div style="font-weight: bold">{{invitadosTotal}}</div>
+            </div>
+            <div class="flex-progress">
+                <span class="estrella-categoria">
+                    <i [ngStyle]="{'color': 'black'}" class="bi bi-people-fill"></i>
+                </span>
+                <div class="progress-bar">
+                    <div class="progress-bar-label" style="position:relative;" [ngStyle]="{'background-color': 'black'}" [style.width.%]="porcentajeAsistentes"></div>
+                    <div class="progress-bar-label" style="margin-top: -25px" [ngStyle]="{'background-color': 'white'}" [style.width.%]="porcentajeInvitados"></div>
+                 </div>
+            </div>
+            <div class="footer" style="display: flex; justify-content: end; gap: 6px">
+                <span style="color: grey">
+                    Capacidad
+                </span>
+                <span style="font-weight: bold">
+                    {{evento.cantidad_invitados}}
+                </span>
+            </div>
+            <div class="texto-capacidad" style="display: flex; justify-content: center;">
+                Estás al {{((invitadosTotal / evento.cantidad_invitados) * 100).toFixed(2)}}% de la capacidad. Puedes invitar a {{evento.cantidad_invitados - invitadosTotal}} personas más. 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--    MODAL FLOTANTE EDITAR USUARIO -->
+<p-dialog [header]="tituloModal" [(visible)]="display" modal="modal" showEffect="fade" [style]="{width: '30vw'}"
+    [breakpoints]="{'960px': '75vw'}">
+
+    <div *ngIf="!mostrarQR">
+        <form [formGroup]="formularioAgregarInvitado">
+            <div class="card p-fluid">
+                <div style="display: flex;flex-direction: column;" class="p-formgrid grid">
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="nombres" id="float-input" type="text" pInputText>
+                            <label for="float-input">Nombres</label>
+                        </span>
+                    </div>
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="apellidos" id="float-input" type="text" pInputText>
+                            <label for="float-input">Apellidos</label>
+                        </span>
+                    </div>
+                    <div class="field col">
+                        <span class="p-float-label">
+                            <input formControlName="telefono" id="float-input" type="number" pInputText>
+                            <label for="float-input">Whatsapp</label>
+                        </span>
+                    </div>
+                    <div class="field col">
+                        <h6>Acompañantes</h6>
+                        <p-dropdown [showClear]="true" [(ngModel)]="acompanhanteSelect" formControlName="acompanhantes"
+                            [options]="arrayAcompanhantes" optionLabel="name" optionValue="code"></p-dropdown>
+
+                    </div>
+                    <div class="field col">
+                        <h6>Categoría</h6>
+                        <p-dropdown [showClear]="true" [(ngModel)]="categoriaSelecionada" formControlName="categoria"
+                            placeholder="Categoría" id="categoria" name="categoria" [options]="categorias"
+                            optionLabel="nombre" optionValue="codigo"></p-dropdown>
+                    </div>
+                    <div class="field col">
+                        <h6>Observaciones </h6>
+                        <textarea rows="5" cols="30" maxlength="110" formControlName="observaciones"
+                            placeholder="Observaciones" pInputTextarea></textarea>
+                    </div>
+                    <div class="field col" *ngIf="tituloModal == 'Editar invitado'">
+                        <h6>Observaciones de seguridad</h6>
+                        <textarea rows="5" readonly cols="30" maxlength="50" formControlName="observacionesGuardia"
+                            placeholder="Sin observaciones de seguridad" pInputTextarea></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton icon="pi pi-times" (click)="display=false" label="Cancelar"
+            class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+        <button *ngIf="tituloModal == 'Crear invitado'" (click)="registratInvitado()"
+            [disabled]="!formularioAgregarInvitado.valid || acompanhanteSelect==none || categoriaSelecionada==none"
+            pButton icon="pi pi-save" label="Guardar" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <button
+            *ngIf="tituloModal == 'Editar invitado' && invitadoSeleccionado.acompanhantes - invitadoSeleccionado.ingresos + 1 > 0"
+            (click)="abrirQR(invitadoSeleccionado)" pButton icon="pi pi-qrcode" label="Ver QR"
+            class="p-button-rounded p-button-info mr-2 mb-2"></button>
+        <button *ngIf="tituloModal == 'Editar invitado'" (click)="editarInvitado()"
+            [disabled]="!formularioAgregarInvitado.valid || acompanhanteSelect==none || categoriaSelecionada==none"
+            pButton icon="pi pi-save" label="Guardar" class="p-button-rounded p-button-success mr-2 mb-2"></button>
+    </ng-template>
+</p-dialog>
+<!--    MODAL FLOTANTE QR  -->
+<p-dialog [header]="tituloModal" [(visible)]="mostrarModalQR" modal="modal" showEffect="fade" [style]="{height: '90vw'}"
+    [breakpoints]="{'960px': '75vw'}">
+    <div #datosQRImage style="position: relative;height: 0px;">
+        <div #qrcode></div>
+    </div>
+    <div style="width: 100%;display: flex;flex-direction: column;" #contenedorQR>
+        <!-- <div style="width: 90%;"> -->
+        <!-- style="width: 100%;max-height: 66vh;" -->
+        <!-- </div> -->
+        <img #imagenEvento style="object-fit: contain;" [src]="obtenerRutaImagenEvento()" alt="">
+    </div>
+    <div style="height: 0px;position: relative;top: -23%;" class="centrar-flex contenedor-nombres">
+        <h4 style="position: relative;margin: 0% 1%;top:-10%"
+            *ngIf="invitadoSeleccionado!=null && !displayRedactarMensaje"> {{invitadoSeleccionado.nombres}}</h4>
+        <h4 style="position: relative;margin:0% 1%;top:-10%"
+            *ngIf="invitadoSeleccionado!=null &&!displayRedactarMensaje">{{invitadoSeleccionado.apellidos}}</h4>
+    </div>
+    <div *ngIf="displayRedactarMensaje">
+        <div class="field col">
+            <textarea [(ngModel)]="mensajeString" rows="18" cols="50" placeholder="Mensaje..."
+                pInputTextarea></textarea>
+        </div>
+        <p *ngIf="!enviandoMensaje && !envioTodos">Se enviará un mensaje con la invitación a
+            {{invitadoSeleccionado.nombres+' '+invitadoSeleccionado.apellidos}}</p>
+        <p *ngIf="!enviandoMensaje && !envioTodos">con el número de teléfono {{invitadoSeleccionado.telefono}}</p>
+        <div *ngIf="enviandoMensaje " style="flex-direction: column;" class="centrar-flex">
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem;color: rgba(106, 82, 146, 1);"></i>
+            <h6 style="margin: 1px;padding: 1px;">{{logEnviarMensaje}}</h6>
+        </div>
+        <p-progressBar *ngIf="enviandoMensaje" [value]="progressBarValue"></p-progressBar>
+    </div>
+    <ng-template pTemplate="footer">
+        <div *ngIf="!displayRedactarMensaje">
+            <div style="display: flex;flex-direction: column;">
+                <div style="display: flex;justify-content: center;align-items: center;padding: 10px 0px;gap: 5%;">
+                    <button (click)="moverQRWidth(-10)" pTooltip="Desplazar QR hacia a la izquiera" pButton pRipple
+                        type="button" icon="pi pi-arrow-left" class="p-button-rounded mr-2 mb-2"></button>
+                    <button (click)="moverQRWidth(10)" pTooltip="Desplazar QR hacia a la derecha" pButton pRipple
+                        type="button" icon="pi pi-arrow-right" class="p-button-rounded mr-2 mb-2"></button>
+                    <button (click)="moverQRHeight(-15)" pTooltip="Desplazar QR hacia arriba" pButton pRipple
+                        type="button" icon="pi pi-arrow-up" class="p-button-rounded mr-2 mb-2"></button>
+                    <button (click)="moverQRHeight(15)" pTooltip="Desplazar QR hacia abajo" pButton pRipple
+                        type="button" icon="pi pi-arrow-down" class="p-button-rounded mr-2 mb-2"></button>
+                    <button (click)="cambiarSizeQR(-10)" pTooltip="Reducir tamaño del QR" pButton pRipple type="button"
+                        icon="pi pi-minus" class="p-button-rounded mr-2 mb-2"></button>
+                    <button (click)="cambiarSizeQR(10)" pTooltip="Incrementar tamaño del QR" pButton pRipple
+                        type="button" icon="pi pi-plus" class="p-button-rounded mr-2 mb-2"></button>
+
+                </div>
+                <div>
+                    <button pButton icon="pi pi-times" (click)="mostrarModalQR=false" label="Cerrar"
+                        class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                    <button *ngIf="!envioTodos" (click)="modalEditarInvitado(invitadoSeleccionado)" pButton
+                        icon="pi pi-user-edit" label="Ver invitado"
+                        class="p-button-rounded p-button-info mr-2 mb-2"></button>
+                    <!-- <button     pButton icon="pi pi-send"  label="Mandar QR " class="p-button-outlined p-button-success mr-2 mb-2"></button> -->
+                    <button pButton icon="pi pi-send" (click)="ocultarContenedorQR()" label="Redactar mensaje"
+                        class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="displayRedactarMensaje">
+            <div>
+                <button pButton icon="pi pi-times" (click)="mostrarModalQR=false" label="Cerrar"
+                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                <button (click)="mostrarContenedorQR()" pButton icon="pi pi-arrow-left" label="Atrás"
+                    class="p-button-rounded p-button-info mr-2 mb-2"></button>
+                <!-- <button     pButton icon="pi pi-send"  label="Mandar QR " class="p-button-outlined p-button-success mr-2 mb-2"></button> -->
+                <button [disabled]="enviandoMensaje" *ngIf="!envioTodos" (click)="enviarQRIndividual()" pButton
+                    icon="pi pi-send" label="Enviar mensaje"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+                <button [disabled]="enviandoMensaje" *ngIf="envioTodos" (click)="envioQRTodos()" pButton
+                    icon="pi pi-send" label="Enviar mensaje a todos"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+
+
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

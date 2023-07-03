@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/prismjs/themes/prism-coy.css";
+@import "../node_modules/@fullcalendar/daygrid/main.min.css";
+@import "../node_modules/@fullcalendar/timegrid/main.min.css";
+@import "assets/demo/flags/flags.css";
+@import "assets/demo/documentation.scss";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+// Progress spinner
+.progress-spinner {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+/* Transparent Overlay */
+.progress-spinner:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.53);
+}
+
+
+
+
+/* Change the color and width of the scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: grey;
+  border-radius: 10px;
+}
+
+/* Change the color of the thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 10px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 10px;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%)
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%)
+}

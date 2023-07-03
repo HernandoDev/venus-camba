@@ -1,0 +1,165 @@
+<div class="row row-principal" style="width: 90%; margin: auto">
+    <p style="text-align: center" class="titulo-planes" id="precios" *ngIf="pagina == 'landing'">
+        Estos son los mejores planes para tí.
+    </p>
+    <div class="col-6 col-md-4 col-xxl-5 col-texto-pricing">
+        <div style="display: block" class="texto-servicios">
+            <p>Cantidad de invitaciones</p>
+            <p>Invitación QR</p>
+            <p>Lista de invitados en el celular</p>
+            <p>Categorización de invitados</p>
+            <p>Evento personalizado con imagen</p>
+            <p>Imagen del anfitrión en la invitación</p>
+            <p>Número de guardias disponibles</p>
+        </div>
+    </div>
+    <div class="col-6 col-md-8 col-xxl-7 col-pricing">
+        <div class="row">
+            <div class="col-sm-6 col-xs-12 col-md-4">
+                <div class="card card-free">
+                    <div class="card-body" [ngClass]="{'background-gray': privacidad === 'Público'}">
+                        <div class="card-title mt-2 mb-2 titulo-free centrar-texto">
+                            Plan Free
+                        </div>
+                        <div class="card-text centrar-texto">
+                            <div class="texto-oculto">Cantidad de invitaciones</div>
+                            <div class="icon">Hasta 40</div>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Invitación QR</div>
+                            <i class="fa-solid fa-circle-check icon"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Lista de invitados en el celular</div>
+                            <i class="fa-solid fa-circle-check icon"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Categorización de invitados</div>
+                            <i class="fa-solid fa-circle-check icon"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-3">
+                            <div class="texto-oculto">Evento personalizado con imagen</div>
+                            <i class="fa-solid fa-minus guion"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-3">
+                            <div class="texto-oculto">
+                                Imagen del anfitrión en la invitación
+                            </div>
+                            <i class="fa-solid fa-minus guion"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-3 mb-4">
+                            <div class="texto-oculto">Número de guardias disponibles</div>
+                            <div class="icon2 icon">1</div>
+                        </div>
+                        <div class="mt-3 centrar-div">
+                            <button *ngIf="pagina == 'landing'" class="btn ven-btn-primary" (click)="irCrearEvento()">
+                                Empezar
+                            </button>
+                            <button *ngIf="pagina == 'crear-evento'" class="btn ven-btn-primary"
+                                (click)="escogerPlanFree()" [ngClass]="{'background-dark': privacidad == 'público'}">
+                                Escoger
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12 col-md-4">
+                <div class="card card-silver">
+                    <div class="card-body">
+                        <div class="card-title mt-2 mb-2 titulo-silver centrar-texto">
+                            Plan Silver
+                        </div>
+                        <div class="card-text centrar-texto">
+                            <div class="texto-oculto">Cantidad de invitaciones</div>
+                            <div class="icon">Hasta 150</div>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Invitación QR</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Lista de invitados en el celular</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Categorización de invitados</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Evento personalizado con imagen</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">
+                                Imagen del anfitrión en la invitación
+                            </div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-3 mb-4">
+                            <div class="texto-oculto">Número de guardias disponibles</div>
+                            <div class="icon2 icon">2</div>
+                        </div>
+                        <div class="mt-3 centrar-div">
+                            <button *ngIf="pagina == 'landing'" class="btn ven-btn-primary" (click)="irCrearEvento()">
+                                Empezar
+                            </button>
+                            <button *ngIf="pagina == 'crear-evento'" class="btn ven-btn-primary"
+                                (click)="escogerPlanSilver()">
+                                Escoger
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12 col-md-4">
+                <div class="card card-gold">
+                    <div class="card-body">
+                        <div class="card-title mt-2 mb-2 titulo-gold centrar-texto">
+                            Plan Gold
+                        </div>
+                        <div class="card-text centrar-texto">
+                            <div class="texto-oculto">Cantidad de invitaciones</div>
+                            <div class="icon">Ilimitado</div>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Invitación QR</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Lista de invitados en el celular</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Categorización de invitados</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">Evento personalizado con imagen</div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-4">
+                            <div class="texto-oculto">
+                                Imagen del anfitrión en la invitación
+                            </div>
+                            <i class="fa-solid fa-circle-check icon" style="color: white"></i>
+                        </div>
+                        <div class="card-text centrar-texto mt-3 mb-4">
+                            <div class="texto-oculto">Número de guardias disponibles</div>
+                            <div class="icon2 icon">Ilimitado</div>
+                        </div>
+                        <div class="mt-3 centrar-div">
+                            <button *ngIf="pagina == 'landing'" class="btn ven-btn-primary btn-gold"
+                                (click)="irCrearEvento()">
+                                Empezar
+                            </button>
+                            <button *ngIf="pagina == 'crear-evento'" class="btn ven-btn-primary btn-gold"
+                                (click)="escogerPlanGold()">
+                                Escoger
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

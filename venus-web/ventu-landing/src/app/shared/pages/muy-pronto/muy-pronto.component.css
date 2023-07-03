@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(32,0,36);
+    background: linear-gradient(30deg, rgba(32,0,36,1) 0%, rgba(0,0,0,1) 35%, rgba(15,8,20,1) 100%);
+    color: white;
+    height: 100vh;
+}

@@ -1,0 +1,19 @@
+FROM node:14 as builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run test 
+
+FROM nginx:1.19
+
+COPY --from=builder /app/dist/ventu-frontend /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,123 @@
+.resumen {
+  width: 95%;
+  margin: auto;
+  margin-top: 50px;
+  padding-bottom: 35px;
+}
+.imagen {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+}
+
+.titulo-resumen {
+  font-size: 22px;
+  color: white;
+}
+.texto {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 5px;
+}
+.titulo-anfitrion,
+.titulo-evento {
+  font-size: 18px;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+.titulo-evento {
+  margin-top: 30px;
+}
+.nombres > p,
+.nombres2 > p {
+  font-weight: bold;
+}
+
+.nombres > p:nth-child(4) {
+  margin-bottom: 0px;
+}
+.titulos > p:nth-child(4) {
+  margin-bottom: 0px;
+}
+p {
+  color: white;
+}
+
+.col-nombres-responsive > p {
+  text-align: center;
+}
+.col-nombres-responsive {
+  display: none;
+}
+.strong {
+  font-weight: bold;
+}
+.nombres > p,
+.nombres2 > p
+ {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+a{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.link-maps {
+  color: var(--sky-blue);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+.resumen{
+  border-bottom: 1px solid gray;
+}
+@media only screen and (max-width: 450px) {
+  .resumen {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 100%;
+  }
+}
+
+
+@media only screen and (max-width: 920px) {
+  .titulo-anfitrion{
+    text-align: center;
+  }
+  .col-img, .col-img2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+  }
+  .titulo-evento{
+    text-align: center;
+  }
+
+  .titulo-resumen {
+    text-align: center;
+  }
+  .texto {
+    text-align: center;
+  }
+  .col-nombres-responsive {
+    display: block;
+    width: 100%;
+  }
+  .col-nombres,
+  .col-titulos {
+    display: none;
+  }
+  .link-maps {
+    text-align: center;
+  }
+  .imagen{
+    width: 230px;
+    height: 170px;
+  }
+}
+

@@ -1,0 +1,345 @@
+.body-row{
+    --background: #FFFFFF;
+    background: #FFFFFF!important;
+    border-radius: 8px;
+    color: black!important;
+    padding: 5%;
+}
+.aling-center{
+    text-align: center;
+}
+
+.estandar {
+    color:gray;
+    font-size: 24px;
+}
+.vip {
+    color: black;
+    font-size: 24px;
+}
+.super-vip {
+    color: #FFB800;
+    font-size: 24px;
+}
+.iconoCategoria{
+    font-size: 95px;
+}
+.centrar-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.input-table{
+    color: black;
+    // text-align: center;
+}
+.centrar-flex-iconos{
+    display: flex;
+    gap: 1%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3%;
+}
+
+::ng-deep table {
+    border-collapse:separate !important; 
+    border-spacing: 0 1em !important;
+
+}
+
+
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td{
+    text-align: center!important;
+}
+
+ .p-datatable .p-datatable-thead > tr > th {
+    text-align: center!important;
+}
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    text-align: center!important;
+
+}
+
+::ng-deep .p-dialog .p-dialog-content{
+    overflow-x: hidden;
+}
+
+
+.p-button.p-button-icon-only {
+    width: 2.286rem!important;
+    padding: 0.429rem 0;
+}
+
+
+
+
+::ng-deep  .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: none;
+    height: 40px !important;
+    color: white;
+    padding: 10px 22px 10px 22px;
+}
+
+
+::ng-deep .p-tabmenu .p-tabmenu-nav {
+     border: none!important
+}
+
+
+::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+    border-radius: 15px 15px 0px 0px; 
+    padding: 10px 22px 10px 22px;
+
+}
+::ng-deep  .mb-5 {
+    margin-bottom: 0rem !important;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+
+::ng-deep .p-progressbar {
+    height: 2.7vh;
+}
+.margin-top3{
+    margin-top: 3%;
+} 
+::ng-deep  .p-progressbar .p-progressbar-value {
+    background: rgba(106, 82, 146, 1);
+}
+.transparente{
+    background: #ffffff00!important;
+}
+.font-size-comisiones{
+    font-size: 20px;
+}
+.contenedor-categorias{
+    display: inline-flex;
+    gap: 2.5%;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.imagen-evento{
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+}
+.row{
+    display: flex;
+}
+.col-9{
+    align-self: center ;
+}
+.descripcion{
+    margin-bottom: 15px;
+}
+a{
+    color: #8DFEFC;
+}
+.en-curso{
+    background-color: #25A649;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    color: white;
+    white-space: nowrap
+}
+.finalizado{
+    background-color: #A9A9A9;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    color: white;
+    white-space: nowrap
+}
+.pendiente{
+    background-color: #FF7A00;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    color: white;
+    white-space: nowrap
+}
+.texto-blanco{
+    color: white;
+}
+.gold{
+    background-color: #FFB800;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+    color: black;
+    white-space: nowrap
+}
+.silver{
+    background-color: #910A98;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-bottom: 6px;
+    color: white;
+    white-space: nowrap
+}
+.free{
+    background-color: #D8D8D8;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-bottom: 6px;
+    color: black;
+    white-space: nowrap
+}
+.icono-categoria{
+    margin-right: 10px;
+    color: white;
+    font-size: 16px;
+}
+.numero-categoria{
+    margin-right: 40px;
+}
+.ingreso{
+background: rgba(169, 168, 168, 1)!important;
+}
+.contenedor-nombres{
+    height: 0px;
+    flex-direction: column;
+    position: relative;
+    top: -17%;
+}
+form{
+    .card{
+        padding-top: 30px;
+        padding-bottom: 10px;
+    }
+}
+
+
+.titulo-kpi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    i{
+        font-size: 32px;
+        color:white;
+    }
+}
+
+.contenedor-progressbars{
+    .titulos{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        div{
+            color: grey;
+            text-align: center;
+            width: 80px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+    }
+    .headers{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        div{
+            text-align: center;
+            width: 80px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .nombre-categoria{
+            font-weight: bold;
+        }
+    }
+    .flex-progress{
+        display: flex;
+        align-items: center;
+        gap:10px;
+        .estrella-categoria{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 43px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            i{
+                font-size: 25px;
+            }
+        }
+    }
+
+    .progress-bar {
+        height: 25px;
+        border-radius: 6px;
+        background-color: #FFFFFF1A;
+        width: 100%;
+        .progress-bar-label{
+            height: 100%;
+            border-radius: 6px;
+            transition: 0.5s ease ;
+        }
+    }
+}
+
+::ng-deep .cerrar-sesion-dialog .p-dialog-header{
+    display: flex;
+    justify-content: end;
+}
+
+@media screen and (max-width: 1230px){
+    .detalle{
+        flex-direction: column;
+    }
+    .detalle .col-3{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .numero-categoria:last-child{
+        margin-right: 0px;
+    }
+}
+
+@media screen and (max-width: 730px) {
+    .fechas{
+        flex-direction: column;
+    }
+    .fechas div{
+        margin-top: 15px;
+    }
+
+    .numero-categoria{
+        margin-right: 15px;
+    }
+
+}
+@media screen and (max-width: 620px) {
+    .botones{
+        flex-direction: column;
+    }
+    .kpis{
+        margin-top: 20px;
+    }
+
+}

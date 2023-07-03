@@ -1,0 +1,151 @@
+.titulo-planes {
+  text-align: center;
+  color: white;
+  font-weight: 800;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.card-free {
+  background-color: var(--gray-free);
+  border: 2px solid white;
+}
+.card-free > .card-body > .card-text {
+  color: black;
+  font-weight: 700;
+  font-size: 14px;
+}
+.card-silver {
+  background-color: var(--purple-silver);
+  border: 2px solid var(--input-text);
+}
+.card-silver > .card-body > .card-text {
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
+.card-gold {
+  background-color: black;
+  border: 2px solid var(--gold);
+}
+.card-gold > .card-body > .card-text {
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
+.titulo-gold {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 24px;
+}
+.card-gold > .card-body > .centrar-div > .material-icons {
+  color: white;
+}
+.card-silver > .card-body > .centrar-div > .material-icons {
+  color: white;
+}
+.titulo-silver {
+  color: white;
+  font-weight: 700;
+  font-size: 24px;
+}
+.titulo-free {
+  color: black;
+  font-weight: 700;
+  font-size: 24px;
+}
+.texto-precio-gold {
+  color: var(--gold) !important;
+}
+.btn-gold {
+  background-color: var(--gold) !important;
+  color: black !important;
+}
+.col-texto-pricing > div > p {
+  color: white;
+  margin: 16px;
+}
+
+.col-texto-pricing {
+  display: flex;
+  justify-content: flex-end;
+}
+.texto-servicios > p{
+  margin-top: 15px !important;
+  margin-bottom: 19px !important;
+}
+.texto-servicios > p:nth-child(1){
+  margin-top: 69px !important;
+  margin-bottom: 24px !important;
+}
+
+.texto-oculto{
+  display: none;
+}
+.guion{
+  margin-top: 12px;
+}
+
+@media only screen and (max-width: 1157px) {
+  .col-texto-pricing{
+    display: none !important;
+  }
+  .col-pricing{
+    width: 100% !important;
+  }
+  .texto-oculto{
+    display: block;
+  }
+  .mensaje-free-bloqueado{
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .row{
+    width: 100% !important;
+    margin: auto;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .card-gold{
+    margin-top: 25px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .card-silver{
+    margin-top: 25px;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .row-principal{
+    width: 95%;
+  }
+  .icon{
+    margin-top: 30px;
+    /* font-size: 20px; */
+  }
+  .icon2{
+    margin-top: 43px;
+  }
+  .btn{
+    padding: 12px 40px !important;
+    margin-bottom: 15px;
+  }
+
+  .guion{
+    margin-top: 34px;
+    font-size: 18px;
+  }
+  .texto-servicios > p{
+    margin-top: 46px !important;
+    margin-bottom: 0px !important;
+    /* font-size: 20px; */
+  }
+  .texto-servicios > p:nth-child(1){
+    margin-top: 94px !important;
+    margin-bottom: 44px !important;
+  }
+}

@@ -1,0 +1,64 @@
+.navbar {
+  font-family: "Inter";
+  font-weight: 400;
+  background: #0c041c8f; 
+  padding-bottom: 20px; 
+  padding-top: 20px;
+}
+.ven-img-logo {
+  width: 230px;
+  height: 61px;
+}
+.container-fluid{
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.navbar-nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ven-btn-iniciar-sesion {
+  font-weight: bold;
+}
+.ven-btn-crear-evento {
+  color: white;
+  max-width: 170px;
+  font-weight: bold;
+  background-color: transparent;
+  border-radius: 35px;
+  border: 2px solid var(--sky-blue);
+  cursor: pointer;
+  padding: 0px 12px;
+  text-decoration: none;
+}
+.nav-link:hover{
+  transform: scale(1.2);
+  transition: all .3s ease;
+}
+
+/* media queries */
+@media only screen and (max-width: 991px) {
+  .nav-link {
+    margin-top: 10px;
+  }
+  button {
+    margin-top: 15px;
+  }
+  .nav-link:hover{
+    transform: none;
+  }
+}
+@media only screen and (max-width: 415px) {
+  .ven-img-logo {
+    width: 200px !important;
+    height: 53px !important;
+  }
+}
+@media only screen and (max-width: 355px) {
+  .ven-img-logo {
+    width: 190px !important;
+    height: 50px !important;
+  }
+}

@@ -1,0 +1,69 @@
+<div class="row row-crear-evento">
+  <div class="col-sm-6 col-xs-12 centrar-div columna-card">
+    <div class="card card-cuenta">
+      <div class="card-body">
+        <h2 class="card-text">¿Organizas varios eventos?</h2>
+        <h1 class="card-title titulo-crea-tu-cuenta">
+          Crea tu cuenta aquí mismo.
+        </h1>
+        <form [formGroup]="formularioCuenta" (ngSubmit)="enviarFormulario()">
+          <input
+            type="text"
+            class="form-control mb-2 mt-4 ven-input"
+            formControlName="nombres"
+            placeholder="Nombres"
+          />
+          <input
+            type="text"
+            class="form-control mb-2  ven-input"
+            formControlName="apellidos"
+            placeholder="Apellidos"
+          />
+          <input
+            type="tel"
+            class="form-control mb-2 ven-input"
+            formControlName="telefono"
+            placeholder="Teléfono"
+            (keypress)="validarTelefono($event)"
+          />
+          <input
+            type="email"
+            class="form-control mb-2 ven-input"
+            formControlName="correo"
+            placeholder="Email"
+          />
+          <select class="form-select mb-2 ven-input" formControlName="pais">
+            <option value="" disabled selected>País</option>
+            <option *ngFor="let pais of listaPaises" value="{{pais}}">{{pais}}</option>
+          </select>
+          <div class="card-footer mt-3">
+            <div>
+              <div style="display: block" class="texto-inicia-sesion">
+                <p class="card-text">Ya tienes una cuenta?</p>
+                <a class="card-text" href="">Inicia sesion</a>
+              </div>
+            </div>
+            <div>
+              <button class="btn ven-btn-primary">Comenzar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xs-12 centrar-div columna-crear-evento">
+    <div class="centrar-texto">
+      <h1 class="titulo-crear-evento">CREA TU EVENTO GRATIS</h1>
+      <h2 class="subtitulo-40-personas">HASTA PARA 40 PERSONAS</h2>
+      <button class="btn ven-btn-secondary" (click)="this.router.navigate(['/crear-evento'])">Crear evento</button>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-fall"
+  [fullScreen]="true"
+  ><p style="color: white">Cargando...</p></ngx-spinner
+>

@@ -1,0 +1,47 @@
+.titulo-evento-reservado {
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  margin-top: 40px;
+  color: white;
+}
+.texto {
+  text-align: center;
+  color: white;
+  margin-bottom: 35px;
+}
+.a-contactanos {
+  text-decoration: none;
+  color: var(--sky-blue);
+  font-size: 14px;
+}
+.texto-boletin {
+  font-size: 14px;
+  color: white;
+  margin-top: 10px;
+  font-weight: 300;
+}
+.row-consulta{
+    width: 95%;
+    margin: auto;
+}
+.col-consulta{
+    padding-left: 0px;
+}
+.button {
+  padding: 0.5rem 2rem;
+  font-weight: 400;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+@media only screen and (max-width: 450px) {
+  .titulo-evento-reservado {
+    font-size: 26px;
+  }
+  .row-consulta{
+    width: 100%;
+  }
+}

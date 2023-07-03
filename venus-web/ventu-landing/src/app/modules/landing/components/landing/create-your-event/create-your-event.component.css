@@ -1,0 +1,161 @@
+.row-crear-evento {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-image: url("../../../../../../assets/images/background1.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-top: 10px;
+}
+.card-cuenta {
+  background-color: var(--purple);
+  border-radius: var(--card-radius);
+  width: 90%;
+  margin: auto;
+}
+.card-cuenta > .card-body > .card-text {
+  font-weight: 400;
+}
+.texto-inicia-sesion {
+  margin-right: 15px;
+}
+.card-title {
+  font-weight: 700;
+  font-size: 20px;
+}
+.titulo-crea-tu-cuenta {
+  color: white;
+  font-weight: 700;
+  font-size: 22px;
+}
+h2.card-text {
+  font-size: 16px;
+}
+p.card-text {
+  margin-bottom: 0px;
+}
+a.card-text {
+  font-weight: 700;
+}
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  border: none;
+}
+
+.titulo-crear-evento,
+.subtitulo-40-personas {
+  color: white;
+  font-weight: 800;
+}
+.titulo-crear-evento {
+  font-size: 55px;
+  max-width: 480px;
+  margin-bottom: 15px;
+}
+.subtitulo-40-personas {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+.ven-btn-secondary {
+  padding: 8px 70px;
+}
+
+@media only screen and (max-width: 700px) {
+  .columna-card {
+    width: 100%;
+    justify-content: center;
+  }
+  .columna-crear-evento {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .titulo-crear-evento {
+    font-size: 45px;
+  }
+  .subtitulo-40-personas {
+    font-size: 16px;
+  }
+}
+@media only screen and (max-width: 860px) {
+  .titulo-crear-evento {
+    font-size: 40px;
+  }
+  .subtitulo-40-personas {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .columna-crear-evento {
+    margin-top: 35px;
+  }
+}
+@media only screen and (max-width: 402px) {
+  p.card-text {
+    font-size: 14px;
+  }
+  a.card-text {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 430px) {
+  .titulo-crear-evento {
+    font-size: 36px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .titulo-crear-evento {
+    font-size: 30px;
+  }
+  .subtitulo-40-personas {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .card-cuenta,
+  .card-contacto {
+    width: 100% !important;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  .row-crear-evento{
+    height: 500px;
+  }
+  .card-cuenta > .card-body {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}
+@media only screen and (min-width: 1100px) {
+  .row-crear-evento{
+    height: 550px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .row-crear-evento{
+    height: 600px;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+
+  .btn{
+    padding: 12px 40px !important; 
+  }
+  .titulo-crear-evento{
+    font-size: 65px;
+    max-width: 550px;
+  }
+  .subtitulo-40-personas{
+    font-size: 28px;
+  }
+  .ven-btn-secondary{
+    padding: 12px 80px !important; 
+  }
+  .row-crear-evento{
+    margin-top: 20px;
+  }
+}

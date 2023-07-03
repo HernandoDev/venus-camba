@@ -1,0 +1,385 @@
+/* Fuente para toda la aplicación */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url(assets/fonts/Inter-Thin.woff2) format("woff2"),
+    url(assets/fonts/Inter-Thin.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url(assets/fonts/Inter-ThinItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-ThinItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url(assets/fonts/Inter-ExtraLight.woff2) format("woff2"),
+    url(assets/fonts/Inter-ExtraLight.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url(assets/fonts/Inter-ExtraLightItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-ExtraLightItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(assets/fonts/Inter-Light.woff2) format("woff2"),
+    url(assets/fonts/Inter-Light.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url(assets/fonts/Inter-LightItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-LightItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(assets/fonts/Inter-Regular.woff2) format("woff2"),
+    url(assets/fonts/Inter-Regular.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(assets/fonts/Inter-Italic.woff2) format("woff2"),
+    url(assets/fonts/Inter-Italic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(assets/fonts/Inter-Medium.woff2) format("woff2"),
+    url(assets/fonts/Inter-Medium.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(assets/fonts/Inter-MediumItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-MediumItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(assets/fonts/Inter-SemiBold.woff2) format("woff2"),
+    url(assets/fonts/Inter-SemiBold.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(assets/fonts/Inter-SemiBoldItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-SemiBoldItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(assets/fonts/Inter-Bold.woff2) format("woff2"),
+    url(assets/fonts/Inter-Bold.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(assets/fonts/Inter-BoldItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-BoldItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(assets/fonts/Inter-ExtraBold.woff2) format("woff2"),
+    url(assets/fonts/Inter-ExtraBold.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url(assets/fonts/Inter-ExtraBoldItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-ExtraBoldItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(assets/fonts/Inter-Black.woff2) format("woff2"),
+    url(assets/fonts/Inter-Black.woff) format("woff");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url(assets/fonts/Inter-BlackItalic.woff2) format("woff2"),
+    url(assets/fonts/Inter-BlackItalic.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Inter var";
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: "Regular";
+  src: url(assets/fonts/Inter-roman.var.woff2) format("woff2");
+}
+@font-face {
+  font-family: "Inter var";
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: "Italic";
+  src: url(assets/fonts/Inter-italic.var.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Inter var experimental";
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: oblique 0deg 10deg;
+  src: url(assets/fonts/Inter.var.woff2) format("woff2");
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 18px; /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "sans-serif";
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* Colores */
+  --purple: #752aa4;
+  --purple-silver: #910A98;
+  --purple-contact: #7723FF;
+  --gray-free: #D8D8D8;
+  --dark-purple: #190041;
+  --sky-blue: #79f7ff;
+  --dark-sky-blue: #143e42;
+  --input-text: #646464;
+  --input-background: #d9d9d9;
+  --gold: #FFB800;
+
+
+  /* Características */
+  --btn-padding: 0.875rem 2.75rem;
+  --btn-radius: 20px;
+  --card-radius: 18px;
+
+  /* Degradados */
+  --gradient-blue-to-green: linear-gradient(
+    253.91deg,
+    #00cec2 0%,
+    #0096eb 100%
+  );
+  --gradient-purple-to-blue: linear-gradient(30deg, #6e60ff, #25abff);
+  --gradient-dark-to-blue: linear-gradient(
+    352.54deg,
+    #141f91 6.09%,
+    #010167 94.5%
+  );
+  --gradient-purple-to-black: linear-gradient(#000000,#6234B5,#592FA5,#000000);
+
+  --animate-duration: 400ms;
+  --animate-delay: 0.9s;
+}
+
+/* Botónes */
+.ven-btn-primary,
+.ven-btn-secondary,
+.ven-btn-tertiary,
+.ven-btn-success,
+.ven-btn-danger,
+.ven-btn-warning {
+}
+
+.ven-btn-primary {
+  background-color: black !important;
+  color: white !important;
+  font-size: 16px ;
+  border-radius: 12px !important;
+  font-weight: 400 !important;
+  padding: 0.5rem 2rem !important;
+}
+
+.ven-btn-secondary {
+  background-color: var(--sky-blue) !important;
+  color: black !important;
+  font-size: 16px ;
+  border-radius: 12px !important;
+  font-weight: 400 !important;
+}
+
+.ven-btn-tertiary {
+}
+
+.ven-btn-success {
+}
+
+.ven-btn-danger {
+}
+
+.ven-btn-warning {
+}
+
+.ven-card-shadow {
+}
+
+body {
+  background: var(--gradient-purple-to-black) !important;
+}
+
+.ven-input::placeholder {
+  font-size: 14px;
+  color: #8e8e8e;
+  font-weight: 700 !important;
+}
+.ven-input {
+  font-size: 14px !important;
+  color: black !important;
+  font-weight: 700px !important;
+  background-color: var(--input-background) !important;
+}
+
+.form-control:focus {
+  border: none !important;
+  box-shadow: 0 0 8px rgb(36, 12, 51) !important;
+}
+select:focus {
+  border: none !important;
+  box-shadow: 0 0 8px rgb(36, 12, 51) !important;
+}
+
+.card{
+  box-shadow: 0 0 8px rgb(36, 12, 51) !important;
+}
+.centrar-texto {
+  text-align: center;
+}
+.centrar-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.derecha-div {
+  display: flex;
+  justify-content: flex-end;
+}
+.izquierda-div {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.card-text {
+  color: white;
+}
+
+
+a {
+  text-decoration: none !important;
+}
+.form-control.ng-invalid.ng-touched{
+  border-color: red !important;
+}
+.form-select.ng-invalid.ng-touched{
+  border-color: red !important;
+}
+.border-red{
+  border-color: red !important;
+}
+.toast-success {
+  background-color: #752AA4 !important;
+}
+
+.form-check-input:checked{
+  background-color: #752AA4 !important;
+  border: none;
+
+}
+.form-check-input:focus{
+  box-shadow:  none !important;
+}
+
+.background-gray{
+  background-color: gray !important;
+}
+.background-dark{
+  background-color: #1c1c1c !important;
+}
+
+ @media only screen and (max-width: 402px) {
+  .ven-btn-primary {
+    padding: 8px 20px !important;
+  }
+
+}
+

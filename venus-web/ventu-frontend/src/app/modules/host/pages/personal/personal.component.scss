@@ -1,0 +1,94 @@
+::ng-deep .p-dialog .p-dialog-content{
+    overflow-x: hidden;
+}
+
+::ng-deep table {
+    border-collapse:separate !important; 
+    border-spacing: 0 1em !important;
+}
+::ng-deep .p-tabmenu{
+    margin-top: 40px;
+}
+
+::ng-deep  .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: none;
+    height: 40px !important;
+    color: white;
+    padding: 10px 22px 10px 22px;
+}
+
+
+::ng-deep .p-tabmenu .p-tabmenu-nav {
+     border: none!important
+}
+
+
+::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+    border-radius: 15px 15px 0px 0px; 
+    padding: 10px 22px 10px 22px;
+
+}
+::ng-deep  .mb-5 {
+    margin-bottom: 0rem !important;
+}
+
+.card{
+    border-radius: 0px 8px 8px 8px; 
+}
+form{
+    .card{
+        border-radius: 8px 8px 8px 8px;
+        padding-top: 30px;
+        padding-bottom: 10px;
+    }
+}
+.body-row{
+    background: #FFFFFF!important;
+    border-radius: 8px;
+    color: black!important;
+    padding: 5%;
+}
+.body-row-blue{
+    background: #BFFBFF!important;
+    border-radius: 8px;
+    color: black!important;
+    padding: 5%;
+}
+.botones-acciones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button{
+        margin: 0 5px !important;
+    }
+    
+}
+.centrar{
+    display: flex;
+    justify-content: center;
+}
+.centrar-texto{
+    text-align: center;
+}
+th{
+    text-align: center !important;
+}
+.imagen{
+    width: 100px;
+    object-fit: cover;
+}
+
+::ng-deep .p-menuitem-icon.bi{
+    font-size: 16px;
+}
+
+.progress-spinner{
+    z-index: 9999;
+}
+::ng-deep .cerrar-sesion-dialog .p-dialog-header{
+    display: flex;
+    justify-content: end;
+  }

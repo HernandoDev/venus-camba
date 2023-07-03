@@ -1,0 +1,48 @@
+<div class="row row-formulario-contacto">
+  <div class="col-12">
+    <div class="card card-contacto" id="card-contacto">
+      <div class="card-body">
+        <div class="card-text mt-1">¿Tienes más consultas? - Contáctanos</div>
+
+        <form action="" [formGroup]="formularioContacto" (ngSubmit)="enviarFormulario()" class="row" novalidate>
+          <div class="col-12">
+            <input
+              type="text"
+              class="form-control mt-3 mb-2 ven-input"
+              formControlName="nombreCompleto"
+              placeholder="Nombre Completo"
+            />
+          </div>
+          <div class="col-4 col-telefono">
+            <input
+              type="tel"
+              class="form-control mb-2 ven-input"
+              formControlName="telefono"
+              placeholder="Teléfono"
+              (keypress)="validarTelefono($event)"
+            />
+          </div>
+          <div class="col-8 col-email">
+            <input
+              type="email"
+              class="form-control mb-2 ven-input"
+              formControlName="correo"
+              placeholder="Email"
+            />
+          </div>
+          <div class="col-12">
+            <textarea
+              placeholder="Escribe tu consulta"
+              formControlName="consulta"
+              class="form-control mb-2 ven-input"
+            ></textarea>
+          </div>
+          <div style="display: flex; justify-content: flex-end">
+            <button class="btn ven-btn-primary  mt-2">Enviar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-fall" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

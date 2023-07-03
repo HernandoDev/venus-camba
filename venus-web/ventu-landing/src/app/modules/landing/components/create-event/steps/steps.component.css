@@ -1,0 +1,225 @@
+.pasos {
+  width: 95%;
+  margin: 50px auto;
+}
+
+.segundopaso {
+  margin-top: 25px;
+  display: block;
+}
+.col-email {
+  padding: 0;
+}
+.col-direccion {
+  padding-left: 0px;
+}
+.primerpaso > h2,
+.segundopaso > h2,
+.tercerpaso > h2 {
+  font-size: 22px;
+  color: white;
+}
+.primerpaso > p,
+.segundopaso > p,
+.tercerpaso > p {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 5px;
+}
+.tercerpaso > p {
+  margin-bottom: 20px;
+}
+form > p {
+  font-size: 14px;
+  color: white;
+  margin-top: 10px;
+  font-weight: 300;
+}
+.col-pais-evento {
+  padding: 0;
+}
+.custom-file-button input[type="file"] {
+  margin-left: -2px !important;
+}
+
+.custom-file-button input[type="file"]::-webkit-file-upload-button {
+  display: none;
+}
+
+.custom-file-button input[type="file"]::file-selector-button {
+  display: none;
+}
+
+.custom-file-button label {
+  background-color: var(--sky-blue);
+  cursor: pointer;
+  font-size: 14px;
+  color: black;
+  border: none;
+}
+.col-fecha-inicio,
+.col-fecha-fin {
+  padding-right: 0;
+}
+.col-fecha-inicio {
+  width: 24%;
+}
+.col-hora-inicio {
+  width: 24%;
+}
+.col-guion {
+  width: 4%;
+  display: flex;
+  justify-content: center;
+}
+.col-fecha-fin {
+  width: 24%;
+}
+.col-hora-fin {
+  width: 24%;
+}
+.segundopaso {
+  display: none;
+}
+.tercerpaso {
+  display: none;
+}
+.mensaje-error {
+  color: red;
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.texto-boletin {
+  font-size: 14px;
+  color: white;
+  margin-top: 10px;
+  font-weight: 300;
+}
+.a-contactanos {
+  text-decoration: none;
+  color: var(--sky-blue);
+  font-size: 14px;
+}
+.imagen {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+}
+.logo {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+}
+.fa-trash {
+  position: absolute;
+  margin-left: 10px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+input[type="date"]:before {
+  color: #636c72;
+  font-weight: 700;
+  content: attr(placeholder) !important;
+  margin-right: 1em;
+}
+
+@media only screen and (max-width: 450px) {
+  .pasos {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 100%;
+  }
+  .col-siguiente {
+    margin-top: 25px !important;
+    width: 100% !important;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .col-email {
+    padding: 0px 12px;
+  }
+  .col-pais-evento {
+    padding: 0px 12px;
+  }
+  .col-direccion {
+    padding: 0px 12px;
+  }
+  .col-nombres{
+    width: 100%;
+  }
+  .col-apellidos{
+    width: 100%;
+    padding-left: 12px !important;
+  }
+  .input-apellidos{
+    margin-top: 0px !important;
+  }
+
+}
+@media only screen and (max-width: 639px) {
+  .col-fecha-inicio,
+  .col-hora-inicio {
+    width: 50%;
+  }
+  .col-guion {
+    display: none;
+  }
+  .col-fecha-fin,
+  .col-hora-fin {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .col-fecha-inicio {
+    padding: 0px 12px;
+  }
+  .col-fecha-fin {
+    padding: 0px 12px;
+  }
+  .col-fecha-inicio,
+  .col-hora-inicio {
+    width: 100%;
+  }
+  .col-fecha-fin,
+  .col-hora-fin {
+    width: 100%;
+  }
+}
+/* @media only screen and (max-width: 590px){
+  .col-logo, .col-imagen{
+    margin-top: 15px;
+    width: 100%;
+  }
+  .col-siguiente{
+    width: 95%;
+    margin-bottom: 15px;
+    position: absolute;
+    padding-right: 8px;
+    margin-top: 220px !important;
+  }
+  .input-group{
+    margin-top: 0px !important;
+  }
+  .br{
+    display: none;
+  }
+} */
+
+@media only screen and (max-width: 590px){
+  .col-input-logo, .col-input-imagen{
+    width: 100%;
+  }
+  .col-siguiente{
+    margin-top: 20px !important;
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+  
+}
+@media only screen and (max-width: 940px){
+  input[type="date"]:before {
+    display: none;
+  }
+}

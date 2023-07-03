@@ -1,0 +1,30 @@
+<div [ngClass]="{'layout-inline-menu': true, 'layout-inline-menu-active':appMain.activeInlineProfile}" *ngIf="!appMain.isMobile() && (appMain.isStatic() || appMain.isSlim() || appMain.isSidebar())">
+    <a class="layout-inline-menu-action" (click)="appMain.activeInlineProfile = !appMain.activeInlineProfile">
+        <img *ngIf="appMain.usuario.imagen != null" src="{{appMain.apiUrl + appMain.usuario.imagen}}" alt="avatar" style="width: 44px; height: 44px;">
+        <img *ngIf="appMain.usuario.imagen === null" src="assets/images/ventu.png" alt="avatar" style="width: 44px; height: 44px;">
+        <span class="layout-inline-menu-text">{{appMain.usuario.nombres}} {{appMain.usuario.apellidos}}</span>
+        <i class="layout-inline-menu-icon pi pi-angle-down"></i>
+    </a>
+
+    <ul class="layout-inline-menu-action-panel" [@inline]="appMain.activeInlineProfile ? 'visibleAnimated' : 'hiddenAnimated'">
+        <li class="layout-inline-menu-action-item">
+            <a>
+                <i class="pi pi-user pi-fw"></i>
+                <span>Perfil</span>
+            </a>
+        </li>
+        <li class="layout-inline-menu-action-item">
+            <a>
+                <i class="pi pi-cog pi-fw"></i>
+                <span>Ajustes</span>
+            </a>
+        </li>
+
+        <li class="layout-inline-menu-action-item">
+            <a (click)="clickMenuItem($event,'cerrarSesion')">
+                <i class="pi pi-power-off pi-fw"></i>
+                <span>Cerrar sesión</span>
+            </a>
+        </li>
+    </ul>
+</div>

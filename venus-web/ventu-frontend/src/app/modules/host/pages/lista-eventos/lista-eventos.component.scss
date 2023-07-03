@@ -1,0 +1,360 @@
+::ng-deep .p-dialog .p-dialog-content {
+    overflow-x: hidden;
+}
+
+::ng-deep table {
+    border-collapse: separate !important;
+    border-spacing: 0 1em !important;
+}
+
+.body-row {
+    --background: #FFFFFF;
+    background: #2f3040 !important;
+    border-radius: 8px;
+    color: #ffffff !important;
+    padding: 5%;
+}
+
+.evento-inhabilitado {
+    background: grey !important;
+}
+
+.centrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centrar-texto {
+    text-align: center !important;
+}
+
+.botones-acciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        margin: 0 5px !important;
+    }
+
+}
+
+.p-button-blue {
+    background-color: #1E90FF;
+    color: white;
+    border: 1px solid #1E90FF;
+    padding: 0.429rem 0.571rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+
+}
+
+.p-button-blue:enabled:hover {
+    background-color: #0b549c;
+    color: #ffffff;
+    border-color: #0b549c;
+}
+
+.imagen-evento {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 10px;
+    display: flex;
+}
+
+.pi-user {
+    margin-right: 10px;
+}
+
+p {
+    margin-bottom: 2px;
+}
+
+.en-curso {
+    background-color: #25A649;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    color: white;
+    white-space: nowrap
+}
+
+.finalizado {
+    background-color: #E73A3A;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    color: white;
+    white-space: nowrap
+}
+
+.pendiente {
+    background-color: #FF7A00;
+    border-radius: 16px;
+    padding-top: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 6px;
+    color: white;
+    white-space: nowrap
+}
+
+.imagen {
+    width: 150px;
+}
+
+.p-fluid {
+    padding-top: 25px;
+}
+
+.contenedor-planes {
+    display: flex;
+    justify-content: space-between;
+    .descripcion-plan{
+        p:first-of-type {
+            margin-top: 57px;
+            margin-bottom: 34.5px;
+        }
+        p{
+            margin-bottom: 31.5px;        
+        }
+    }
+    .plan-free,
+    .plan-silver,
+    .plan-gold {
+        width: 30%;
+        p:first-of-type{
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 3.7% 0px;
+
+            i {
+                font-size: 15px;
+            }
+        }
+    }
+
+    .plan-free {
+        background-color: #D8D8D8;
+        border: 2px solid white;
+
+        p {
+            color: black;
+        }
+
+        div {
+            i {
+                color: black;
+            }
+        }
+
+        .btn-free {
+            background-color: black;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-weight: 500;
+        }
+    }
+
+    .plan-silver {
+        background-color: #910A98;
+        border: 2px solid #646464;
+
+        div {
+            i {
+                color: white;
+            }
+        }
+
+        .btn-silver {
+            background-color: black;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-weight: 500;
+        }
+    }
+
+    .plan-gold {
+        background-color: #000000;
+        border: 2px solid #FFB800;
+
+        div {
+            i {
+                color: white;
+            }
+        }
+
+        .btn-gold {
+            background-color: #FFB800;
+            border: none;
+            border-radius: 8px;
+            box-shadow: none;
+            color: black;
+            padding: 10px 15px;
+            font-weight: 500;
+        }
+    }
+
+    .titulo-free,
+    .titulo-silver,
+    .titulo-gold {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .titulo-free {
+        color: black;
+    }
+
+    .titulo-silver {
+        color: white;
+    }
+
+    .titulo-gold {
+        color: #FFB800;
+    }
+}
+.contenedor-resumen{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div{
+        p{
+            margin-bottom: 12px;
+        }
+    }
+    .valores-resumen{
+        p{
+            font-weight: bold;
+            a{
+                font-weight: bold;
+            }
+        }
+    }
+}
+.contenedor-metodo-pago{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .datos-banco{
+        div{
+            p{
+                margin-bottom: 12px;
+            }
+        }
+        .valores-cuenta-banco{
+            font-weight: bold;
+        }
+    }
+    .cards-planes{
+        .plan-gold{
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            width: 390px;
+            background-color: #000000;
+            border: 2px solid #FFB800;
+            padding-left: 30px;
+            padding-right: 30px;
+
+            .btn-gold{
+                background-color: #FFB800;
+                border: none;
+                border-radius: 8px;
+                box-shadow: none;
+                color: black;
+                padding: 15px 35px;
+                font-weight: 500;
+            }
+        }
+        .plan-silver{
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            width: 390px;
+            background-color: #910A98;
+            border: 2px solid #646464;
+            padding-left: 30px;
+            padding-right: 30px;
+            
+            .btn-silver{
+                background-color: black;
+                border: none;
+                border-radius: 8px;
+                box-shadow: none;
+                color: white;
+                padding: 15px 35px;
+                font-weight: 500;
+            }
+        }
+        .plan-free{
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            width: 390px;
+            background-color: #D8D8D8;
+            border: 2px solid white;
+            padding-left: 30px;
+            padding-right: 30px;
+            
+            .btn-free{
+                background-color: black;
+                border: none;
+                border-radius: 8px;
+                box-shadow: none;
+                color: white;
+                padding: 15px 35px;
+                font-weight: 500;
+            }
+        }
+
+    }
+}
+.texto-importante{
+    border: 1px solid #8DFEFC;
+    border-radius: 8px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 16px;
+}
+
+::ng-deep .cerrar-sesion-dialog .p-dialog-header{
+    display: flex;
+    justify-content: end;
+}
+::ng-deep .p-progress-spinner{
+    z-index: 99999;
+}
+.texto-blanco{
+    color: white;
+}
+.texto-negro{
+    color:black;
+}
+.progress-spinner{
+    z-index: 99999;
+}
+#modal_last {
+    z-index: 100 !important;
+}

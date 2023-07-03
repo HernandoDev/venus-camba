@@ -1,0 +1,157 @@
+<div class="resumen" #resumen>
+  <h2 class="titulo-resumen">Resumen del evento</h2>
+  <p class="texto">Revisa que la información a continuación esté correcta.</p>
+  <div class="row">
+    <div class="col">
+      <h3 class="titulo-anfitrion">Información del anfitrión</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3 col-img">
+      <img [src]="logo64" alt="" class="imagen" />
+    </div>
+    <div class="col-4 col-titulos">
+      <div class="titulos">
+        <p>Nombre completo:</p>
+        <p>Teléfono:</p>
+        <p>Email:</p>
+        <p>País:</p>
+      </div>
+    </div>
+    <div class="col-5 col-nombres">
+      <div class="nombres">
+        <p title="{{ cuenta.nombres + ' ' + cuenta.apellidos }}">{{ cuenta.nombres + ' ' + cuenta.apellidos}}</p>
+        <p title="{{ cuenta.telefono }}">{{ cuenta.telefono }}</p>
+        <p title="{{ cuenta.correo }}">{{ cuenta.correo }}</p>
+        <p title="{{ cuenta.pais }}">{{ cuenta.pais }}</p>
+      </div>
+    </div>
+    <div class="col-12 col-nombres-responsive">
+      <p>Nombre completo:</p>
+      <p class="strong">{{ cuenta.nombres + ' ' + cuenta.apellidos}}</p>
+      <p>Teléfono:</p>
+      <p class="strong">{{ cuenta.telefono }}</p>
+      <p>Email:</p>
+      <p class="strong">{{ cuenta.correo }}</p>
+      <p>País</p>
+      <p class="strong">{{ cuenta.pais }}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3 class="titulo-evento">Información del evento</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3 col-img2">
+      <img [src]="imagen64" alt="" class="imagen" />
+    </div>
+    <div class="col-4 col-titulos">
+      <div class="titulos2">
+        <p>Nombre del evento:</p>
+        <p *ngIf="evento.descripcion !== ''">Descripción del evento:</p>
+        <p>Tipo de evento:</p>
+        <p>País del evento:</p>
+        <p>Privacidad del evento:</p>
+        <p *ngIf="evento.nombreLugar !== ''">Nombre del lugar:</p>
+        <p>Dirección:</p>
+        <p *ngIf="evento.linkMaps !== ''">Link de Google Maps:</p>
+        <p>Fecha y hora:</p>
+        <p>Plan:</p>
+      </div>
+    </div>
+    <div class="col-5 col-nombres">
+      <div class="nombres2">
+        <p title="{{ evento.nombreEvento }}">{{ evento.nombreEvento }}</p>
+        <p *ngIf="evento.descripcion !== ''" title="{{ evento.descripcion }}">
+          {{ evento.descripcion }}
+        </p>
+        <p title="{{ evento.tipo }}">{{ evento.tipo }}</p>
+        <p title="{{ evento.pais }}">{{ evento.pais }}</p>
+        <p title="{{ evento.privacidad }}">{{ evento.privacidad }}</p>
+        <p *ngIf="evento.nombreLugar !== ''" title="{{ evento.nombreLugar }}">
+          {{ evento.nombreLugar }}
+        </p>
+        <p title="{{ evento.direccion }}">{{ evento.direccion }}</p>
+        <a
+          *ngIf="evento.linkMaps !== ''"
+          class="link-maps"
+          href="{{ evento.linkMaps }}"
+          target="_blank"
+          title="{{ evento.linkMaps }}"
+          style="display: block; margin-bottom: 16px"
+          >{{ evento.linkMaps }}</a
+        >
+        <p
+          title="Desde: {{ evento.fechaInicio }} - {{
+            evento.horaInicio
+          }}; Hasta: {{ evento.fechaFin }} - {{ evento.horaFin }}"
+        >
+          Desde: {{ evento.fechaInicio }} - {{ evento.horaInicio }}; Hasta:
+          {{ evento.fechaFin }} - {{ evento.horaFin }}
+        </p>
+        <p>{{ evento.plan }}</p>
+      </div>
+    </div>
+    <div class="col-12 col-nombres-responsive">
+      <p>Nombre del evento:</p>
+      <p class="strong" title="{{ evento.nombreEvento }}">
+        {{ evento.nombreEvento }}
+      </p>
+      <p *ngIf="evento.descripcion !== ''">Descripción del evento:</p>
+      <p
+        *ngIf="evento.descripcion !== ''"
+        class="strong"
+        title="{{ evento.descripcion }}"
+      >
+        {{ evento.descripcion }}
+      </p>
+      <p>Tipo de evento:</p>
+      <p class="strong" title="{{ evento.tipo }}">{{ evento.tipo }}</p>
+      <p>País del evento:</p>
+      <p class="strong" title="{{ evento.pais }}">{{ evento.pais }}</p>
+      <p>Privacidad del evento:</p>
+      <p class="strong" title="{{ evento.privacidad }}">
+        {{ evento.privacidad }}
+      </p>
+      <p *ngIf="evento.nombreLugar !== ''">Nombre del lugar:</p>
+      <p
+        *ngIf="evento.nombreLugar !== ''"
+        class="strong"
+        title="{{ evento.nombreLugar }}"
+      >
+        {{ evento.nombreLugar }}
+      </p>
+      <p>Dirección:</p>
+      <p class="strong" title="{{ evento.direccion }}">
+        {{ evento.direccion }}
+      </p>
+      <p *ngIf="evento.linkMaps !== ''">Link de Google Maps:</p>
+      <a
+        *ngIf="evento.linkMaps !== ''"
+        class="link-maps strong"
+        href="{{ evento.linkMaps }}"
+        target="_blank"
+        title="{{ evento.linkMaps }}"
+        style="display: block; margin-bottom: 16px"
+        >{{ evento.linkMaps }}</a
+      >
+      <p>Fecha y hora:</p>
+      <p
+        title="Desde: {{ evento.fechaInicio }} - {{ evento.horaInicio }}; Hasta:
+      {{ evento.fechaFin }} - {{ evento.horaFin }}"
+        class="strong"
+      >
+        Desde: {{ evento.fechaInicio }} - {{ evento.horaInicio }}; Hasta:
+        {{ evento.fechaFin }} - {{ evento.horaFin }}
+      </p>
+      <p>Plan:</p>
+      <p class="strong">{{ evento.plan }}</p>
+    </div>
+  </div>
+  <div class="col derecha-div mt-2" *ngIf="pagina =='resumen'">
+    <button class="btn ven-btn-secondary" (click)="irCrearEvento()">
+      Editar información
+    </button>
+  </div>
+</div>

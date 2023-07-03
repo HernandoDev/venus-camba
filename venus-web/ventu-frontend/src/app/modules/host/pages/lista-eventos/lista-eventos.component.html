@@ -1,0 +1,544 @@
+<div class="progress-spinner" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<h2>Eventos</h2>
+<div class="card">
+    <div class="col-12 md:col-12 h-full">
+        <button pTooltip="Agregar nuevo evento" pButton pRipple type="button" icon="pi pi-plus"
+            class="p-button-rounded p-button mr-2 mb-2" (click)="modalCrearEvento()"></button>
+        <button (click)="exportExcelEventos()" pButton pRipple label="Exportar a excel" icon="pi pi-file-excel"
+            class="p-button-rounded p-button-success mr-2 mb-2"></button>
+        <p-table #dt id="tabla-eventos" [value]="listaEventos" responsiveLayout="scroll" [paginator]="true" [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="[10,25,50]"
+            [globalFilterFields]="['nombre', 'categoria', 'descripcion','tipo_evento']" [loading]="cargandoDatos">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                            placeholder="Buscar evento" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 30%">Evento </th>
+                    <th class="centrar-texto">Estado </th>
+                    <th class="centrar-texto">Fecha de inicio</th>
+                    <th class="centrar-texto">Tipo</th>
+                    <th style="width: 10%;" class="centrar-texto">Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-evento let-columns="columns">
+                <tr [ngClass]="{
+                    'evento-inhabilitado' : evento.habilitado== 0}
+                    " class="body-row">
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            <span  (click)="evento.habilitado!= 0 ? irDetalleEvento(evento.id) : false;" [ngStyle]="{'cursor': evento.habilitado != 0 ? 'pointer' : 'default'}">
+                                <img class="imagen-evento" [src]="apiUrl + evento.imagen" alt="evento">
+                            </span>
+                            <div style="display: block;">
+                                <p style="font-weight: bold; text-align: initial;">
+                                    {{evento.nombre}}
+                                </p>
+                                <div style="display: flex; align-items: center;">
+                                    <i class="pi pi-user"></i>
+                                    <p>{{evento.cantidad_invitados}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="centrar-texto">
+                        <span [ngClass]="{
+                            'en-curso':evento.estado == 'En curso',
+                            'finalizado':evento.estado == 'Finalizado',
+                            'pendiente':evento.estado == 'Pendiente'
+                          }">
+                            {{evento.estado}}
+                        </span>
+                    </td>
+                    <td class="centrar-texto">
+                        <div>
+                            <p style="font-weight: bold;">{{formatearFecha(evento.fecha_inicio)}}</p>
+                            <p>{{evento.hora_inicio}}</p>
+                        </div>
+                    </td>
+                    <td class="centrar-texto">
+                        <p style="font-weight: bold;">
+                            {{formatearTipoEvento(evento.tipo)}}
+                        </p>
+                        <p>
+                            {{evento.plan.nombre}}
+                        </p>
+                    </td>
+                    <td>
+                        <span class="botones-acciones">
+                            <button [disabled]="evento.habilitado== 0" pTooltip="Ver evento"
+                                (click)="irDetalleEvento(evento.id)" pButton pRipple type="button" icon="pi pi-search"
+                                class="p-button-rounded p-button-blue mr-2 mb-2"></button>
+                            <button pTooltip="Eliminar evento" pButton pRipple type="button" icon="pi pi-trash"
+                                class="p-button-rounded p-button-danger mr-2 mb-2"  (click)="confirmarEliminar($event,evento)"></button>
+                            <p-confirmPopup key="confirmarEliminar"></p-confirmPopup>
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                No se encontraron resultados.
+            </ng-template>
+        </p-table>
+
+        <!-- MODALES DE LA CREACIÓN DE EVENTO -->
+        <p-dialog [(visible)]="mostrarModalEvento" modal="modal" showEffect="fade" [style]="{width: '80vw'}"
+            [breakpoints]="{'960px': '80vw'}" (onHide)="vaciarInputImagen($event)">
+            <ng-template pTemplate="header">
+                <div>
+                    <p class="p-dialog-title">{{tituloModal}}</p>
+                    <p style="color: grey; margin-top: 10px;">Llena los datos de tu evento</p>
+                </div>
+            </ng-template>
+            <form [formGroup]="formularioEvento">
+                <div class="card p-fluid">
+                    <div style="display: flex;flex-direction: column;" class="p-formgrid grid">
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="nombreEvento" pInputText>
+                                <label for="float-input">Nombre del evento</label>
+                            </span>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <textarea formControlName="descripcion" pInputTextarea></textarea>
+                                <label for="float-input">Descripción del evento</label>
+                            </span>
+                        </div>
+                        <div style="display:flex; justify-content: space-between; align-items: center;">
+                            <div class="field col">
+                                <span class="p-float-label">
+                                    <p-dropdown formControlName="tipo" appendTo="body" [options]="opcionesTipoEvento"
+                                        placeholder="Seleccione el tipo" optionLabel="nombre"
+                                        optionValue="valor"></p-dropdown>
+                                    <label for="float-input">Tipo de evento</label>
+                                </span>
+                            </div>
+                            <div class="field col">
+                                <span class="p-float-label">
+                                    <p-dropdown formControlName="pais" appendTo="body" [options]="opcionesPaisEvento"
+                                        placeholder="Seleccione el país" optionLabel=""
+                                        optionValue=""></p-dropdown>
+                                    <label for="float-input">País del evento</label>
+                                </span>
+                            </div>
+                            <div class="field col">
+                                <span class="p-float-label">
+                                    <p-dropdown formControlName="privacidad" appendTo="body"
+                                        [options]="opcionesPrivacidadEvento" placeholder="Seleccione la privacidad"
+                                        optionLabel="nombre" optionValue="valor"></p-dropdown>
+                                    <label for="float-input">¿Evento público o privado?</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div style="display:flex; justify-content: space-between; align-items: center;">
+                            <div class="field col-4">
+                                <span class="p-float-label">
+                                    <input formControlName="nombreLugar" pInputText>
+                                    <label for="float-input">Nombre del lugar (opcional)</label>
+                                </span>
+                            </div>
+                            <div class="field col-8">
+                                <span class="p-float-label">
+                                    <input formControlName="direccion" pInputText>
+                                    <label for="float-input">Dirección (opcional)</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <input formControlName="linkMaps" pInputText>
+                                <label for="float-input">Link de Google Maps (opcional)</label>
+                            </span>
+                        </div>
+                        <div style="display:flex; justify-content: space-between; align-items: center;">
+                            <div class="field col">
+                                <span class="p-float-label">
+                                    <p-calendar #calendar1 formControlName="fechaInicio" [minDate]="fechaMinima"
+                                        dateFormat="dd/mm/yy" inputId="date" appendTo="body"
+                                        placeholder="Seleccione una fecha"></p-calendar>
+                                    <label for="float-input">Fecha de inicio</label>
+                                </span>
+                            </div>
+                            <div class="field col">
+                                <span class="p-float-label">
+                                    <p-calendar formControlName="horaInicio" #time1 [timeOnly]="true" appendTo="body"
+                                        placeholder="Seleccione una hora" [hourFormat]="12"
+                                        inputId="timeonly"></p-calendar>
+                                    <label for="float-input">Hora de inicio</label>
+                                </span>
+                            </div>
+                            <div class="field col">
+                                <span class="p-float-label">
+                                    <p-calendar #calendar2 formControlName="fechaFin" [minDate]="fechaMinima"
+                                        dateFormat="dd/mm/yy" inputId="date" appendTo="body"
+                                        placeholder="Seleccione una fecha"></p-calendar>
+                                    <label for="float-input">Fecha de Finalización</label>
+                                </span>
+                            </div>
+                            <div class="field col">
+                                <span class="p-float-label">
+                                    <p-calendar #time2 formControlName="horaFin" [timeOnly]="true" appendTo="body"
+                                        placeholder="Seleccione una hora" [hourFormat]="12"
+                                        inputId="timeonly2"></p-calendar>
+                                    <label for="float-input">Hora de finalización</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field col">
+                            <span class="p-float-label">
+                                <p-fileUpload #fileUpload name="imagen[]" multiple="false" accept="image/*"
+                                    maxFileSize="10000000" cancelLabel="Cancelar" chooseLabel="Escoger"
+                                    [showUploadButton]="false" invalidFileSizeMessageSummary="Tamaño de imagen inválido"
+                                    invalidFileSizeMessageDetail="El tamaño máximo de carga es de 10 MB." fileLimit="1"
+                                    invalidFileLimitMessageDetail="Número máximo de archivos excedido"
+                                    invalidFileLimitMessageSummary="El límite es 1 como máximo"
+                                    (onSelect)="cargarImagenEvento()">
+                                    <ng-template pTemplate="content" let-files>
+                                        <div style="color: #868C9B">Imagen del evento</div>
+                                    </ng-template>
+                                </p-fileUpload>
+                            </span>
+                        </div>
+                        <div class="field col" *ngIf="imagen != undefined">
+                            <span class="p-float-label centrar" style="margin-bottom: 20px">
+                                <img class="imagen" src="{{imagen}}" alt="Imagen evento">
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+            <ng-template pTemplate="footer">
+                <button pButton icon="pi pi-times" (click)="cancelarEvento()" label="Cancelar"
+                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                <button pButton icon="pi pi-arrow-right" label="Siguiente"
+                    [disabled]="formularioEvento.invalid || (fileUpload?.files.length !== 1 && this.imagen == null && this.imagen == undefined)" (click)="irSegundoPaso()"
+                    class="p-button-rounded p-button-success mr-2 mb-2"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="mostrarModalPlanes" modal="modal" showEffect="fade" [style]="{width: '80vw'}"
+            [breakpoints]="{'960px': '80vw'}">
+            <ng-template pTemplate="header">
+                <div>
+                    <p class="p-dialog-title">{{tituloModal}}</p>
+                    <p style="color: grey; margin-top: 10px;">Escoge tu paquete y define tus asistentes e invitados</p>
+                </div>
+            </ng-template>
+            <div class="contenedor-planes">
+                <div style="width: 35%" class="descripcion-plan">
+                    <p *ngFor="let parametro of parametros_planes">{{parametro.descripcion}}</p>
+                    <!-- <p>Invitación QR</p>
+                    <p>Lista de invitados en el celular</p>
+                    <p>Categorización de invitados</p>
+                    <p>Evento personalizado con imagen</p>
+                    <p>Imagen del anfitrión en la invitación</p>
+                    <p>Número de guardias disponibles</p> -->
+                </div>
+                <div style="display:flex; justify-content: space-between; width: 65%; gap: 20px">
+                    <!--  -->
+                    
+                    <div  *ngFor="let plan of planes" 
+                    [ngClass]="{
+                        'plan-free':plan.nombre == 'Free',
+                        'plan-silver':plan.nombre == 'Silver',
+                        'plan-gold':plan.nombre == 'Gold'
+                      }"
+                    class="card">
+                        <h4 
+                        [ngClass]="{
+                            'titulo-free':plan.nombre == 'Free',
+                            'titulo-silver':plan.nombre == 'Silver',
+                            'titulo-gold':plan.nombre == 'Gold'
+                          }">
+                        Plan {{plan.nombre}}</h4>
+                        <div *ngFor="let parametros_planes of plan.asignacion_plan">
+                            <p *ngIf="parametros_planes.fk_parametro==1">{{comprobarIlimitado(parametros_planes.valor_parametro)}}</p>
+                            <p *ngIf="parametros_planes.fk_parametro==2">{{comprobarIlimitado(parametros_planes.valor_parametro)}}</p>
+                            <div *ngIf="parametros_planes.fk_parametro!=1 &&parametros_planes.fk_parametro!=2 ">
+                                <i *ngIf="parametros_planes.habilitada == 1"class="bi bi-check-circle-fill"></i>
+                                <i *ngIf="parametros_planes.habilitada == 0" class="bi bi-dash"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <button pButton type="button" 
+                            [ngClass]="{
+                                'btn-free':plan.nombre == 'Free',
+                                'btn-silver':plan.nombre == 'Silver',
+                                'btn-gold':plan.nombre == 'Gold'
+                              }"
+                            label="Escoger plan"
+                            (click)="seleccionarPlan(plan)"></button>
+                        </div>
+                    </div>
+
+                    <!--  -->
+
+
+                    <!-- <div class="card plan-silver">
+                        <h4 class="titulo-silver">Plan Silver</h4>
+                        <p>Hasta 150</p>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <p style="padding-top: 18px">2</p>
+                        <div>
+                            <button pButton type="button" class="btn-silver" label="Escoger plan"
+                            (click)="seleccionarPlan('Silver')"></button>
+                        </div>
+                    </div>
+                    <div class="card plan-gold">
+                        <h4 class="titulo-gold">Plan Gold</h4>
+                        <p>Ilimitado</p>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <p style="padding-top: 18px">Ilimitado</p>
+                        <div>
+                            <button pButton type="button" class="btn-gold" label="Escoger plan"
+                            (click)="seleccionarPlan('Gold')"></button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton icon="pi pi-arrow-left" (click)="volverPrimerPaso()" style="float: left;" label="Volver"
+                    class="p-button-rounded p-button-warning mr-2 mb-2"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="mostrarModalResumen" id="modal_last" modal="modal" showEffect="fade" [style]="{width:'80vw'}"
+        [breakpoints]="{'960px': '80vw'}">
+        <ng-template pTemplate="header">
+            <div>
+                <p class="p-dialog-title">{{tituloModal}}</p>
+                <p style="color: grey; margin-top: 10px;">Revisa los detalles de tu evento y realiza el pago</p>
+            </div>
+        </ng-template>
+        <div class="contenedor-resumen">
+            <div>
+                <p>Nombre del evento:</p>
+                <p>Descripción del evento:</p>
+                <p>Tipo de evento:</p>
+                <p>País del evento:</p>
+                <p>Privacidad del evento:</p>
+                <p *ngIf="eventoActualizado.direccion != null && eventoActualizado.nombreLugar != null">Dirección:</p>
+                <p *ngIf="eventoActualizado.linkMaps != null">Link de Google Maps:</p>
+                <p>Fecha y hora:</p>
+                <p>Plan:</p>
+            </div>
+            <div class="valores-resumen">
+                <p>{{eventoActualizado.nombreEvento}}</p>
+                <p>{{eventoActualizado.descripcion}}</p>
+                <p>{{eventoActualizado.tipo}}</p>
+                <p>{{eventoActualizado.pais}}</p>
+                <p>{{eventoActualizado.privacidad == 0 ? 'Público': 'Privado'}}</p>
+                <p *ngIf="eventoActualizado.direccion != null && eventoActualizado.nombreLugar != null">{{eventoActualizado.nombreLugar}} - {{eventoActualizado.direccion}}</p>
+                <p *ngIf="eventoActualizado.linkMaps != null"><a style="text-decoration: none; color: #8DFEFC" href="{{eventoActualizado.linkMaps}}" target="_blank">{{eventoActualizado.linkMaps}}</a></p>
+                <p>Desde: {{eventoActualizado.fechaInicio}} - {{eventoActualizado.horaInicio}}; Hasta: {{eventoActualizado.fechaFin}} - {{eventoActualizado.horaFin}}</p>
+                <p>{{eventoActualizado.plan}}</p>
+            </div>
+            <div>
+                <img style="width: 250px" src="{{imagen}}" alt="Imagen evento">
+            </div>
+        </div>
+        <div>
+            <button pButton icon="pi pi-pencil" (click)="irPrimerPaso()" label="Editar información"
+                class="p-button-rounded p-button-blue mr-2 mb-2"></button>
+        </div>
+        <div class="texto-importante">
+            <p>IMPORTANTE: Una vez realizado tu pago, envía tu comprobante de transferencia o depósito al <a href="https://wa.me/+59172101994" target="_blank">+59172101994</a> para validar tu compra inmediatamente. Los datos de tu evento se guardarán por 48 horas. Si no se ha recibido el comprobante hasta entonces, el evento se eliminará del sistema.</p>
+        </div>
+        <div class="contenedor-metodo-pago" [ngStyle]="{'justify-content': eventoActualizado.planObjecto.nombre !== 'Free' ? 'space-between' : 'flex-end'}">
+            <div  *ngIf="eventoActualizado.planObjecto.nombre !== 'Free'" >
+                <span class="p-float-label" style="margin-bottom: 20px;">
+                    <p-dropdown appendTo="body" [options]="opcionesPago"
+                        placeholder="Seleccione el método de pago" optionLabel="nombre"
+                        optionValue="valor" [(ngModel)]="selectPago"></p-dropdown>
+                    <label for="float-input">Método de pago</label>
+                </span>
+                <div style="display: flex; justify-content: space-between; gap: 15px" class="datos-banco">
+                    <div>
+                        <p>Banco:</p>
+                        <p>Número de cuenta:</p>
+                        <p>Moneda:</p>
+                        <p>Nombre:</p>
+                        <p>NIT:</p>
+                    </div>
+                    <div class="valores-cuenta-banco">
+                        <p>Banco Fassil</p>
+                        <p>38470153</p>
+                        <p>Dólares americanos</p>
+                        <p>Andrey Karim Dueri Handal</p>
+                        <p>4297770 LP</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="eventoActualizado.planObjecto.nombre !== 'Free'">
+                <img style="width:190px" src="assets/images/qr2.jpeg" alt="QR">
+            </div>
+            <div class="cards-planes">
+                    <div 
+                    [ngClass]="{
+                        'plan-free':eventoActualizado.planObjecto.nombre == 'Free',
+                        'plan-silver':eventoActualizado.planObjecto.nombre == 'Silver',
+                        'plan-gold':eventoActualizado.planObjecto.nombre == 'Gold'
+                    }"
+                    class="card" >
+                        <div>
+                            <div *ngFor="let parametro of eventoActualizado.planObjecto.asignacion_plan" style="display: flex; justify-content: flex-start; align-items: center; gap:10px"> 
+                                <i 
+                                [ngClass]="{
+                                    'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                                }"
+                                *ngIf="parametro.fk_parametro ==1" class="bi bi-check-circle-fill" ></i>
+                                <p
+                                [ngClass]="{
+                                    'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                                }"
+                                *ngIf="parametro.fk_parametro ==1" style="margin-bottom: 8px">Invitados {{comprobarIlimitado(parametro.valor_parametro)}}</p>
+
+                                <i 
+                                [ngClass]="{
+                                    'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                                }"
+                                *ngIf="parametro.fk_parametro ==2"class="bi bi-check-circle-fill" ></i>
+                                <p 
+                                [ngClass]="{
+                                    'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                                }"
+                                *ngIf="parametro.fk_parametro ==2"style="margin-bottom: 8px">Guardias {{comprobarIlimitado(parametro.valor_parametro)}}</p>
+                            </div>
+                            <div style="display: flex; justify-content: flex-start; align-items: center; gap:10px">
+                                <i
+                                [ngClass]="{
+                                    'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                                }"
+                                class="bi bi-check-circle-fill"></i>
+                                <p  
+                                [ngClass]="{
+                                    'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                                }"
+                                *ngIf="eventoActualizado.plan === 'Free'" style="margin-bottom: 8px; ">Beneficios limitados</p>
+                                <p  
+                                [ngClass]="{
+                                    'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                                }"
+                                *ngIf="eventoActualizado.plan != 'Free'" style="margin-bottom: 8px;">Todos los beneficios</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 
+                            [ngClass]="{
+                                'texto-negro':eventoActualizado.planObjecto.nombre == 'Free',
+                                'texto-blanco':eventoActualizado.planObjecto.nombre != 'Free'
+                            }"
+                            style="margin-bottom: 12px; font-weight: bold;">Plan {{eventoActualizado.plan}}</h5>
+                            <div>
+                                <button pButton type="button" 
+                                [ngClass]="{
+                                    'btn-free':eventoActualizado.planObjecto.nombre == 'Free',
+                                    'btn-silver':eventoActualizado.planObjecto.nombre == 'Silver',
+                                    'btn-gold':eventoActualizado.planObjecto.nombre == 'Gold'
+                                }"
+                                label="Confirmar" (click)="confirmarEvento()" [disabled]="this.loading"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- <div class="card plan-silver" *ngIf="eventoActualizado.plan === 'Silver'">
+                    <div>
+                        <div style="display: flex; justify-content: flex-start; align-items: center; gap:10px"> 
+                            <i class="bi bi-check-circle-fill" style="color: white;"></i>
+                            <p style="margin-bottom: 8px">Hasta 150 invitados</p>
+
+                        </div>
+                        <div style="display: flex; justify-content:  flex-start; align-items: center; gap:10px">
+                            <i class="bi bi-check-circle-fill" style="color: white;"></i>
+                            <p style="margin-bottom: 8px">2 guardias</p>
+                        </div>
+                        <div style="display: flex; justify-content: flex-start; align-items: center; gap:10px">
+                            <i class="bi bi-check-circle-fill" style="color: white;"></i>
+                            <p style="margin-bottom: 8px">Todos los beneficios</p>
+
+                        </div>
+                    </div>
+                    <div>
+                        <h5 style="margin-bottom: 12px; font-weight: bold; color: white">Plan Silver</h5>
+                        <div>
+                            <button pButton type="button" class="btn-silver" label="Confirmar" (click)="confirmarEvento()"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card plan-free" *ngIf="eventoActualizado.plan === 'Free'">
+                    <div>
+                        <div style="display: flex; justify-content: flex-start; align-items: center; gap:10px"> 
+                            <i class="bi bi-check-circle-fill" style="color: black;"></i>
+                            <p style="margin-bottom: 8px; color: black">Hasta 40 invitados</p>
+
+                        </div>
+                        <div style="display: flex; justify-content:  flex-start; align-items: center; gap:10px">
+                            <i class="bi bi-check-circle-fill" style="color: black;"></i>
+                            <p style="margin-bottom: 8px; color: black">1 guardia</p>
+                        </div>
+                        <div style="display: flex; justify-content: flex-start; align-items: center; gap:10px">
+                            <i class="bi bi-check-circle-fill" style="color: black;"></i>
+                            <p style="margin-bottom: 8px; color: black">Beneficios limitados</p>
+
+                        </div>
+                    </div>
+                    <div>
+                        <h5 style="margin-bottom: 12px; font-weight: bold; color: black">Plan Free</h5>
+                        <div>
+                            <button pButton type="button" class="btn-free" label="Confirmar" (click)="confirmarEvento()"></button>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        
+        </p-dialog>
+    </div>
+</div>

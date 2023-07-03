@@ -1,0 +1,32 @@
+<div class="login-body">
+    <div class="login-image">
+
+    </div>
+    <div class="login-panel p-fluid">
+        <div class="flex flex-column">
+            <div class="flex align-items-center mb-6 logo-container">
+                <img src="assets/images/ventu-logo.png"
+                     class="login-logo"/>
+            </div>
+            <form [formGroup]="formularioLogin" class="form-container">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-envelope"></i>
+                    <input formControlName="correo" type="text" autocomplete="off" pInputText placeholder="Correo Electrónico">
+                </span>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-key"></i>
+                    <input formControlName="contrasenha" type="password" autocomplete="off" pInputText placeholder="Contraseña">
+                </span>
+                <a href="#" class="flex">¿Olvidaste tu contraseña?</a>
+                <div class="button-container">
+                    <button type="submit" pButton label="Ingresar" (click)="iniciarSesion()">
+                    </button>
+                    <span>¿Aún no tienes una cuenta?<a> Crea una aquí.</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="progress-spinner" *ngIf="mostrarSpinner">
+    <p-progressSpinner></p-progressSpinner>
+</div>

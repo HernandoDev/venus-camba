@@ -1,0 +1,168 @@
+.metodos-pago {
+  width: 95%;
+  margin: auto;
+  margin-top: 25px;
+}
+.image {
+  width: 340px;
+  height: 340px;
+  object-fit: cover;
+}
+.titulo-ultimo-paso {
+  font-size: 22px;
+  color: white;
+}
+.texto {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 5px;
+}
+.titulos > p {
+  color: white;
+}
+.valores > p {
+  color: white;
+  font-weight: bold;
+}
+.usd {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.plan {
+  background-color: black;
+  border: 2px solid var(--gold);
+  width: 100%;
+  border-radius: var(--card-radius);
+}
+.plan2 {
+  background-color: var(--purple-silver);
+  border: 2px solid var(--input-text);
+  width: 100%;
+  border-radius: var(--card-radius);
+}
+.plan3 {
+  background-color: var(--gray-free);
+  border: 2px solid white;
+  width: 100%;
+  border-radius: var(--card-radius);
+}
+.titulo-gold {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 0;
+}
+.titulo-silver {
+  color: white;
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 0;
+
+}
+.titulo-free {
+  color: black;
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 0;
+
+}
+.titulos-planes {
+  padding: 0px 20px;
+}
+.btn-gold {
+  background-color: var(--gold) !important;
+  color: black !important;
+  margin-right: 20px;
+  font-weight: bold !important;
+}
+.ven-btn-primary{
+  margin-right: 20px !important;
+}
+.texto-contactanos{
+  font-size: 14px;
+  color: white;
+  margin-top: 10px;
+  font-weight: 300;
+}
+.a-contactanos{
+  text-decoration: none;
+  color: var(--sky-blue);
+  font-size: 14px;
+}
+.datos-banco-responsive{
+  display: none;
+}
+@media only screen and (max-width: 450px) {
+  .metodos-pago {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 100%;
+  }
+  .image {
+    width: 300px;
+    height: 300px;
+  }
+}
+@media only screen and (max-width: 770px) {
+  .col-datos-bancarios {
+    width: 100%;
+  }
+  .col-qr {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .titulos > p,
+  .valores > p {
+    text-align: center;
+  }
+  .info {
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 805px) {
+  .col-titulos {
+    width: 35%;
+  }
+  .col-beneficios {
+    width: 31%;
+  }
+}
+@media only screen and (max-width: 700px) {
+    .titulos-planes{
+        border-right: 0px !important;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    .beneficios{
+        margin-bottom: 10px;
+    }
+    .btn-gold{
+        margin-bottom: 20px;
+        margin-right: 0px;
+    }
+    .ven-btn-primary{
+      margin-bottom: 20px;
+      margin-right: 0px !important;
+    }
+    .col-titulos, .col-beneficios, .col-confirmar{
+        width: 100%;
+        display: flex;
+        justify-content: center !important;
+        align-items: center;
+    }
+    .titulo-free, .titulo-gold, .titulo-silver{
+      text-align: center;
+    }
+
+}
+@media only screen and (max-width: 991px) {
+  .datos-banco-responsive{
+    display: block;
+  }
+  .datos-banco{
+    display: none;
+  }
+}
