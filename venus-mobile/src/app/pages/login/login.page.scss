@@ -1,0 +1,120 @@
+ion-content {
+    // --background: linear-gradient(180deg, #63005F 0%, #490063 44.06%, #030018 100%);
+    --background : url("../../../assets/images/ventu_background.png") no-repeat center center / cover;
+}
+
+.logo-slapp {
+    min-width: 90%;
+    // max-height: 265px;
+}
+
+.contenedor {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-principal {
+    height: 95%;
+    max-height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.texto-contrasena-olvidada {
+    text-align: right;
+    color: white;
+    font-size: 14px;
+}
+ion-row {
+    display: block;
+}
+
+.input-login {
+    margin-bottom: 10px;
+}
+.boton-iniciar-sesion {
+    --background: #7723FF;
+    color: white;
+    --border-radius: 360px;
+    font-size: 16px;
+    height: 58px;
+    text-transform: none;
+}
+.texto-crear-cuenta {
+    font-size: 14px;
+    color: white;
+}
+.texto-contrasena-olvidada {
+    margin-right: 15px;
+}
+.crear-cuenta {
+    display: grid;
+    text-align: center;
+}
+.row-logo {
+    margin-bottom: 17%;
+    margin-top: 5%;
+}
+
+.btn_eye_icon{
+    position: absolute;
+    right: 57px;
+    margin-top: -53px;
+    z-index: 999;
+    background: transparent;
+    ion-icon{
+        font-size: 22px;
+        color:#757575;
+    }
+}
+
+.btn_eye_icon:focus{
+    outline: none  !important;
+}
+@media only screen and (max-height: 780px) {
+    .grid-principal {
+        height: 95%;
+    }
+}
+
+.login-box {
+    border-radius: 25px;
+    width: 100%;
+    padding: 25px;
+    width: 85%;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inp-user {
+    padding-left: 2.775rem !important;
+    outline: none;
+    background: url(/assets/images/usuarios.png) no-repeat scroll 12px 12px;
+    background-size: 25px;
+}
+
+.inp-pass {
+    padding-left: 2.775rem !important;
+    outline: none;
+    background: url(/assets/images/candado.png) no-repeat scroll 12px 12px;
+    background-size: 25px;
+}
+
+.inp-container {
+    background: white;
+    border-radius: 15px;
+}
+
+.forgot-label {
+    color: #3ADCFF;
+    text-align: end;
+    padding: 0px 15px;
+    font-size: 14px;
+}

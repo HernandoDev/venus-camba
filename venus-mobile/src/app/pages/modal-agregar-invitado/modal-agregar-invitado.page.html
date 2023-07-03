@@ -1,0 +1,62 @@
+<ion-content>
+  <div class="modal-background">
+  <ion-grid class="modal-container bg-glass">
+    <div class="modal-title">
+      <span *ngIf="editar; else agregar">Editar invitado</span>
+      <ng-template #agregar>
+        <span>Agregar invitado</span>
+      </ng-template>
+      <ion-icon (click)="atras()" name="close" size="large"></ion-icon>
+    </div>
+    <ion-row>
+      <ion-grid class="grid-formulario">
+        <form [formGroup]="formularioAgregarInvitado">
+          <ion-row>
+            <ion-input [disabled]="!eventoActivo" class="input-formulario" style="padding-left: 2%;" formControlName="nombres" name="nombres" type="text" placeholder="Nombres"></ion-input>
+          </ion-row>
+          <ion-row>
+            <ion-input  [disabled]="!eventoActivo" class="input-formulario" formControlName="apellidos" name="apellidos" type="text" placeholder="Apellidos"></ion-input>
+          </ion-row>
+          <ion-row>
+            <ion-input  [disabled]="!eventoActivo" class="input-formulario" formControlName="telefono" name="telefono" type="number" placeholder="Teléfono "></ion-input>
+          </ion-row>         
+          <ion-row>
+            <ion-input  [disabled]="!eventoActivo" class="input-formulario no-capitalizar"  formControlName="correo" name="correo" type="email" placeholder="Correo"></ion-input>
+          </ion-row>  
+          <ion-row>
+            <ion-select  [disabled]="!eventoActivo"  class="input-formulario" cancelText="Cancelar" okText="Ok" formControlName="acompanhantes" multiple="false" name="acompanhantes" placeholder="Cantidad de acompañantes">
+              <ion-select-option *ngFor="let num of [0,1,2,3,4,5,6,7,8,9]"  [value]="num">{{num}} acompañantes</ion-select-option>
+            </ion-select>
+          </ion-row>
+          <ion-row>
+            <ion-select  [disabled]="!eventoActivo" class="input-formulario" cancelText="Cancelar" okText="Ok"  formControlName="categoria" name="categoria"  multiple="false" placeholder="Categoría">
+              <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.codigo">{{categoria.nombre}}</ion-select-option>
+              <!-- <ion-select-option value="1" >Categoría VIP</ion-select-option> -->
+              <!-- <ion-select-option value="2">Categoría Súper VIP</ion-select-option> -->
+            </ion-select>
+          </ion-row>
+          <ion-row>
+            <ion-textarea  [disabled]="!eventoActivo" rows="5" autocapitalize="on"  maxlength="200" cols="15"  formControlName="observaciones"   name="observaciones" [(ngModel)]="observaciones"  class="text-area"  placeholder="Observaciones..."></ion-textarea>
+          </ion-row>
+
+          <ion-row style="margin-top:10px" *ngIf="editar">
+            <ion-label style="width: 100%;color:white;font-size: 12px;">Observaciones de seguridad</ion-label>
+            <ion-textarea rows="3" autocapitalize="on" maxlength="200" cols="15" formControlName="observaciones_guardia" name="observaciones_guardia" class="text-area" placeholder="Sin observaciones de seguridad" readonly></ion-textarea>
+          </ion-row>
+
+        </form>
+      </ion-grid>
+    </ion-row>
+    <div *ngIf="!editar"  style="margin: 5px;">
+      <ion-button expand="block" class="boton-agregar"  (click)="agregarInvitado()" [disabled]="!formularioAgregarInvitado.valid">Agregar a la lista</ion-button>
+    </div>
+    <div *ngIf="editar && eventoActivo" style="margin: 5px;">
+      <ion-button expand="block" class="boton-agregar"  (click)="editarInvitado()" [disabled]="!formularioAgregarInvitado.valid">Editar invitado</ion-button>
+    </div>
+    <ion-row>
+      <ion-text (click)="atras()" style="color: white; margin: 2% auto 0;">Atrás</ion-text>
+    </ion-row>
+  </ion-grid>
+</div>
+
+</ion-content>

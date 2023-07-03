@@ -1,0 +1,51 @@
+ion-content {
+    --background: transparent !important;
+}
+
+
+.icono-persona {
+    width: 28%;
+    margin: 2% auto 0;
+}
+.grid-formulario {
+    padding: 2%;
+}
+.input-formulario {
+    background-color: #3c3c3c;;
+    width: 100%;
+    border-radius: 10px;
+    padding-right: 4%;
+    margin-top: 10px;
+    font-size: 14px;
+    --placeholder-color: #636363;
+    --placeholder-opacity: 0.5;
+    --placeholder-font-weight: 400;
+    --padding-start: 5%;
+    text-transform: capitalize; 
+}
+.input-formulario.no-capitalizar {
+    text-transform: none;
+  }
+
+.text-area {
+    background-color: #3c3c3c;
+    width: 100%;
+    border-radius: 10px;
+    padding-right: 4%;
+    margin-top: 10px;
+    font-size: 14px;
+    --placeholder-color: #636363;
+    --placeholder-opacity: 0.5;
+    --placeholder-font-weight: 400;
+    --padding-start: 5%;
+}
+.boton-agregar{
+    --background: #623bac;
+    --border-radius: 10px;
+    text-transform: none;
+    font-size: 16px;
+    button {
+        box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+        padding: 20px;
+    }
+}

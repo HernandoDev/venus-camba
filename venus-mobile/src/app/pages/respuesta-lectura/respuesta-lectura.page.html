@@ -1,0 +1,70 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>respuesta-lectura</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content [style.--background]="background">
+  <ion-grid  class="ion-padding ion-text-center contenedor">
+    <ion-row  class="ion-justify-content-center">
+      <h2 class="ion-text ingreso-titulo "><strong>{{titulo}}</strong></h2>
+    </ion-row>
+    <ion-row  class="ion-justify-content-center" >
+      <img class="icono-lectura" *ngIf="valido" src="assets/{{icono}}"  />
+      <img class="icono-lectura" *ngIf="!valido" src="assets/{{icono}}"  />
+    </ion-row>
+
+    <ion-row  class="ion-justify-content-center">
+      <h3 *ngIf="valido" class="ion-text  ingreso-mensaje "><strong>{{invitado|uppercase}}</strong></h3><br>
+
+    </ion-row>
+    <ion-row  class="ion-justify-content-center">
+      <h4 class="ion-text  ingreso-mensaje "><strong>{{nombreEvento}}</strong></h4><br>
+
+    </ion-row>
+    <ion-row  class="ion-justify-content-center">
+      <h5 class="ion-text ">{{mensaje}}</h5>
+    </ion-row>
+    <ion-row  class="ion-justify-content-center">
+      <h5 class="ion-text ">{{categoria}}</h5>
+    </ion-row>
+    <ion-row *ngIf="!this.idInvitado" class="ion-justify-content-center">
+      <h5 class="ion-text ">{{observacionesG}}</h5>
+    </ion-row>
+<!--Form despues de QR-->
+<div *ngIf="this.idInvitado"> 
+  <ion-row class="ion-justify-content-center">
+    <ion-select class="custom-select" 
+    [interfaceOptions]="customAlertOptions"
+     cancelText="Cancelar" okText="Ok"  [(ngModel)]="selectedNumber"  [disabled]=" this.numAconmpahantes === 0">
+      <ion-select-option
+        *ngFor="let num of arrayNumeros" [value]="num">{{num -1}} acompañantes</ion-select-option>
+        <!-- Se resta -1 para contar siempre el ingreso de invitado principal -->
+      </ion-select>
+          </ion-row>
+          <form [formGroup]="formularioEditarParametrosInvitado">
+          <ion-row class="ion-justify-content-center">
+            <ion-input class="custom-select" formControlName="correo"  type="email" placeholder="Email (opcional)">
+            </ion-input>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-input type="number" class="custom-select" formControlName="telefono" placeholder="Teléfono (opcional)">
+            </ion-input>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-input class="custom-select"  placeholder="Comentarios (opcional)" formControlName="observaciones_guardia" >
+            </ion-input>
+          </ion-row>
+        </form>
+  <div  style="margin-top: 20px;margin-bottom: 30px;">
+    <ion-button expand="block"  class="boton-aceptar"  [disabled]="formularioEditarParametrosInvitado.invalid"  (click)="guardarSalir()">Aceptar</ion-button>
+  </div>
+
+</div>
+  
+<!---->
+<div *ngIf="!this.idInvitado" style="margin-top: 20px;margin-bottom: 30px;">
+  <ion-button expand="block"  class="boton-aceptar" (click)="salir()">Aceptar</ion-button>
+</div>
+  </ion-grid>
+</ion-content>

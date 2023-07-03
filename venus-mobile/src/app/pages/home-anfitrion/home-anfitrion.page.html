@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="header-container" *ngIf="usuario">
+      <img class="info-logo" [src]="img" alt="Logo" onerror="this.onerror=null; this.src='/assets/images/icon-ventu.png'">
+      <div class="info-container">
+        <span class="info-name">{{ usuario.nombres }} {{ usuario.apellidos }}</span>
+        <br>
+        <span class="info-email">{{ usuario.correo }}</span>
+      </div>
+      <div>
+        <button id="trigger-button"><ion-icon class="menu-icon" name="menu-sharp" size="large"></ion-icon></button>
+        <ion-popover trigger="trigger-button">
+          <ng-template>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-label (click)="alertSalir()">
+                  <ion-icon style="margin-left: 4px !important; margin-right: 6px !important; " name="log-out">
+                  </ion-icon>
+                  <ion-text style="margin-top: 3px;">
+                    Cerrar Sesión
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-template>
+        </ion-popover>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="title">
+    <ion-text class="title-text">Mis eventos</ion-text>
+    <div class="line-divisor"></div>
+  </div>
+  <div class="lista-eventos">
+    <div class="eventos" *ngIf="listaEventos.length > 0; else sin_eventos">
+      
+      <div *ngFor="let evento of ordenarArrayEventos(listaEventos)" [ngStyle]="{'background-image': evento.imagen_fondo + ', url(/assets/images/slapp.png)', 'background-repeat': 'no-repeat'}" class="event-info" 
+      (click)="evento.habilitado === 1 && verEvento(evento.id)" [ngClass]="{'evento-activo': evento.habilitado === 0}">
+        <div class="info-columns">
+          <div class="active" *ngIf="evento.evento_activo">
+            <span class="active-circle">⬤</span>
+            <span>ACTIVO</span>
+          </div>
+          <div class="no_active" *ngIf="!evento.evento_activo">
+            <span class="no_active-circle">⬤</span>
+            <span>FINALIZADO</span>
+          </div>
+            <div class="no_enabled" *ngIf="evento.habilitado === 0">
+              <span class="no_enabled-circle">⬤</span>
+              <span>PENDIENTE</span>
+            </div>
+          <div>
+            <span *ngIf="evento.tipo==1" class="event-tag" style="background: #3b3b3b;color: white;">Privado</span>
+            <span *ngIf="evento.tipo!=1" class="event-tag" style="background: #c9c9c9;color: black;">Público</span>
+            <span class="event-tag"  [ngStyle]="{'background': evento.categoria_fondo}"
+            [ngClass]="{'silver-event': isEventoSilver(evento.categoria)}"
+            >
+             {{ evento.categoria }}</span>
+          </div>
+      </div>
+        <div class="info-columns">
+          <div>
+            <b>{{ evento.nombre }}</b>
+            <br>
+            <span style="font-size: 0.8em;">{{ evento.fecha_inicio_parseada }}</span>
+          </div>
+          <div class="attendance">
+            <span>{{ evento.cantidad_invitados }}</span>
+            <ion-icon name="person"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #sin_eventos>
+      <div class="sin-eventos">
+        <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+        <p>Aún no tiene eventos creados</p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>

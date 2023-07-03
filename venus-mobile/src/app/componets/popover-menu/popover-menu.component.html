@@ -1,0 +1,16 @@
+<ion-toolbar>
+  <ion-item lines="none">
+    {{usuario.nombres}} {{usuario.apellidos}}
+  </ion-item>
+</ion-toolbar>
+<ion-list>
+  <ion-item lines="none">
+    <ion-label (click)="alertSalir()">
+      <ion-icon style="margin-left: 4px !important; margin-right: 6px !important; " name="log-out">
+      </ion-icon>
+      <ion-text style="margin-top: 3px;">
+        Cerrar Sesión
+      </ion-text>
+    </ion-label>
+  </ion-item>
+</ion-list>

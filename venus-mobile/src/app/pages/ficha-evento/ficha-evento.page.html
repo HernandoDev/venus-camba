@@ -1,0 +1,367 @@
+<ion-header translucent="false" class="ion-no-border">
+    <ion-toolbar>
+        <div class="header-toolbar">
+            <ion-buttons style="display: flex; justify-content: space-between; align-items: center;overflow: hidden">
+                <ion-button style="font-size: 18px;" class="button-clear" (click)="back()">
+                    <ion-icon class="header-icon" name="chevron-back-sharp"></ion-icon>
+                </ion-button>
+                <ion-title style="text-align: center;overflow: hidden">{{tituloHeader}}</ion-title>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content  *ngIf="ventanaActiva=='detalle-evento'">
+    <div   class="animate__animated animate__fadeInLeft animate__fast lista-eventos ">
+        <div  [ngStyle]="{'background-image': evento.imagen_fondo + ', url(/assets/images/slapp.png)', 'background-size': 'contain', 'background-repeat': 'no-repeat'}" class="event-info" (click)=" verInvitados()">
+            <div class="info-columns">
+                <div class="active" [ngClass]="{'inactivo': !eventoActivo}">
+                    <span class="active-circle">⬤</span>
+                    <span>ACTIVO</span>
+                </div>
+                <div>
+                    <span *ngIf="evento.tipo==1" class="event-tag" style="background: #3b3b3b;color: white;">Privado</span>
+                    <span *ngIf="evento.tipo!=1" class="event-tag" style="background: #c9c9c9;color: black;">Público</span>
+                    <span class="event-tag" [ngStyle]="{'background': evento.categoria_fondo}"  [ngClass]="{'silver-event': isEventoSilver(evento.categoria)}">{{ evento.categoria }}</span>
+                </div>
+            </div>
+            <div class="info-columns">
+                <div>
+                    <b>{{ evento.nombre }}</b>
+                    <br>
+                    <span style="font-size: 0.8em;">{{evento.fecha_inicio | date: 'dd/MM/yyyy'}}</span>
+                </div>
+                <div class="attendance">
+                    <span>({{obtenerInvitadosIngresados()}}/{{obtenerTotalInvitados()}})</span>
+                    <ion-icon name="person"></ion-icon>
+                </div>
+            </div>
+        </div>
+  
+        <div class="event-more-info">
+            <div>
+                <div class="date-info">
+                    <ion-icon name="calendar-clear"></ion-icon>
+                    <b>Desde</b>
+                    <span>{{evento.fecha_inicio | date: 'dd/MM/yyyy'}} - {{evento.hora_inicio}}</span>
+                </div>
+                <div class="date-info">
+                    <ion-icon name="calendar-clear"></ion-icon>
+                    <b>Hasta</b>
+                    <span>{{evento.fecha_fin | date: 'dd/MM/yyyy'}} - {{evento.hora_fin}}</span>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-right: 15px;">
+                <!-- <ion-icon name="people"></ion-icon>
+                <span>86/100</span>
+                (86%) -->
+                <ion-button (click)="editarEvento()" class="bg-gradient" [disabled]="!eventoActivo">
+                    <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
+
+    </div>
+    <div class="btns-event animate__animated  animate__fast  animate__fadeInUp">
+        <ion-button expand="block" class="bg-purple" (click)="abrirModalQR()">
+            <ion-icon name="qr-code-outline" style="padding-right: 6%;"></ion-icon>
+            Invitación QR
+        </ion-button>
+        <ion-button expand="block" class="bg-blue" (click)="verInvitados()">
+            <ion-icon name="people-sharp" style="padding-right: 6%;"></ion-icon>
+            Lista de invitados
+        </ion-button>
+    </div>
+</ion-content>
+<!-- CONTENEDOR PERTENECIENTE A LA VENTANA DE GUARIDAS  -->
+<ion-content   *ngIf="ventanaActiva=='guardias'">
+    <div  *ngIf="!asignarNuevoGuardia" id="contenedor-guardias-asignados">
+        <div>
+            <ion-row class="animate__animated animate__fadeInLeft animate__fast" style="position: sticky; top: 0; z-index: 1; bottom: 0; padding: 0px 20px 10px;">
+                <ion-searchbar  [(ngModel)]="buscadorGuardias" class="barra-busqueda" mode="md" placeholder="Buscar guardias asignados al evento" debounce="900" (ionChange)="buscarGuardias()" ></ion-searchbar>
+            </ion-row>
+            <ion-row class=" animate__animated    animate__fadeInUp" style="padding: 0px 20px;">
+                <ion-grid style="width: 100%; padding: 0px;">
+                    <ion-virtual-scroll [items]="guardiasAsignados" approxItemHeight="320px">
+                        <ion-item-sliding  *virtualItem="let guardia; let itemBounds = bounds;">
+                        <ion-item (click)="true" class="item-lista animated-item" lines="none">
+                            <ion-col size="1">
+                            <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': invitado.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+                            </ion-col>
+                            <ion-col  style="display: flex; gap: 5%;align-items: center;" size="9">
+                                <ion-icon src='/assets/images/shield-shaded.svg'></ion-icon>
+                                <ion-label class="nombre-invitado">{{guardia.nombres}} {{guardia.apellidos}}</ion-label>
+                            </ion-col>
+                        </ion-item>
+                        <ion-item-options  side="end">
+                            <ion-item-option (click)="mostrarAlertaEliminar(guardia,'guardia')" color="danger" expandable>Eliminar</ion-item-option>
+                        </ion-item-options>
+                        </ion-item-sliding>
+                    </ion-virtual-scroll>
+                    <div *ngIf="guardiasAsignados.length==0" class="centrar-flex" style="width: 100%;height: 100%;margin-top: 20%;">
+                        <img style="width: 100px;" src="/assets/images/shield-shaded.svg" alt="">
+                        <h5>No hay guardias asignados al evento.</h5>
+                    </div>
+                </ion-grid>
+            </ion-row>
+        </div>
+        <ion-fab  style="bottom: 10%;position: fixed;right: 5%;"  id="botonAgregarGuardia"  class="animate__animated animate__fadeInRight " *ngIf=" eventoActivo && guardiasAsignados.length<maximoGuardias" vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button class="bg-gradient" (click)="mostrarAsignarNuevoGuardia()">
+            <ion-icon style="font-size: 40px;" name="add"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
+    <div style="overflow-y: hidden;" *ngIf="asignarNuevoGuardia" id="contenedor-asignar-guardias">
+        <div style="height: 100%;">
+            <ion-row class="animate__animated auxScroll animate__fadeInRight animate__fast" style="position: sticky; top: 0; z-index: 1; bottom: 0; padding: 0px 20px 10px;">
+                <ion-searchbar  [(ngModel)]="buscadorGuardiasSinAsignar" class="barra-busqueda" mode="md" placeholder="Buscar guardias para asignar  al evento" debounce="900" (ionChange)="buscarGuardiasSinAsignar ()" ></ion-searchbar>
+            </ion-row>
+            <ion-row #divGuardiasSinAsignar id="listaSinAsignarGuardias" class=" animate__animated  animate__fadeInRight" style=" padding: 20px; overflow-y: auto;padding-bottom: 17%;">
+                <ion-grid style="width: 100%; padding: 0px;">
+                    <ion-virtual-scroll  id="listaRegistros" [items]="guardias" approxItemHeight="320px">
+                        <ion-item-sliding  #itemSliding *virtualItem="let guardia; let itemBounds = bounds;">
+                        <ion-item (click)="true" class="item-lista animated-item bg-gradient" lines="none">
+                            <ion-col size="1">
+                            <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': invitado.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+                            </ion-col>
+                            <ion-col  style="display: flex; gap: 5%;align-items: center;" size="9">
+                                <ion-icon src='/assets/images/shield-shaded.svg'></ion-icon>
+                                <ion-label class="nombre-invitado">{{guardia.nombres}} {{guardia.apellidos}}</ion-label>
+                            </ion-col>
+                            <button style="outline: none;" class="bg-black" (click)="asignarGuardia(guardia)">
+                                <ion-icon style="font-size: 40px;" name="add"></ion-icon>
+                            </button>
+                        </ion-item>
+                        </ion-item-sliding>
+                    </ion-virtual-scroll>
+                </ion-grid>
+                <div *ngIf="guardias.length==0" class="centrar-flex" style="width: 100%;height: 100%;margin-top: 25%;">
+                    <img style="width: 100px;" src="/assets/images/shield-shaded.svg" alt="">
+                    <h5 style="text-align: center;">No hay guardias disponibles para asignar al evento.</h5>
+                </div>
+            </ion-row>
+            <ion-row *ngIf="guardiasAsignados.length>0" style="max-height: 28%; padding: 10px;overflow-y: auto;position: absolute;width: 100%;bottom: 0;" class=" animate__animated    animate__fadeInUp animate__fast contenedor-guardias-asignados-gradient" >
+                <div style="width: 100%;display: flex;flex-direction: column;justify-content: center;">
+                <p style="text-align: center;font-size: 14px;">Guardias ya asignados</p>
+                <ion-grid  style="width: 100%; padding: 0px;">
+                        <ion-item-sliding *ngFor="let guardia of guardiasAsignados">
+                            <ion-item (click)="true" class="item-lista animated-item" lines="none">
+                            <ion-col size="1">
+                            <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': invitado.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+                            </ion-col>
+                            <ion-col  style="display: flex; gap: 5%;align-items: center;" size="9">
+                                <ion-icon src='/assets/images/shield-shaded.svg'></ion-icon>
+                                <ion-label class="nombre-invitado">{{guardia.nombres}} {{guardia.apellidos}}</ion-label>
+                            </ion-col>
+                        </ion-item>
+                        <ion-item-options  side="end">
+                            <ion-item-option (click)="mostrarAlertaEliminar(guardia,'guardia')" color="danger" expandable>Eliminar</ion-item-option>
+                        </ion-item-options>
+                        </ion-item-sliding>
+                </ion-grid>
+            </div>
+            </ion-row>
+        </div>
+    </div>
+</ion-content>
+<!-- CONTENEDOR PERTENECIENTE A LA VENTANA DE RELACIONADORES  -->
+<ion-content   *ngIf="ventanaActiva=='relacionadores'">
+    <div  style="height: 100%;" *ngIf="!asignarNuevoRelacionador" id="contenedor-guardias-asignados">
+        <div style="height: 100%;">
+            <ion-row class="animate__animated animate__fadeInLeft animate__fast" style="position: sticky; top: 0; z-index: 1; bottom: 0; padding: 0px 20px 10px;">
+                <ion-searchbar  [(ngModel)]="buscadoRelacionadores" class="barra-busqueda" mode="md" placeholder="Buscar relacionadores asignados" debounce="900" (ionChange)="buscarRelacionadores()" ></ion-searchbar>
+            </ion-row>
+            <ion-row class=" animate__animated    animate__fadeInUp" style="padding: 0px 20px;">
+                <ion-grid style="width: 100%; padding: 0px;">
+                    <ion-virtual-scroll [items]="relacionadoresAsignados" approxItemHeight="320px">
+                        <ion-item-sliding  *virtualItem="let relacionador; let itemBounds = bounds;">
+                        <ion-item (click)="listarInvitadosRelacionador(relacionador)" class="item-lista animated-item" lines="none">
+                            <ion-col size="1">
+                            <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': invitado.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+                            </ion-col>
+                            <ion-col  style="display: flex; gap: 5%;align-items: center;" size="9">
+                                <ion-icon src='/assets/images/megaphone-fill.svg'></ion-icon>
+                                <ion-label class="nombre-invitado">{{relacionador.nombres}} {{relacionador.apellidos}}</ion-label>
+                            </ion-col>
+                        </ion-item>
+                        <ion-item-options  side="end">
+                            <ion-item-option (click)="mostrarAlertaEliminar(relacionador,'relacionador')" color="danger" expandable>Eliminar</ion-item-option>
+                        </ion-item-options>
+                        </ion-item-sliding>
+                    </ion-virtual-scroll>
+                    <div   *ngIf="relacionadoresAsignados.length==0" class="centrar-flex" style="width: 100%;height: 100%;margin-top: 20%;">
+                        <img width="100px" src="/assets/images/megaphone-fill.svg" alt="">
+                        <h5 style="text-align: center;">No hay relacionadores asignados al evento.</h5>
+                    </div>
+                </ion-grid>
+            </ion-row>
+        </div>
+        <ion-fab  style="bottom: 10%;position: fixed;right: 5%;" id="botonAgregarRelacionador" class="animate__animated animate__fadeInRight "  *ngIf="eventoActivo" vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button class="bg-gradient" (click)="mostrarAsignarNuevoRelacionador()">
+            <ion-icon style="font-size: 40px;" name="add"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
+    <div style="overflow-y: hidden;" *ngIf="asignarNuevoRelacionador" id="contenedor-asignar-guardias">
+        <div style="height: 100%;">
+            <ion-row class="animate__animated auxScroll animate__fadeInRight animate__fast" style="position: sticky; top: 0; z-index: 1; bottom: 0; padding: 0px 20px 10px;">
+                <ion-searchbar  [(ngModel)]="buscadoRelacionadoresSinAsignar" class="barra-busqueda" mode="md" placeholder="Buscar relacionador para asignar  al evento" debounce="900" (ionChange)="buscarRelacionadoresSinAsignar ()" ></ion-searchbar>
+            </ion-row>
+            <ion-row  id="listaSinAsignarRelacionador" class=" animate__animated  animate__fadeInRight" style=" padding: 20px; overflow-y: auto;padding-bottom: 17%;" >
+                <ion-grid style="width: 100%; padding: 0px;">
+                    <ion-virtual-scroll id="listaRegistros" [items]="relacionadores" approxItemHeight="320px">
+                        <ion-item-sliding  #itemSliding *virtualItem="let relacionador; let itemBounds = bounds;">
+                        <ion-item (click)="true" class="item-lista animated-item bg-gradient" lines="none">
+                            <ion-col size="1">
+                            <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': invitado.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+                            </ion-col>
+                            <ion-col  style="display: flex; gap: 5%;align-items: center;" size="9">
+                                <ion-icon src='/assets/images/megaphone-fill.svg'></ion-icon>
+                                <ion-label class="nombre-invitado">{{relacionador.nombres}} {{relacionador.apellidos}}</ion-label>
+                            </ion-col>
+                            <button style="outline: none;" class="bg-black" (click)="asignarRelacionador(relacionador)">
+                                <ion-icon style="font-size: 40px;" name="add"></ion-icon>
+                            </button>
+                        </ion-item>
+                        </ion-item-sliding>
+                    </ion-virtual-scroll>
+                </ion-grid>
+                <div *ngIf="relacionadores.length==0" class="centrar-flex" style="width: 100%;height: 100%;margin-top: 25%;">
+                    <img style="width: 100px;" src="/assets/images/megaphone-fill.svg" alt="">
+                    <h5 style="text-align: center;">No hay relacionadores disponibles para asignar al evento.</h5>
+                </div>
+            </ion-row>
+            <ion-row *ngIf="relacionadoresAsignados.length>0" style="max-height: 28%; padding: 10px;overflow-y: auto;position: absolute;width: 100%;bottom: 0;" class=" animate__animated   auxScroll animate__fadeInUp animate__fast contenedor-guardias-asignados-gradient" >
+                <div style="width: 100%;display: flex;flex-direction: column;justify-content: center;">
+                <p style="text-align: center;font-size: 14px;">Relacionadores ya asignados</p>
+                <ion-grid  style="width: 100%; padding: 0px;">
+                        <ion-item-sliding *ngFor="let relacionador of relacionadoresAsignados">
+                            <ion-item (click)="listarInvitadosRelacionador(relacionador)" class="item-lista animated-item" lines="none">
+                                <ion-col size="1">
+                                <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': invitado.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+                                </ion-col>
+                                <ion-col  style="display: flex; gap: 5%;align-items: center;" size="9">
+                                    <ion-icon src='/assets/images/megaphone-fill.svg'></ion-icon>
+                                    <ion-label class="nombre-invitado">{{relacionador.nombres}} {{relacionador.apellidos}}</ion-label>
+                                </ion-col>
+                            </ion-item>
+                        <ion-item-options  side="end">
+                            <ion-item-option (click)="mostrarAlertaEliminar(relacionador,'relacionador')" color="danger" expandable>Eliminar</ion-item-option>
+                        </ion-item-options>
+                        </ion-item-sliding>
+                </ion-grid>
+            </div>
+            </ion-row>
+        </div>
+    </div>
+</ion-content>
+<ion-footer>
+    <div class="footer-container">
+        <ion-tabs style="position: relative;" class="footer-container">
+            <ion-tab-button (click)="eventoTab(tab)" *ngFor="let tab of tabs" class="menu-item ion-activatable">
+                <ion-icon [ngStyle]="{ filter: tab.activo ? 'invert(52%) sepia(68%) saturate(486%) hue-rotate(184deg) brightness(95%) contrast(92%)' : '' }" [src]='tab.icono'></ion-icon>
+            </ion-tab-button>
+        </ion-tabs>
+    </div>
+</ion-footer>
+<!-- 
+<ion-footer>
+    <div class="footer-container">
+      <div class="menu-item">
+            <ion-img src="/assets/images/calendar-event.svg"></ion-img>
+        </div>
+        <div class="menu-item">
+            <ion-img src="/assets/images/megaphone-fill.svg"></ion-img>
+        </div>
+        <div class="menu-item">
+            <ion-img src="/assets/images/shield-shaded.svg"></ion-img>
+        </div>
+        <div class="menu-item">
+            <ion-img src="/assets/images/three-dots-vertical.svg"></ion-img>
+        </div>
+    </div>
+  </ion-footer>
+ -->
+  <!-- <ion-header translucent="false" class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons style="display: flex; justify-content: space-between; align-items: center;">
+            <ion-button style="font-size: 18px;" class="button-clear" (click)="back()">
+                <ion-icon class="back" name="chevron-back-sharp"></ion-icon>
+            </ion-button>
+            <ion-button (click)="editarEvento()" *ngIf="eventoActivo">
+                <ion-img src="../../../assets/images/edit.png"></ion-img>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header> -->
+
+
+  <!-- <ion-content>
+    <ion-grid class="grid-principal">
+        <ion-row>
+            <ion-avatar class="imagen-evento">
+                <ion-img [src]="obtenerImagenEvento(evento.imagen)"></ion-img>
+            </ion-avatar>
+        </ion-row>
+        <ion-row>
+            <ion-text class="nombre-evento">{{evento.nombre}}</ion-text>
+        </ion-row>
+        <ion-row class="categoria-tipo-evento">
+            <ion-text class="categoria-evento" [ngClass]="evento.categoria === 'Gold' ? 'evento-gold' : evento.categoria === 'Silver' ? 'evento-silver' : 'evento-free'">{{evento.categoria}}</ion-text>
+            <ion-text class="tipo-evento" [ngClass]="evento.tipo === 0 ? 'evento-privado' : 'evento-publico'">{{tipoEvento(evento.tipo)}}</ion-text>
+        </ion-row>
+        <ion-row style="padding-top: 10px; text-align: center;">
+            <ion-grid class="grid-fecha-hora">
+                <ion-row>
+                    <ion-col size="6" style="padding: 0px;">
+                        <ion-col size="2" style="padding: 0px;">
+                            <ion-icon name="calendar-clear-outline" style="padding-right: 5%;"></ion-icon>
+                        </ion-col>
+                        <ion-col size="8" style="padding: 0px;">
+                            <ion-text class="titulo-fecha-hora">Desde:</ion-text>
+                        </ion-col>
+                    </ion-col>
+                    <ion-col size="6" style="padding: 0px;">
+                        <ion-col size="2" style="padding: 0px;">
+                            <ion-icon name="calendar-clear-outline" style="padding-right: 5%;"></ion-icon>
+                        </ion-col>
+                        <ion-col size="8" style="padding: 0px;">
+                            <ion-text class="titulo-fecha-hora">Hasta:</ion-text>
+                        </ion-col>
+                    </ion-col>
+                </ion-row>
+                <ion-row style="padding-bottom: 10px; text-align: center;">
+                    <ion-col size="6" style="padding: 0px;">
+                        <ion-text class="info-fecha-hora">{{evento.fecha_inicio | date: 'dd/MM/yyyy'}} - {{evento.hora_inicio}}</ion-text>
+                    </ion-col>
+                    <ion-col size="6" style="padding: 0px;">
+                        <ion-text class="info-fecha-hora">{{evento.fecha_fin | date: 'dd/MM/yyyy'}} - {{evento.hora_fin}}</ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-row>
+        
+        <ion-row>
+            <ion-grid class="grid-invitados">
+                <ion-row>
+                    <ion-icon class="icono-persona" name="person-sharp"></ion-icon>
+                </ion-row>
+                <ion-row>
+                    <ion-text class="texto-cantidad-invitados">{{evento.cantidad_invitados}} ({{obtenerPorcentaje()}}%)</ion-text>
+                </ion-row>
+            </ion-grid>
+        </ion-row>
+        <ion-row class="row-boton">
+            <ion-button class="boton-lectura-qr" (click)="abrirModalQR()">
+                <ion-icon name="qr-code-outline" style="padding-right: 6%;"></ion-icon>
+                Invitación QR
+            </ion-button>
+        </ion-row>
+        <ion-row class="row-boton">
+            <ion-button class="boton-invitados" (click)="verInvitados()">
+                <ion-icon name="people-sharp" style="padding-right: 6%;"></ion-icon>
+                Lista de invitados
+            </ion-button>
+        </ion-row>
+    </ion-grid>
+</ion-content> -->

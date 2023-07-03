@@ -1,0 +1,54 @@
+.contenedor{
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column
+}
+.ingreso-titulo{
+    margin-top:40%;
+}
+.ingreso-mensaje{
+    margin-top:8%;
+}
+.texto-atras{
+    margin-top:8vh;
+}
+.icono-lectura{
+    width: 40vw;
+}
+
+
+/////////////////////
+.grid-formulario {
+    padding: 2%;
+}
+.custom-select {
+    background-color: #fff;
+    width: 300px !important;
+    max-width: 300px;
+    border-radius: 10px;
+    padding-right: 4%;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: left;
+    --placeholder-color: #636363;
+    --placeholder-opacity: 0.5;
+    --placeholder-font-weight: 400;
+    --padding-start: 5%;
+    color: #636363;
+}
+.custom-select::part(icon) {
+    color: #636363; 
+  }
+.boton-aceptar{
+    --background: #3A82B0;
+    --border-radius: 10px;
+    text-transform: none;
+    font-size: 16px;
+    width: 300px !important;
+    button {
+        box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+        padding: 20px;
+    }
+}
+  

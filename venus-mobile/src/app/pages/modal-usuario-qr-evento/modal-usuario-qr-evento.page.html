@@ -1,0 +1,15 @@
+<div class="modal-background">
+  <ion-grid class="modal-container bg-glass">
+    <div class="modal-title">
+      <span>Invitación QR</span>
+      <ion-icon (click)="atras()" name="close" size="large"></ion-icon>
+    </div>
+    <ion-row class="centrar-flex">
+      <div #qrcode></div>
+    </ion-row>
+    <ion-button style="margin-top: 30px;" (click)="compartirInvitacion()" class="bg-purple"><ion-icon style="padding-right: 10px;" name="share-social-outline"></ion-icon> Compartir</ion-button>
+    <ion-text style="margin-bottom: 20px;" (click)="atras()" style="color: white; margin: 4% auto 0;">Atrás</ion-text>
+
+  </ion-grid>
+</div>
+

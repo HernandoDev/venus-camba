@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="header-container" *ngIf="usuario">
+      <img class="info-logo" [src]="img" alt="Logo" onerror="this.onerror=null; this.src='/assets/images/icon-ventu.png'">
+      <div class="info-container">
+        <span class="info-name">{{ usuario.nombres }} {{ usuario.apellidos }}</span>
+        <br>
+        <span class="info-email">{{ usuario.correo }}</span>
+      </div>
+      <div>
+        <button id="trigger-button"><ion-icon class="menu-icon" name="menu-sharp" size="large"></ion-icon></button>
+        <ion-popover trigger="trigger-button">
+          <ng-template>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-label (click)="alertSalir()">
+                  <ion-icon style="margin-left: 4px !important; margin-right: 6px !important; " name="log-out">
+                  </ion-icon>
+                  <ion-text style="margin-top: 3px;">
+                    Cerrar Sesión
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-template>
+        </ion-popover>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--animate-duration:1.3s;" id="contenedorPrincipal" class="animate__animated  animate__repeat-2 ">
+  <ion-slides    #slides [options]="opcionesSlider" (ionSlideReachStart)="cambiarEventoFin($event)" (ionSlideReachEnd)="cambiarEventoFin($event)" (ionSlideDidChange)="cambiarEvento($event)">
+    <ion-slide  *ngFor="let evento of listaEventosActivos">
+      <div *ngIf="evento.evento_activo" class="lista-eventos">
+        <div class="event-info" [style.background-image]="'url(' + api + evento.imagen + '), url(/assets/images/slapp.png)'"
+          [style.background-size]="evento.imagen ? 'cover' : 'contain'" (click)="registroManual()">
+          <div class="info-columns">
+            <div class="active" *ngIf="evento.evento_activo">
+              <span class="active-circle">⬤</span>
+              <span>ACTIVO</span>
+            </div>
+            <div>
+              <span *ngIf="evento.tipo==1" class="event-tag" style="background: #3b3b3b;color: white;">Privado</span>
+              <span *ngIf="evento.tipo!=1" class="event-tag" style="background: #c9c9c9;color: black;">Público</span>
+              <span *ngIf="evento.plan.nombre=='Free'" class="event-tag" 
+              style="color: black;background: linear-gradient(135deg, rgb(178, 178, 178) 0%, rgb(150, 150, 150) 79%, rgb(84, 84, 84) 100%);">Free</span>
+              <span *ngIf="evento.plan.nombre=='Silver'" class="event-tag" 
+              style="color: white;background: linear-gradient(135deg, rgb(154, 73, 159) 0%, rgb(148, 39, 154) 79%,rgb(142, 8, 149) 100%);">Silver</span>
+              <span *ngIf="evento.plan.nombre=='Gold'" class="event-tag" 
+              style="color: black;background: linear-gradient(135deg, rgba(241,231,103,1) 0%, rgba(254,182,69,1) 79%, rgba(254,182,69,1) 100%);">Gold</span>
+            </div>
+          </div>
+          <div class="info-columns">
+            <div class="active" *ngIf="evento.habilitado === 0">
+              <span class="active-circle">⬤</span>
+              <span>PENDIENTE</span>
+            </div>
+          </div>
+          <div class="info-columns">
+
+            <div>
+              <b>{{ evento.nombre }}</b>
+              <br>
+              <!-- <span style="font-size: 0.8em;">{{ evento.fecha_inicio_parseada }}</span> -->
+            </div>
+            <div class="attendance">
+              <span>{{ evento.cantidad_invitados }}</span>
+              <ion-icon name="person"></ion-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-more-info">
+          <div>
+            <div class="date-info">
+              <ion-icon name="calendar-clear"></ion-icon>
+              <b>Desde</b>
+              <span>{{ evento.fecha_inicio | date:'dd/MM/yyyy'}} {{ evento.hora_inicio }}</span>
+            </div>
+            <div class="date-info">
+              <ion-icon name="calendar-clear"></ion-icon>
+              <b>Hasta</b>
+              <span>{{ evento.fecha_fin | date:'dd/MM/yyyy'}} {{ evento.hora_fin }}</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-right: 15px;">
+            <ion-icon name="people"></ion-icon>
+            <span>{{ evento.total_ingresos }}/{{ evento.total_acompanhantes+evento.total_invitados }}</span>
+            <span *ngIf="(evento.total_acompanhantes+evento.total_invitados)>0">{{ (evento.total_ingresos / ( evento.total_acompanhantes+evento.total_invitados) * 100) | number:'0.0-2' }}%</span>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <div *ngIf="listaEventosActivos.length==0" class="sin-eventos">
+    <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+    <p>No tienes eventos disponibles.</p>
+  </div>
+</ion-content>
+
+
+<ion-footer >
+  <div *ngIf="listaEventosActivos.length>0" class="footer-container">
+    <div class="menu-item">
+      <ion-img (click)="abrirCamaraQR()" src="/assets/images/qr-code.png"></ion-img>
+      <ion-text>Leer QR</ion-text>
+    </div>
+    <div class="menu-item">
+      <ion-img (click)="registroManual()" src="/assets/images/editing.png"></ion-img>
+      <ion-text>Registro manual</ion-text>
+    </div>
+  </div>
+</ion-footer>

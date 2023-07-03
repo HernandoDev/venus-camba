@@ -1,0 +1,7 @@
+{
+  "name": "Ventu",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,208 @@
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+
+body {
+    background-color: black;
+}
+
+ion-header {
+    background: black;
+}
+
+ion-content {
+    --background: black;
+    --color: white;
+    --padding: 35px;
+}
+
+ion-toolbar {
+    --background: #000000;
+    --color: white;
+  }
+
+
+.header-toolbar {
+    background: #1F1F1F;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 20px;
+}
+
+.header-icon {
+    color: white;
+}
+
+.barra-busqueda{
+    padding: 0px;
+    margin-bottom: 5px;
+    .searchbar-input{
+        border: 1px solid #999999 !important;
+        border-radius: 10px !important;
+        font-size: 14px;
+    }
+}
+.modal-agregar-invitado{
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    --background: transparent;
+    ion-content{
+        --padding-bottom: 0 !important;
+        .container{
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.3) !important;
+        backdrop-filter: blur(5px) !important;
+        border-radius: 12px 12px 0 0 !important;
+        }
+    }
+    .ion-page{
+        background-color: rgba(0, 0, 0, 0.85) !important;
+        //border-radius: 10px;
+    }
+}
+
+.modal-ingresar-invitado {
+    --background: rgba(0, 0, 0, 0.85) !important;
+}
+.modal-parametros-relacionador {
+    --background: rgba(0, 0, 0, 0.55) !important;
+}
+.editar-evento-form {
+    .native-input.sc-ion-input-ios {
+        padding-inline-start: 13px;
+        transform: none !important;
+    }
+}
+
+.toast-purple {
+    font-weight: bold;
+    --background: #92008C;
+    --button-color: #ffffff;
+    --height: 53px;
+    --border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+.img-check {
+    width: 45px;
+}
+.img-sin-check {
+    width: 33px;
+    margin-right: 12px;
+}
+
+.icono-acompanhantes {
+    background-color: #C372F5;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 22px;
+}
+.bg-glass {
+    background: rgb(144 143 143 / 33%);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+.item-lista {
+    --background: #1F1F1F;
+    --color: white;
+    --inner-padding-end: 0px;
+    --padding-start: 0px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    margin-bottom: 5px;
+}
+.bg-gradient {
+    --background: linear-gradient(to right, #3a83b0 0%, #623bac 100%)!important;
+    
+}
+
+.bg-purple {
+    --background: #623bac;
+}
+.centrar-flex{
+    display: flex;flex-direction: column;justify-content: center;align-items: center;
+}
+.bg-black{
+    padding: 0;
+    color: white;
+    background: #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 360px;
+}
+.bg-blue {
+    --background: #3a83b0
+}
+
+.ven-input {
+    background-color: white;
+    color: black;
+    padding: 5px 15px!important;
+    border-radius: 15px;
+}
+.roundedInput {
+    //--border-color: var(--ion-color-medium-shade);
+    --border-radius: 8px;
+    //--border-width: 1px;
+    //--box-shadow: 2px gray;
+    //--highlight-height: 0;
+    //--background: #f8f9fa;
+    font-size: 16px;
+    --min-height: 0 !important;
+  }
+.ven-btn-primary {
+    --border-radius: 15px;
+    --background: linear-gradient(to right, #3a83b0 0%, #623bac 100%);
+    text-transform: uppercase;
+}
+
+/* Estilos para los modals */
+
+.modal-background {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+}
+
+.modal-container {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 24px;
+    height: max-content;
+    margin: auto 3%;
+    display: flex;
+    padding: 20px 10px;
+    flex-direction: column;
+}
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 15px 15px 15px;
+    font-size: 1.2em;
+}
+
+ion-tab-button.menu-item.ion-activatable[aria-selected="true"] {
+    --color-selected: #00bcd4;
+  }

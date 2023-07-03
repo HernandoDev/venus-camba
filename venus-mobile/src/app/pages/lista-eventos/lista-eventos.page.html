@@ -1,0 +1,69 @@
+<ion-header translucent="false" class="ion-no-border">
+  <div class="header-toolbar">
+    <ion-buttons style="display: flex; justify-content: space-between; align-items: center;">
+      <ion-button style="font-size: 18px;" class="button-clear" (click)="atras()">
+        <ion-icon class="back" name="chevron-back-sharp"></ion-icon>
+      </ion-button>
+      <ion-title style="text-align: center;">Eventos</ion-title>
+    </ion-buttons>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="container" *ngIf="eventosActivos; else eventosFinalizados">
+    <ion-grid  [ngClass]="evento.habilitado === 0? 'inhabilitado' : ''"    class="grid-evento" *ngFor="let evento of listaEventosActivos" (click)="verEvento(evento.id,evento)">
+      <ion-col size="4">
+        <ion-avatar class="imagen-evento">
+          <ion-img src="{{obtenerImagenEvento(evento.imagen)}}"></ion-img>
+        </ion-avatar>
+      </ion-col>
+      <ion-col class="columna-datos-evento">
+        <ion-row class="nombre-evento">{{evento.nombre}}</ion-row>
+        <ion-row class="categoria-tipo-evento">
+            <ion-text class="categoria-evento" [ngClass]="evento.categoria === 'Gold' ? 'evento-gold' : evento.categoria === 'Silver' ? 'evento-silver' : 'evento-free'">{{evento.categoria}}</ion-text>
+            <ion-text class="tipo-evento" [ngClass]="evento.tipo === 0 ? 'evento-privado' : 'evento-publico'">{{tipoEvento(evento.tipo)}}</ion-text>
+        </ion-row>
+        <ion-row class="fecha-evento">{{evento.fecha_inicio | date: 'dd/MM/yyyy'}} - {{evento.hora_inicio}}</ion-row>
+        <ion-row class="invitados-evento">
+          <ion-icon name="person-sharp" class="icono-persona"></ion-icon>
+          {{evento.cantidad_invitados}}
+        </ion-row>
+      </ion-col>
+    </ion-grid>
+  </div>
+
+  <ng-template #eventosFinalizados>
+    <div class="container">
+      <ion-grid class="grid-evento" *ngFor="let evento of listaEventosFinalizados" (click)="verEvento(evento.id,evento)">
+        <ion-col size="4">
+          <ion-avatar class="imagen-evento">
+            <ion-img src="{{obtenerImagenEvento(evento.imagen)}}"></ion-img>
+          </ion-avatar>
+        </ion-col>
+        <ion-col class="columna-datos-evento">
+          <ion-row class="nombre-evento">{{evento.nombre}}</ion-row>
+          <ion-row class="categoria-tipo-evento">
+              <ion-text class="categoria-evento" [ngClass]="evento.categoria === 'Gold' ? 'evento-gold' : evento.categoria === 'Silver' ? 'evento-silver' : 'evento-free'">{{evento.categoria}}</ion-text>
+              <ion-text class="tipo-evento" [ngClass]="evento.tipo === 0 ? 'evento-privado' : 'evento-publico'">{{tipoEvento(evento.tipo)}}</ion-text>
+          </ion-row>
+          <ion-row class="fecha-evento">{{evento.fecha_inicio | date: 'dd/MM/yyyy'}} - {{evento.hora_inicio}}</ion-row>
+          <ion-row class="invitados-evento">
+            <ion-icon name="person-sharp" class="icono-persona"></ion-icon>
+            {{evento.cantidad_invitados}}
+          </ion-row>
+        </ion-col>
+      </ion-grid>
+    </div>
+  </ng-template>
+
+  <ion-grid class="grid-footer">
+    <ion-row  *ngIf="usuario.fk_rol==1" class="row-footer">
+      <ion-col size="6" class="boton-activos">
+        <ion-button class="boton-activos" (click)="verEventosActivos()" [ngClass]="eventosActivos === true ? 'boton-habilitado' : 'boton-deshabilitado'">Activos</ion-button>
+      </ion-col>
+      <ion-col size="6" class="boton-finalizados">
+        <ion-button class="boton-finalizados" (click)="verEventosFinalizados()" [ngClass]="eventosActivos === false ? 'boton-habilitado' : 'boton-deshabilitado'">Finalizados</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

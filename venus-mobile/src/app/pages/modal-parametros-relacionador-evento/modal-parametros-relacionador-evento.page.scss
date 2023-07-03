@@ -1,0 +1,88 @@
+ion-content {
+    --background: transparent !important;
+}
+
+
+.icono-persona {
+    width: 28%;
+    margin: 2% auto 0;
+}
+.grid-formulario {
+    padding: 2%;
+}
+.input-formulario {
+    background-color: #3c3c3c;;
+    width: 100%;
+    border-radius: 10px;
+    padding-right: 4%;
+    margin-top: 10px;
+    font-size: 14px;
+    --placeholder-color: #636363;
+    --placeholder-opacity: 0.5;
+    --placeholder-font-weight: 400;
+    --padding-start: 5%;
+    text-transform: capitalize; 
+}
+.width33{
+    width: 33%;
+} 
+.contenedor-gradient{
+    padding: 20px;
+    background: linear-gradient(to right, #3a83b0 0%, #623bac 100%);
+    border-radius: 20px;
+}
+.text-area {
+    background-color: #3c3c3c;
+    width: 100%;
+    border-radius: 10px;
+    padding-right: 4%;
+    margin-top: 10px;
+    font-size: 14px;
+    --placeholder-color: #636363;
+    --placeholder-opacity: 0.5;
+    --placeholder-font-weight: 400;
+    --padding-start: 5%;
+}
+.boton-agregar{
+    --background: #623bac;
+    --border-radius: 10px;
+    text-transform: none;
+    font-size: 16px;
+    button {
+        box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+        padding: 20px;
+    }
+}
+
+ion-progress-bar::part(stream) {
+    display: none;
+  }
+  .custom-progress-bar::part(stream)  {
+    display: none;
+  }
+  .custom-progress-bar::part(progress)  {
+    border-radius: 460px;
+  }
+  .custom-progress-bar::part(track)  {
+    border-radius: 460px;
+  }
+  .tag-kpi-asistentes{
+    border-radius: 360px;
+    padding: 8px;
+  }
+  .tag-kpi-mini{
+    border-radius: 360px;
+    padding: 6px;
+  }
+  .custom-progress-bar::before {
+    content: '\200B';
+    background-image: none!important;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #999999;
+    z-index: -1;
+  }  

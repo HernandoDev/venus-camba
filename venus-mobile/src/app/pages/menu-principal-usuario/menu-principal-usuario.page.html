@@ -1,0 +1,24 @@
+<ion-content>
+  <ion-icon class="menu-icon" (click)="abrirMenu($event)" name="menu-sharp"></ion-icon>
+  <ion-grid class="grid-principal">
+    <ion-row>
+      <ion-avatar class="logo">
+        <ion-img src="{{img}}"></ion-img>
+      </ion-avatar>
+    </ion-row>
+
+    <ion-row>
+      <ion-grid class="grid-botones">
+        <ion-row>
+          <ion-col size="11" style="margin: auto;">
+            <ion-img src="../../../assets/images/event-on-a-calendar-with-star-symbol.png" (click)="abrirEventos()" class="img-evento"></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-row style="width: 100%;">
+          <ion-text class="texto-iconos">Eventos</ion-text>
+        </ion-row>
+      </ion-grid>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

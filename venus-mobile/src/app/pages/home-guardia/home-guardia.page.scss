@@ -1,0 +1,176 @@
+.header-container {
+    background: #1F1F1F;
+    margin: 15px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.info-logo {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.info-container {
+    flex-direction: column;
+    padding-left: 15px;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.sin-eventos {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+.info-name {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.info-email {
+    font-size: 0.8em;
+}
+
+.menu-icon {
+    padding: 0px 15px;
+}
+
+.lista-eventos {
+    padding: 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+}
+
+.title-text {
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.line-divisor {
+    height: 1px;
+    width: 100%;
+    background: white;
+}
+
+#trigger-button {
+    background: transparent;
+  }
+
+.calendar-icon {
+    font-size: 140px;
+}
+
+.footer-container {
+    background: #1F1F1F;
+    margin: 15px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 20px;
+}
+
+.menu-item {
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: white!important;
+}
+
+.menu-item ion-img {
+    width: 13vw;
+}
+
+.menu-item ion-text {
+    font-size: 0.8em;
+}
+
+.event-info {
+    background-image:
+    linear-gradient(to bottom, transparent 60%, #1f1f1fcc 90%),
+    url('/assets/images/tomorrowland.png');
+    width: 86vw;
+    height: 86vw;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.info-columns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.event-more-info {
+    background: #1F1F1F;
+    margin: 15px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    width: 86vw;
+}
+
+.active {
+    font-size: 0.6em;
+    color: #2fff39;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.514);
+}
+
+.active-circle {
+    position: relative;
+    top: -1.5px;
+}
+
+.event-tag {
+    font-size: 0.7em;
+    margin: 4px;
+    padding: 6px;
+    text-transform: uppercase;
+    border-radius: 55px;
+    -webkit-box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.29);
+    -moz-box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.29);
+    box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.29);
+}
+
+.attendance {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.date-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    font-size: 0.8em;
+}

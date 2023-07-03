@@ -1,0 +1,203 @@
+<ion-content>
+  <div class="modal-background">
+  <ion-grid class="modal-container bg-glass">
+    <!-- HEADER -->
+    <div class="modal-title">
+      <span >{{relacionador.nombres+' '+relacionador.apellidos}}</span>
+      <ion-icon (click)="cerrarModal()" name="close" size="large"></ion-icon>
+    </div>
+    <div style="display: flex;flex-direction: column;margin-left: 5%;">
+      <span style="font-size: 11.5px;color: #AEAEAE;" >{{relacionador.username}}</span>
+      <span style="font-size: 11.5px;">{{relacionador.telefono}}</span>
+      <!-- <span style="font-size: 11.5px;">{{relacionador.correo}}</span> -->
+    </div>
+    <!-- RESUMEN -->
+    <ion-row class="animate__animated  animate__faster" id="ventanaResumen" *ngIf="ventanaActiva == 'resumen' ">
+      <ion-grid style="margin-top: 3%;" class="grid-formulario">
+        <ion-row  (click)="abrirListaInvitadosRelacionador()" class="centrar-flex contenedor-gradient"  >
+          <span>{{relacionador.contador_acompanhates}}</span>
+          <span>Invitados</span>
+        </ion-row>
+        <ion-row (click)="abrirParametrosPago()" style="background: black!important;margin-top: 5%;" class="centrar-flex contenedor-gradient" >
+          <span>${{relacionador.contador_comision_total}}</span>
+          <span>Pago total</span>
+        </ion-row>
+      </ion-grid>
+    </ion-row>
+    <!-- PARAMETROS DE PAGO -->
+    <ion-row  *ngIf="ventanaActiva == 'parametros-pago' ">
+      <ion-grid style="margin-top: 3%;" class="grid-formulario">
+        <ion-item  style="--background: transparent!important;color: white;" class="animated-item animate__animated animate__fadeInDown animate__fast" lines="none">
+          <div  style="display: flex;align-items: center;width: 100%;" size="9">
+            <div style="width: 10%;position: relative;left: 4%;" class="centrar-flex">
+              <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': parametro.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+              <span style="text-overflow: ellipsis;font-size: 10px!important;color: transparent!important;"  >Categoria</span>
+            </div>
+            <div style="display: flex;justify-content: space-evenly;align-items: center;width: 90%;font-weight: bold;text-align: center;">
+              <div class="centrar-flex width33">
+                <span style="text-overflow: clip;font-size: 12px;font-weight: bold;" >Comisión por invitado</span>
+                <!-- <ion-label style="text-overflow: clip;" class="nombre-invitado">${{parametro.comision}}</ion-label> -->
+              </div>
+              <div class="centrar-flex width33">
+                <span style="text-overflow: clip;font-size: 12px;" >Cantidad de invitados</span>
+              </div>
+              <div class="centrar-flex width33">
+                <span style="text-overflow: clip;font-size: 12px;text-align: center;" >Comisión total</span>
+              </div>                
+            </div>  
+          </div>
+        </ion-item>
+        <div style=" max-height: 36vh;overflow-y: auto;">
+        <ion-item *ngFor="let parametro of parametros_relacionador" class="item-lista animated-item animate__animated animate__fadeInRight animate__fast" lines="none">
+          <div  style="display: flex;align-items: center;width: 100%;" size="9">
+              <div style="margin-left: 5%;width: 10%;" class="centrar-flex">
+                <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': parametro.CategoriaInvitado.color}"  name="star-sharp"></ion-icon>
+                <!-- <span style="text-overflow: ellipsis;font-size: 10px!important;text-align: center;"  >{{parametro.CategoriaInvitado.nombre}}</span> -->
+              </div>
+              <div style="display: flex;justify-content: space-evenly;align-items: center;width: 90%;">
+                <div    class="centrar-flex width33">
+                  <!-- <span style="text-overflow: clip;font-size: 10px;" >Comisión</span> -->
+                  <ion-label style="text-overflow: clip;" class="nombre-invitado">${{parametro.comision}}</ion-label>
+                </div>
+                <div  class="centrar-flex width33">
+                  <!-- <span style="text-overflow: clip;font-size: 10px;" >Invitados</span> -->
+                  <ion-label style="text-overflow: clip;" class="nombre-invitado">{{obtenerContadorInvitadosAsignado(parametro.CategoriaInvitado)}} / {{parametro.limite_invitados}}</ion-label>
+                </div>
+                <div    class="centrar-flex width33">
+                  <!-- <span style="text-overflow: clip;font-size: 10px;" >Total</span> -->
+                  <ion-label style="text-overflow: clip;" class="nombre-invitado">${{obtenerContadorInvitadosComisionTotal(parametro.CategoriaInvitado,parametro.comision)| number : '1.2-2'}} </ion-label>
+                </div>                
+              </div>  
+            </div>
+      </ion-item>
+    </div>
+      <ion-item  style="--background: transparent!important;color: white;" class="animated-item animate__animated animate__fadeInRight animate__fast" lines="none">
+        <div  style="display: flex;align-items: center;width: 100%;" size="9">
+          <div style="margin-left: 5%;width: 10%;" class="centrar-flex">
+            <!-- <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': parametro.CategoriaInvitado.color}"  name="star-sharp"></ion-icon> -->
+            <!-- <span style="text-overflow: ellipsis;font-size: 10px!important;text-align: center;"  >{{parametro.CategoriaInvitado.nombre}}</span> -->
+          </div>
+          <div style="display: flex;justify-content: space-evenly;align-items: center;width: 90%;">
+            <div class="centrar-flex width33">
+              <span style="text-overflow: clip;font-size: 12px;font-weight: bold;" >Totales</span>
+              <!-- <ion-label style="text-overflow: clip;" class="nombre-invitado">${{parametro.comision}}</ion-label> -->
+            </div>
+            <div  class="centrar-flex width33">
+              <!-- <span style="text-overflow: clip;font-size: 10px;" >Invitados</span> -->
+              <ion-label style="text-overflow: clip;" class="nombre-invitado"> {{relacionador.contador_acompanhates}}/{{obtenerTotalMaximoInvitacionesRelacionador()}}</ion-label>
+            </div>
+            <div class="centrar-flex width33">
+              <!-- <span style="text-overflow: clip;font-size: 10px;" >Total</span> -->
+              <ion-label style="text-overflow: clip;" class="nombre-invitado">${{obtenerComisionTotal()| number : '1.2-2'}} </ion-label>
+            </div>                
+          </div>  
+        </div>
+      </ion-item>
+      </ion-grid>
+    </ion-row>
+
+    <!-- LISTA DE INVITADOS -->
+    <ion-row *ngIf="ventanaActiva == 'lista-invitados' ">
+      <ion-grid style="margin-top: 3%;" class="grid-formulario">
+        <ion-row class="animate__animated  animate__fadeInRight animate__fast" style="position: sticky; top: 0; z-index: 1; bottom: 0;padding-bottom: 10px;">
+          <ion-searchbar  [(ngModel)]="buscadorInvitados" class="barra-busqueda" mode="md" placeholder="Buscar invitado" debounce="900" (ionChange)="buscarInvitados()" ></ion-searchbar>
+        </ion-row>
+        <div style="width: 100%;max-height: 36vh;overflow-y: auto;">
+        <ion-item *ngFor="let invitado of invitadoAsignados" class="item-lista animated-item animate__animated animate__fadeInRight animate__fast" lines="none">
+          <div  style="display: flex;align-items: center;width: 100%;" size="9">
+              <div style="margin-left: 5%;width: 5%;" class="centrar-flex">
+                <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': invitado.CategoriaInvitado.color}"  name="star-sharp"></ion-icon>
+                <!-- <span style="text-overflow: ellipsis;font-size: 10px!important;text-align: center;"  >{{parametro.CategoriaInvitado.nombre}}</span> -->
+              </div>
+              <div style="display: flex;justify-content: space-evenly;align-items: center;width: 75%; ">
+                <div    class="centrar-flex ">
+                  <!-- <span style="text-overflow: clip;font-size: 10px;" >Comisión</span> -->
+                  <ion-label style="text-overflow: ellipsis;" class="nombre-invitado">{{invitado.nombres+' '+invitado.apellidos}}</ion-label>
+                </div>
+              </div> 
+               <!--ICONO DE  -->
+              <div>
+                <i style="color:#636363 ;font-weight: bold;" class="bi bi-people-fill"></i>
+                <div style="display: flex;">
+                  <ion-img class="img-check" src="../../../assets/images/con-check.png" *ngIf="invitado.acompanhantes-invitado.ingresos + 1 <= 0"></ion-img>
+                  <ion-img class="img-sin-check" src="../../../assets/images/sin-check.png" *ngIf="!(invitado.acompanhantes-invitado.ingresos + 1 <= 0)"></ion-img>
+                </div>
+                <div style="font-size:10px;display:flex;justify-content:center;align-items:center;font-weight: bold;width: 20px!important;height: 20px!important;top: 11px;" *ngIf="!(invitado.acompanhantes-invitado.ingresos + 1 <= 0)"   class="icono-acompanhantes">{{invitado.ingresos}}/{{invitado.acompanhantes+1}}</div>
+              </div>
+            </div>
+        </ion-item>
+      </div>
+      </ion-grid>
+    </ion-row>
+    <ion-row class="animate__animated animate__fadeInRight animate__faster" *ngIf="ventanaActiva == 'kpis' ">
+      <ion-grid style="margin-top: 3%;" class="grid-formulario">
+        <div style="width: 100%;">
+          <div class="centrar-flex">
+            <h4>Información del evento</h4>
+            <h5 style="margin: 0;">Capacidad: <span style="font-weight:bold;">{{maximoInvitaciones+' '}}</span><span style="font-size: 13px;"> ({{ ((relacionador.contador_acompanhates/maximoInvitaciones) *100).toFixed(0)}}%)</span></h5>  
+          </div>
+          <div style="width: 100%;" >
+            <div class="centrar-flex">
+              <span style="text-align: center;">Invitados con asistencia: {{ (((totalIngresos /relacionador.contador_acompanhates)*100) - (((totalIngresos /relacionador.contador_acompanhates)*100) % 1)).toFixed(0) }}%</span>
+            </div>
+              <ion-progress-bar  type="determinate" class="custom-progress-bar"
+                [value]="progressTotal"
+                [buffer]="bufferTotal"
+                [style]="'width: 100%; height: 39px; --background: #999999;--buffer-background: #623BAC; --progress-background:#3A82B0 ; --progress-border-radius: 360px; border-radius: 360px;'">
+            </ion-progress-bar>
+            <div style="flex-direction: row!important;gap: 5%;padding: 15px;" class="centrar-flex">
+              <div style="background: #3A82B0;  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" class="tag-kpi-asistentes">
+                <span  style="font-weight: bold;">Asistentes {{totalIngresos}} </span>
+              </div>
+              <div  style="background: #623BAC;  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" class="tag-kpi-asistentes">
+                <span  style="font-weight: bold;">Invitados {{relacionador.contador_acompanhates}} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 100%;max-height: 41vh;overflow-y: auto;">
+          <!-- graficas nuevas por categorias -->
+          <ion-row *ngFor="let categoria of categorias" class="ion-padding">
+            <div style="width: 100%;" *ngIf="categoria.total_registrado>0">
+              <div style="display: flex;padding-bottom: 3%;justify-content: space-between;align-items: center;">
+                <div class="centrar-flex" style="flex-direction: row!important;">
+                  <ion-icon style="padding-left: 5px;font-size: 24px;"  [ngStyle]="{'color': categoria.color}"  name="star-sharp"></ion-icon>
+                  <span>{{categoria.nombre}}</span>
+                </div>
+                <span>Capacidad: {{categoria.limiteMaximoCategoria}}</span>
+                <!-- <span> {{categoria.total_ingreso}} /{{categoria.total_registrado}}  ({{(categoria.progress * 100).toFixed(0) }}%)</span> -->
+              </div>
+              <ion-progress-bar [slot]="categoria.id" type="determinate" class="custom-progress-bar"
+                [value]="categoria.progress"
+                [buffer]="categoria.buffer"
+                [style]="'width: 100%; height: 39px; --background: #999999; --progress-background: ' + categoria.color + '; --progress-border-radius: 360px; border-radius: 360px;--buffer-background: #623BAC;'">
+                  <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">{{ (categoria.progress * 100).toFixed(0) }}%</span>
+              </ion-progress-bar>
+              <div class=" centrar-flex" style="flex-direction: row!important;justify-content: space-between;margin-top: 3%;">
+                <div [style]="'text-align:center;  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);'" class=" tag-kpi-mini centrar-flex">
+                  <span style="font-size: 14px;">Asistentes: {{categoria.total_ingreso}}  <span style="font-size: 12px;"> ({{ ((categoria.total_ingreso/categoria.limiteMaximoCategoria) *100).toFixed(0)}}%)</span></span>
+                  
+                </div>
+                <div  style=" text-align: center;  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);" class="tag-kpi-mini centrar-flex">
+                  <span style="font-size: 14px;">Invitados: {{categoria.total_registrado}}  <span style="font-size: 12px;"> ({{ ((categoria.total_registrado/categoria.limiteMaximoCategoria) *100).toFixed(0)}}%)</span> </span>
+                </div>
+              </div>
+            </div>
+          </ion-row>
+        </div>
+      </ion-grid>
+    </ion-row>
+  <!-- FOOTER -->
+    <div *ngIf="ventanaActiva!='resumen'" style="margin: 5px;">
+      <ion-button (click)="mostrarGraficas()" style="--border-radius:10%;" class="bg-gradient" *ngIf="ventanaActiva=='lista-invitados'">
+        <ion-icon  slot="icon-only" name="bar-chart-outline"></ion-icon>
+      </ion-button>
+      <ion-button   (click)="atras()" expand="block" class="boton-agregar">Volver</ion-button>
+    </div>
+    <!-- <ion-row>
+      <ion-text (click)="atras()" style="color: white; margin: 2% auto 0;">Atrás</ion-text>
+    </ion-row> -->
+  </ion-grid>
+</div>
+
+</ion-content>

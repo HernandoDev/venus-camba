@@ -1,0 +1,30 @@
+<ion-content>
+  <ion-icon class="menu-icon" (click)="abrirMenu($event)" name="menu-sharp"></ion-icon>
+  <ion-grid class="grid-principal">
+    <ion-row>
+      <ion-avatar class="logo">
+        <ion-img src="{{img}}"></ion-img>
+      </ion-avatar>
+    </ion-row>
+    <ion-row>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" style="align-self: end;">
+            <ion-img class="lectura-qr" (click)="abrirCamaraQR()" src="../../../assets/images/qr-code.png"></ion-img>
+          </ion-col>
+          <ion-col size="6" style="align-self: end;">
+            <ion-img class="registro-manual" (click)="registroManual()" src="../../../assets/images/editing.png"></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-row style="width: 100%;">
+          <ion-col size="6">
+            <ion-text class="texto-botones">Registro QR</ion-text>
+          </ion-col>
+          <ion-col size="6">
+            <ion-text class="texto-botones">Registro manual</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-row>
+  </ion-grid>
+</ion-content>

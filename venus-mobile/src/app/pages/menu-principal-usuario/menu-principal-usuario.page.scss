@@ -1,0 +1,40 @@
+ion-content {
+    --background: linear-gradient(180deg, #490063 22.19%, #030018 100%);
+}
+.menu-icon {
+    padding-top: env(safe-area-inset-top);
+}
+.grid-principal, .grid-botones {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    align-items: center;
+}
+.logo {
+    height: 80vw;
+    width: 80vw;
+    max-width: 200px;
+    max-height: 200px;
+}
+.btn-eventos {
+    color: white;
+    font-size: 150px;
+}
+.menu-icon {
+    color: white;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 30px;
+}
+.texto-iconos {
+    color: white;
+    font-size: 120%;
+    padding-top: 10px;
+    margin: auto;
+}
+.img-evento {
+    width: 50%;
+    margin: auto;
+}

@@ -1,0 +1,215 @@
+.grid-secundario {
+    padding: 0px 13px;
+    padding-bottom: 7%;
+}
+
+.search-bar {
+    padding: 0px 20px;
+}
+
+.kpis-container {
+    background: #1F1F1F;
+    border-radius: 25px;
+    color: white;
+}
+
+.invitados-container {
+    background: #000000;
+    border-radius: 25px;
+    color: white;
+}
+
+.icono-persona, .texto-cantidad-invitados {
+    margin: auto;
+    color: black;
+    font-size: 14px;
+}
+.icono-persona {
+    font-size: 40px;
+}
+.titulo-fecha-hora, .info-fecha-hora {
+    margin: auto;
+    color: black;
+    font-size: 14px;
+}
+.titulo-fecha-hora {
+    font-size: 16px;
+    font-weight: 700;
+}
+.custom-progress-bar {
+    .progress  {
+      border-radius: 360px; /* ajusta el valor del border-radius según tus necesidades */
+    }
+}
+.custom-progress-bar {
+    position: relative;
+  }
+  
+  .progress-percent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #ffffff;
+  }
+.custom-progress-bar .progress {
+    border-radius: 360px;
+  }
+.icono-acompanhantes {
+    background-color: #C372F5;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 22px;
+}
+.item-invitado {
+    --background: #1F1F1F;
+    --color: white;
+    --inner-padding-end: 0px;
+    --padding-start: 0px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    margin-bottom: 5px;
+}
+
+.nombre-invitado {
+    text-transform: uppercase;
+    padding-right: 5px;
+    margin-left: 10px;
+}
+.invitado-ingresado {
+    --background: #999999;
+}
+.estandar {
+    display: none;
+}
+.vip {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+}
+.super-vip {
+    color: #FFB800;
+    font-size: 24px;
+}
+
+.boton-agregar {
+    --background: #92008C;
+}
+ion-item-option {
+    border-radius: 360px;
+    margin-bottom: 5px;
+}
+.row-boton {
+    height: 40px;
+    width: 80%;
+    margin: 3% auto;
+}
+.boton-lectura-qr {
+    margin: auto;
+    text-transform: none;
+    --border-radius: 360px;
+    width: 60%;
+    height: 100%;
+    --background: #6C03BE;
+}
+.img-check {
+    width: 45px;
+}
+.img-sin-check {
+    width: 33px;
+    margin-right: 12px;
+}
+.progress-bar-buffer::before {
+    --background-color: #ff0000;
+        background-color: #ff0000;
+
+  }
+  .custom-progress-bar .buffer-circles {
+    display: none;
+  }
+  
+  .custom-progress-bar .progress-bar-background {
+    background-color: #f2f2f2;
+  }
+  ion-progress-bar::part(stream) {
+    display: none;
+  }
+  .custom-progress-bar::part(stream)  {
+    display: none;
+  }
+  .custom-progress-bar::part(progress)  {
+    border-radius: 460px;
+  }
+  .custom-progress-bar::part(track)  {
+    border-radius: 460px;
+  }
+  .tag-kpi-asistentes{
+    border-radius: 360px;
+    padding: 8px;
+  }
+  .custom-progress-bar::before {
+    content: '\200B';
+    background-image: none!important;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #999999;
+    z-index: -1;
+  }  
+  .progress-bar-buffer .buffer-circles::before {
+    content: "\200B";
+  }
+// ion-progress-bar::part(track) {
+//     background: #09c567;
+//   }
+.progress-bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    pointer-events: none;
+  }
+  .progress-text {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    color: #000;
+    pointer-events: none;
+  }
+
+/* definir una animación para los elementos visibles */
+.virtual-item-visible .animated-item {
+    animation-name: item-appear;
+    animation-duration: 0.5s;
+  }
+  
+  /* definir la animación */
+  @keyframes item-appear {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

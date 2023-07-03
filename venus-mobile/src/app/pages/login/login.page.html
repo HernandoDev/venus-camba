@@ -1,0 +1,31 @@
+<ion-content>
+  <div class="contenedor">
+    <ion-grid class="grid-principal">
+      <ion-row class="row-logo">
+          <div style="text-align: center;">
+            <img src="../../../assets/images/ventuwhite.png" class="logo-slapp" alt="Logo Ventu" width="240">
+          </div>
+      </ion-row>
+
+      <div class="login-box bg-glass">
+        <form [formGroup]="formularioLogin">
+          <div class="inp-container">
+            <ion-input class="ven-input inp-user" formControlName="usuario" type="text" placeholder="Usuario"> </ion-input>
+          </div>
+          <div class="inp-container">
+            <ion-input class="ven-input inp-pass" formControlName="contrasenha" type="text" type="password" placeholder="Contraseña"> </ion-input>
+          </div>
+          <ion-text class="forgot-label">Olvidé mi contraseña</ion-text>
+          <ion-button expand="block" class="ven-btn-primary" [disabled]="!formularioLogin.valid" (click)="iniciarSesion()">Ingresar</ion-button>
+        </form>
+      </div>
+
+      <ion-row class="crear-cuenta">
+        <ion-text class="texto-crear-cuenta">¿No tienes una cuenta?</ion-text>
+        <ion-text class="texto-crear-cuenta" style="color: #3ADCFF;">Crea una aquí.</ion-text>
+      </ion-row>
+      
+    </ion-grid>
+  </div>
+
+</ion-content>

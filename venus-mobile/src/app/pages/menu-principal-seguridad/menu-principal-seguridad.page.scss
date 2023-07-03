@@ -1,0 +1,42 @@
+ion-content {
+    --background: linear-gradient(180deg, #490063 22.19%, #030018 100%);
+}
+.menu-icon {
+    padding-top: env(safe-area-inset-top);
+}
+.grid-principal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    align-items: center;
+}
+ion-col {
+    text-align: center;
+    font-weight: 400;
+}
+.logo {
+    height: 80vw;
+    width: 80vw;
+    max-width: 200px;
+    max-height: 200px;
+}
+.menu-icon {
+    color: white;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 30px;
+}
+.texto-botones {
+    color: white;
+    font-size: 120%;
+    text-align: center;
+}
+.registro-manual, .lectura-qr {
+    width: 80%;
+    margin: auto;
+}
+.lectura-qr {
+    width: 76%;
+}

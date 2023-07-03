@@ -1,0 +1,65 @@
+<ion-content>
+  <div class="modal-background">
+  <ion-grid class="modal-container bg-glass">
+    <div class="modal-title">
+      <span>Registrar ingreso</span>
+      <ion-icon (click)="atras()" name="close" size="large"></ion-icon>
+    </div>
+    <ion-row>
+      <!-- icono persona -->
+      <ion-img src="../../../assets/images/new-user.png" class="icono-persona"></ion-img>
+    </ion-row>
+    <ion-row>
+      <ion-grid class="grid-formulario">
+        <form [formGroup]="formularioAgregarInvitado">
+          <ion-row style="justify-content:center ;color:white;flex-direction: column;">
+            <h6 style="text-align: center;">Estás registrando el ingreso de</h6>
+            <h2 style="text-align: center;margin: 0px;">{{nombre_invitado|uppercase}}</h2>
+            <h6 style="text-align: center;">Su invitación tiene acceso actualmente para</h6>
+            <h2 style="text-align: center; margin-top: 5px; margin-bottom: 15px;"><strong>{{entradas_restantes}} persona(s)</strong></h2>
+          </ion-row>
+          <ion-row>
+            <p style="text-align: center; width: 100%;color:white;font-size: 16px;" >{{observaciones}}</p>
+          </ion-row>
+          <br>
+          <ion-row>
+            <ion-label style="width: 100%;color:white;font-size: 12px;">Cantidad de personas a registrar</ion-label>
+            <ion-select 
+                [interfaceOptions]="customAlertOptions"
+                name="numeroSeleccionado" ngDefaultControl
+                [(ngModel)]="numeroSeleccionado" 
+                class="input-formulario" cancelText="Cancelar" okText="Ok" formControlName="acompanhantes" multiple="false" name="acompanhantes" placeholder="Cantidad de personas a registrar">
+                  <ion-select-option 
+                      *ngFor="let num of arrayNumeros" [value]="num">{{num}} Asistentes
+                  </ion-select-option>
+            </ion-select>
+          </ion-row>
+          <ion-row style="margin-top:10px">
+            <ion-label style="width: 100%;color:white;font-size: 12px;">Telefono</ion-label>
+          </ion-row> 
+          <ion-row>
+            <ion-input class="input-formulario"  formControlName="telefono" name="telefono" type="number" placeholder="telefono"></ion-input>
+          </ion-row> 
+          <ion-row style="margin-top:10px">
+            <ion-label style="width: 100%;color:white;font-size: 12px;">Correo</ion-label>
+          </ion-row> 
+          <ion-row>
+            <ion-input class="input-formulario"  formControlName="correo" name="correo" type="email" placeholder="Correo"></ion-input>
+          </ion-row> 
+          <ion-row style="margin-top:10px">
+            <ion-label style="width: 100%;color:white;font-size: 12px;">Observaciones</ion-label>
+            <ion-textarea id="obs" class="input-formulario" formControlName="observaciones_guardia" name="observaciones_guardia" placeholder="Observaciones"></ion-textarea>
+          </ion-row>
+        </form>
+      </ion-grid>
+    </ion-row>
+    <div style="margin-top: 30px;margin-bottom: 20px;">
+      <ion-button expand="block" [disabled]="formularioAgregarInvitado.invalid || cargandoIngreso===true" class="boton-agregar" (click)="marcarEntrada()">Confirmar</ion-button>
+    </div>
+    <ion-row>
+      <ion-text (click)="atras()" style="color: white; margin: 2% auto 0;">Atrás</ion-text>
+    </ion-row>
+  </ion-grid>
+</div>
+
+</ion-content>
